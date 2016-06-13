@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9ad46d9c014b40e4a43bf48641d64650" Name="Diagram1">
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProducto" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="5.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Banco" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Concepto" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Producto" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

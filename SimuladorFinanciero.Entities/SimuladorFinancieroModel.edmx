@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SimuladorFinancieroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Banco">
+          <Key>
+            <PropertyRef Name="IdBanco" />
+          </Key>
+          <Property Name="IdBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Web" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConceptoProducto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdConcepto" Type="int" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="TipoComision" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="Tasa" Type="numeric" Precision="18" Scale="10" Nullable="false" />
+          <Property Name="Minimo" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="Maximo" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="METasaMax" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="METasaMin" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="MEMin" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="MEMax" Type="numeric" Precision="18" Scale="10" />
+          <Property Name="Observaciones" Type="nvarchar" MaxLength="4000" />
+        </EntityType>
+        <EntityType Name="Parametro">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="Tipo" Type="int" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductoBanco">
+          <Key>
+            <PropertyRef Name="IdBanco" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdProducto" Type="int" Nullable="false" />
+          <Property Name="WebTarifario" Type="nvarchar" MaxLength="250" />
+          <Property Name="Contacto" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_ConceptoProducto_Concepto">
+          <End Role="Concepto" Type="Self.Concepto" Multiplicity="1" />
+          <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="IdConcepto" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="IdConcepto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConceptoProducto_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoBanco_Banco">
+          <End Role="Banco" Type="Self.Banco" Multiplicity="1" />
+          <End Role="ProductoBanco" Type="Self.ProductoBanco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="IdBanco" />
+            </Principal>
+            <Dependent Role="ProductoBanco">
+              <PropertyRef Name="IdBanco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoBanco_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ProductoBanco" Type="Self.ProductoBanco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ProductoBanco">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SimuladorFinancieroModelStoreContainer">
+          <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Concepto" EntityType="Self.Concepto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConceptoProducto" EntityType="Self.ConceptoProducto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parametro" EntityType="Self.Parametro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductoBanco" EntityType="Self.ProductoBanco" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ConceptoProducto_Concepto" Association="Self.FK_ConceptoProducto_Concepto">
+            <End Role="Concepto" EntitySet="Concepto" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConceptoProducto_Producto" Association="Self.FK_ConceptoProducto_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoBanco_Banco" Association="Self.FK_ProductoBanco_Banco">
+            <End Role="Banco" EntitySet="Banco" />
+            <End Role="ProductoBanco" EntitySet="ProductoBanco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoBanco_Producto" Association="Self.FK_ProductoBanco_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ProductoBanco" EntitySet="ProductoBanco" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SimuladorFinancieroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Banco">
+          <Key>
+            <PropertyRef Name="IdBanco" />
+          </Key>
+          <Property Name="IdBanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Web" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ProductoBanco" Relationship="Self.FK_ProductoBanco_Banco" FromRole="Banco" ToRole="ProductoBanco" />
+        </EntityType>
+        <EntityType Name="Concepto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+          </Key>
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ConceptoProducto" Relationship="Self.FK_ConceptoProducto_Concepto" FromRole="Concepto" ToRole="ConceptoProducto" />
+        </EntityType>
+        <EntityType Name="ConceptoProducto">
+          <Key>
+            <PropertyRef Name="IdConcepto" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="TipoComision" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tasa" Type="Decimal" Precision="18" Scale="10" Nullable="false" />
+          <Property Name="Minimo" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Maximo" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="METasaMax" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="METasaMin" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="MEMin" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="MEMax" Type="Decimal" Precision="18" Scale="10" />
+          <Property Name="Observaciones" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Concepto" Relationship="Self.FK_ConceptoProducto_Concepto" FromRole="ConceptoProducto" ToRole="Concepto" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_ConceptoProducto_Producto" FromRole="ConceptoProducto" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Parametro">
+          <Key>
+            <PropertyRef Name="IdParametro" />
+          </Key>
+          <Property Name="IdParametro" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producto">
+          <Key>
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Tipo" Type="Int32" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ConceptoProducto" Relationship="Self.FK_ConceptoProducto_Producto" FromRole="Producto" ToRole="ConceptoProducto" />
+          <NavigationProperty Name="ProductoBanco" Relationship="Self.FK_ProductoBanco_Producto" FromRole="Producto" ToRole="ProductoBanco" />
+        </EntityType>
+        <EntityType Name="ProductoBanco">
+          <Key>
+            <PropertyRef Name="IdBanco" />
+            <PropertyRef Name="IdProducto" />
+          </Key>
+          <Property Name="IdBanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdProducto" Type="Int32" Nullable="false" />
+          <Property Name="WebTarifario" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Contacto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Banco" Relationship="Self.FK_ProductoBanco_Banco" FromRole="ProductoBanco" ToRole="Banco" />
+          <NavigationProperty Name="Producto" Relationship="Self.FK_ProductoBanco_Producto" FromRole="ProductoBanco" ToRole="Producto" />
+        </EntityType>
+        <Association Name="FK_ProductoBanco_Banco">
+          <End Role="Banco" Type="Self.Banco" Multiplicity="1" />
+          <End Role="ProductoBanco" Type="Self.ProductoBanco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Banco">
+              <PropertyRef Name="IdBanco" />
+            </Principal>
+            <Dependent Role="ProductoBanco">
+              <PropertyRef Name="IdBanco" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConceptoProducto_Concepto">
+          <End Role="Concepto" Type="Self.Concepto" Multiplicity="1" />
+          <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Concepto">
+              <PropertyRef Name="IdConcepto" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="IdConcepto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConceptoProducto_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoBanco_Producto">
+          <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
+          <End Role="ProductoBanco" Type="Self.ProductoBanco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Producto">
+              <PropertyRef Name="IdProducto" />
+            </Principal>
+            <Dependent Role="ProductoBanco">
+              <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SimuladorFinancieroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Banco" EntityType="Self.Banco" />
+          <EntitySet Name="Concepto" EntityType="Self.Concepto" />
+          <EntitySet Name="ConceptoProducto" EntityType="Self.ConceptoProducto" />
+          <EntitySet Name="Parametro" EntityType="Self.Parametro" />
+          <EntitySet Name="Producto" EntityType="Self.Producto" />
+          <EntitySet Name="ProductoBanco" EntityType="Self.ProductoBanco" />
+          <AssociationSet Name="FK_ProductoBanco_Banco" Association="Self.FK_ProductoBanco_Banco">
+            <End Role="Banco" EntitySet="Banco" />
+            <End Role="ProductoBanco" EntitySet="ProductoBanco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConceptoProducto_Concepto" Association="Self.FK_ConceptoProducto_Concepto">
+            <End Role="Concepto" EntitySet="Concepto" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConceptoProducto_Producto" Association="Self.FK_ConceptoProducto_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoBanco_Producto" Association="Self.FK_ProductoBanco_Producto">
+            <End Role="Producto" EntitySet="Producto" />
+            <End Role="ProductoBanco" EntitySet="ProductoBanco" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SimuladorFinancieroModelStoreContainer" CdmEntityContainer="SimuladorFinancieroEntities">
+          <EntitySetMapping Name="Banco">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Banco">
+              <MappingFragment StoreEntitySet="Banco">
+                <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Web" ColumnName="Web" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Concepto">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Concepto">
+              <MappingFragment StoreEntitySet="Concepto">
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConceptoProducto">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.ConceptoProducto">
+              <MappingFragment StoreEntitySet="ConceptoProducto">
+                <ScalarProperty Name="IdConcepto" ColumnName="IdConcepto" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="TipoComision" ColumnName="TipoComision" />
+                <ScalarProperty Name="Tasa" ColumnName="Tasa" />
+                <ScalarProperty Name="Minimo" ColumnName="Minimo" />
+                <ScalarProperty Name="Maximo" ColumnName="Maximo" />
+                <ScalarProperty Name="METasaMax" ColumnName="METasaMax" />
+                <ScalarProperty Name="METasaMin" ColumnName="METasaMin" />
+                <ScalarProperty Name="MEMin" ColumnName="MEMin" />
+                <ScalarProperty Name="MEMax" ColumnName="MEMax" />
+                <ScalarProperty Name="Observaciones" ColumnName="Observaciones" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parametro">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Parametro">
+              <MappingFragment StoreEntitySet="Parametro">
+                <ScalarProperty Name="IdParametro" ColumnName="IdParametro" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Producto">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Producto">
+              <MappingFragment StoreEntitySet="Producto">
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductoBanco">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.ProductoBanco">
+              <MappingFragment StoreEntitySet="ProductoBanco">
+                <ScalarProperty Name="IdBanco" ColumnName="IdBanco" />
+                <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
+                <ScalarProperty Name="WebTarifario" ColumnName="WebTarifario" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

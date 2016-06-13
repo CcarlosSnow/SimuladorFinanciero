@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>7318f495-2abf-457b-a243-a65b557004b3</ProjectGuid>
+    <ProjectGuid>6a2b3fbc-6659-45de-9c6c-10186b03998d</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SimuladorFinanciero.Data</RootNamespace>
