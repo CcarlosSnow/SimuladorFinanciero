@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimuladorFinanciero.Data
+namespace SimuladorFinanciero.Entities
 {
     using System;
     using System.Data.Entity;
@@ -16,7 +16,7 @@ namespace SimuladorFinanciero.Data
     public partial class SimuladorFinancieroEntities : DbContext
     {
         public SimuladorFinancieroEntities()
-            : base("name=SimuladorFinancieroEntities")
+            : base("SimuladorFinancieroEntities")
         {
         }
     

@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimuladorFinanciero.Data
+namespace SimuladorFinanciero.Entities
 {
     using System;
     using System.Collections.Generic;

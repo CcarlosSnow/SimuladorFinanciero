@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1D16D021-C453-40A7-AAEC-74CE0ECB0234}</ProjectGuid>
+    <ProjectGuid>{62B23E50-E3C3-4EAC-A5B4-BC41C10F73DB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimuladorFinanciero.Core</RootNamespace>
-    <AssemblyName>SimuladorFinanciero.Core</AssemblyName>
+    <RootNamespace>SimuladorFinanciero.Data.Interface</RootNamespace>
+    <AssemblyName>SimuladorFinanciero.Data.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,18 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BancoBL.cs" />
+    <Compile Include="IBanco.cs" />
+    <Compile Include="IBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimuladorFinanciero.Data.Interface\SimuladorFinanciero.Data.Interface.csproj">
-      <Project>{62b23e50-e3c3-4eac-a5b4-bc41c10f73db}</Project>
-      <Name>SimuladorFinanciero.Data.Interface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimuladorFinanciero.Data\SimuladorFinanciero.Data.csproj">
-      <Project>{6a2b3fbc-6659-45de-9c6c-10186b03998d}</Project>
-      <Name>SimuladorFinanciero.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SimuladorFinanciero.Entities\SimuladorFinanciero.Entities.csproj">
       <Project>{7318f495-2abf-457b-a243-a65b557004b3}</Project>
       <Name>SimuladorFinanciero.Entities</Name>

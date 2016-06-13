@@ -208,6 +208,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Views\BancoesController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -223,6 +224,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -269,6 +271,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Bancoes\Create.cshtml" />
+    <Content Include="Views\Bancoes\Delete.cshtml" />
+    <Content Include="Views\Bancoes\Details.cshtml" />
+    <Content Include="Views\Bancoes\Edit.cshtml" />
+    <Content Include="Views\Bancoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -286,6 +293,16 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimuladorFinanciero.Core\SimuladorFinanciero.Core.csproj">
+      <Project>{1d16d021-c453-40a7-aaec-74ce0ecb0234}</Project>
+      <Name>SimuladorFinanciero.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimuladorFinanciero.Entities\SimuladorFinanciero.Entities.csproj">
+      <Project>{7318f495-2abf-457b-a243-a65b557004b3}</Project>
+      <Name>SimuladorFinanciero.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

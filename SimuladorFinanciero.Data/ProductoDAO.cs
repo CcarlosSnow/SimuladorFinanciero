@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace SimuladorFinanciero.Data
 {
-    public class Class1
+    class ProductoDAO
     {
+
     }
 }

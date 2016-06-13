@@ -7,8 +7,8 @@
     <ProjectGuid>{7318F495-2ABF-457B-A243-A65B557004B3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SimuladorFinanciero.Data</RootNamespace>
-    <AssemblyName>SimuladorFinanciero.Data</AssemblyName>
+    <RootNamespace>SimuladorFinanciero.Entities</RootNamespace>
+    <AssemblyName>SimuladorFinanciero.Entities</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
