@@ -210,6 +210,45 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\css\bootstrap.css" />
+    <Content Include="assets\css\custom.css" />
+    <Content Include="assets\css\font-icons\entypo\css\animation.css" />
+    <Content Include="assets\css\font-icons\entypo\css\entypo-codes.css" />
+    <Content Include="assets\css\font-icons\entypo\css\entypo-embedded.css" />
+    <Content Include="assets\css\font-icons\entypo\css\entypo-ie7-codes.css" />
+    <Content Include="assets\css\font-icons\entypo\css\entypo-ie7.css" />
+    <Content Include="assets\css\font-icons\entypo\css\entypo.css" />
+    <Content Include="assets\css\font-icons\entypo\font\entypo.svg" />
+    <Content Include="assets\css\font-icons\entypo\index.html" />
+    <Content Include="assets\css\font-icons\font-awesome\css\font-awesome.css" />
+    <Content Include="assets\css\font-icons\font-awesome\css\font-awesome.min.css" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assets\css\font-icons\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="assets\css\font-icons\font-awesome\index.html" />
+    <Content Include="assets\css\ie.css" />
+    <Content Include="assets\css\neon-core.css" />
+    <Content Include="assets\css\neon-forms.css" />
+    <Content Include="assets\css\neon-rtl.css" />
+    <Content Include="assets\css\neon-theme.css" />
+    <Content Include="assets\css\red.css" />
+    <Content Include="assets\css\wysihtml5-color.css" />
+    <Content Include="assets\images\logo%402x.png" />
+    <Content Include="assets\images\peru.png" />
+    <Content Include="assets\js\bootstrap.js" />
+    <Content Include="assets\js\gsap\TweenMax.min.js" />
+    <Content Include="assets\js\ie8-responsive-file-warning.js" />
+    <Content Include="assets\js\joinable.js" />
+    <Content Include="assets\js\jquery-1.11.3.min.js" />
+    <Content Include="assets\js\jquery-ui\css\no-theme\jquery-ui-1.10.3.custom.css" />
+    <Content Include="assets\js\jquery-ui\css\no-theme\jquery-ui-1.10.3.custom.min.css" />
+    <Content Include="assets\js\jquery-ui\js\jquery-1.9.1.js" />
+    <Content Include="assets\js\jquery-ui\js\jquery-ui-1.10.3.custom.js" />
+    <Content Include="assets\js\jquery-ui\js\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="assets\js\jquery-ui\js\jquery-ui-1.10.3.minimal.min.js" />
+    <Content Include="assets\js\neon-api.js" />
+    <Content Include="assets\js\neon-custom.js" />
+    <Content Include="assets\js\neon-demo.js" />
+    <Content Include="assets\js\resizeable.js" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -223,6 +262,56 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="assets\css\font-icons\entypo\font\entypo.eot" />
+    <Content Include="assets\css\font-icons\entypo\font\entypo.ttf" />
+    <Content Include="assets\css\font-icons\entypo\font\entypo.woff" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assets\css\font-icons\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="assets\css\font-icons\font-awesome\less\animated.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\bordered-pulled.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\core.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\fixed-width.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\font-awesome.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\icons.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\larger.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\list.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\mixins.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\path.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\rotated-flipped.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\stacked.less" />
+    <Content Include="assets\css\font-icons\font-awesome\less\variables.less" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\font-awesome.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_animated.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_core.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_icons.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_larger.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_list.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_mixins.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_path.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_stacked.scss" />
+    <Content Include="assets\css\font-icons\font-awesome\scss\_variables.scss" />
+    <Content Include="assets\fonts\breeperu_bold-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_bold-webfont.woff2" />
+    <Content Include="assets\fonts\breeperu_boldoblique-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_boldoblique-webfont.woff2" />
+    <Content Include="assets\fonts\breeperu_light-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_light-webfont.woff2" />
+    <Content Include="assets\fonts\breeperu_lightoblique-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_lightoblique-webfont.woff2" />
+    <Content Include="assets\fonts\breeperu_regular-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_regular-webfont.woff2" />
+    <Content Include="assets\fonts\breeperu_regularoblique-webfont.woff" />
+    <Content Include="assets\fonts\breeperu_regularoblique-webfont.woff2" />
+    <Content Include="assets\fonts\droidsans-bold-webfont.woff" />
+    <Content Include="assets\fonts\droidsans-bold-webfont.woff2" />
+    <Content Include="assets\fonts\droidsans-webfont.woff" />
+    <Content Include="assets\fonts\droidsans-webfont.woff2" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -273,6 +362,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SubirArchivo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
