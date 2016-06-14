@@ -28,5 +28,6 @@ namespace SimuladorFinanciero.Entities
     
         public virtual Concepto Concepto { get; set; }
         public virtual Producto Producto { get; set; }
+        public virtual Parametro Parametro { get; set; }
     }
 }

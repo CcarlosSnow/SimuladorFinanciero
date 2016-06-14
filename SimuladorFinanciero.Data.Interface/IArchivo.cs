@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimuladorFinanciero.Entities;
 
-namespace SimuladorFinanciero.Helpers
+namespace SimuladorFinanciero.Data.Interface
 {
-    public class Class1
+    public interface IArchivo : IBase<Archivo>
     {
     }
 }

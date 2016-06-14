@@ -16,7 +16,7 @@ namespace SimuladorFinanciero.Entities
     public partial class SimuladorFinancieroEntities : DbContext
     {
         public SimuladorFinancieroEntities()
-            : base("SimuladorFinancieroEntities")
+            : base("name=SimuladorFinancieroEntities")
         {
         }
     
@@ -25,11 +25,13 @@ namespace SimuladorFinanciero.Entities
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Archivo> Archivo { get; set; }
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Concepto> Concepto { get; set; }
         public virtual DbSet<ConceptoProducto> ConceptoProducto { get; set; }
         public virtual DbSet<Parametro> Parametro { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoBanco> ProductoBanco { get; set; }
+        public virtual DbSet<Sugerencia> Sugerencia { get; set; }
     }
 }

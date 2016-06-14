@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    @Styles.Render("~/Administrador/css")
+    @Scripts.Render("~/Administrador/jsTop")
+</head>
+<body class="page-body">
+    <div class="page-container horizontal-menu">
+        <header class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="navbar-brand">
+                    <a href="index.html">
+                        <p class="title title-log">Simulador Financiero</p>
+                    </a>
+                </div>
+                <ul class="navbar-nav">
+                    <li class="active">
+                        <a href="@Url.Action("ListaArchivos","Administrador")">
+                            <i class="fa fa-list" aria-hidden="true"></i>&nbsp;
+                            <span class="title">Versiones de Archivos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("SubirArchivo","Administrador")">
+                            <i class="fa fa-upload" aria-hidden="true"></i>&nbsp;
+                            <span class="title">Cargar Archivo Base</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right pull-right">
+                    <li class="dropdown">
+                    <li>
+                    </li>
+                    </li>
+                    <li class="sep"></li>
+                    <li>
+                        <a href="#">
+                            Salir <i class="entypo-logout right"></i>
+                        </a>
+                    </li>
+                    <li class="visible-xs">
+                        <div class="horizontal-mobile-menu visible-xs">
+                            <a href="#" class="with-animation">
+                                <i class="entypo-menu"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <div class="main-content">
+            @RenderBody()
+        </div>
+    </div>
+    @Scripts.Render("~/Administrador/jsBottom")
+</body>
+</html>

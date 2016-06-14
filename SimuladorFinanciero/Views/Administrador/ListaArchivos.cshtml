@@ -1,0 +1,44 @@
+﻿@model IList<SimuladorFinanciero.Entities.Archivo>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Versiones de Archivos</h2>
+            <br />
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table responsive">
+                        <thead>
+                            <tr>
+                                <th width="2%">#</th>
+                                <th width="15%">Fecha de Subida</th>
+                                <th width="10%">Activado</th>
+                                <th width="15%">Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int i = 1;}
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@i</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Parametro.Nombre)</td>
+                                    <td>
+                                        <button type="button" class="btn btn-blue btn-icon">
+                                            <i class="entypo-check"></i> Activar
+                                        </button>
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <footer class="main">
+                &copy; @DateTime.Now.Year.ToString() <strong>Administrador - Simulador Financiero</strong>
+            </footer>
+        </div>
+    </div>
+</div>

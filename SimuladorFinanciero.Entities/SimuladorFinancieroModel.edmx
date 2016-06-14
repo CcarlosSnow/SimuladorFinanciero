@@ -4,21 +4,29 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SimuladorFinancieroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="SimuladorFinancieroModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Archivo">
+          <Key>
+            <PropertyRef Name="ArchivoId" />
+          </Key>
+          <Property Name="ArchivoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fecha" Type="date" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
+        </EntityType>
         <EntityType Name="Banco">
           <Key>
             <PropertyRef Name="IdBanco" />
           </Key>
           <Property Name="IdBanco" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="Web" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Concepto">
           <Key>
             <PropertyRef Name="IdConcepto" />
           </Key>
-          <Property Name="IdConcepto" Type="int" Nullable="false" />
+          <Property Name="IdConcepto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="500" Nullable="false" />
           <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
@@ -43,7 +51,7 @@
           <Key>
             <PropertyRef Name="IdParametro" />
           </Key>
-          <Property Name="IdParametro" Type="varchar" MaxLength="4" Nullable="false" />
+          <Property Name="IdParametro" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="Nombre" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
         <EntityType Name="Producto">
@@ -65,6 +73,49 @@
           <Property Name="WebTarifario" Type="nvarchar" MaxLength="250" />
           <Property Name="Contacto" Type="nvarchar" MaxLength="500" />
         </EntityType>
+        <EntityType Name="Sugerencia">
+          <Key>
+            <PropertyRef Name="IdSugerencia" />
+          </Key>
+          <Property Name="IdSugerencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="4000" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Archivo_Parametro">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="Archivo" Type="Self.Archivo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Archivo">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Banco_Parametro">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="Banco" Type="Self.Banco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Banco">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Concepto_Parametro">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="Concepto" Type="Self.Concepto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Concepto">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ConceptoProducto_Concepto">
           <End Role="Concepto" Type="Self.Concepto" Multiplicity="1" />
           <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
@@ -77,6 +128,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ConceptoProducto_Parametro">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="TipoComision" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ConceptoProducto_Producto">
           <End Role="Producto" Type="Self.Producto" Multiplicity="1" />
           <End Role="ConceptoProducto" Type="Self.ConceptoProducto" Multiplicity="*" />
@@ -86,6 +149,18 @@
             </Principal>
             <Dependent Role="ConceptoProducto">
               <PropertyRef Name="IdProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Parametro">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="Producto" Type="Self.Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="Estado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -114,19 +189,41 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SimuladorFinancieroModelStoreContainer">
+          <EntitySet Name="Archivo" EntityType="Self.Archivo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Concepto" EntityType="Self.Concepto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ConceptoProducto" EntityType="Self.ConceptoProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parametro" EntityType="Self.Parametro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Producto" EntityType="Self.Producto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductoBanco" EntityType="Self.ProductoBanco" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sugerencia" EntityType="Self.Sugerencia" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Archivo_Parametro" Association="Self.FK_Archivo_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Archivo" EntitySet="Archivo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Banco_Parametro" Association="Self.FK_Banco_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Banco" EntitySet="Banco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Concepto_Parametro" Association="Self.FK_Concepto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Concepto" EntitySet="Concepto" />
+          </AssociationSet>
           <AssociationSet Name="FK_ConceptoProducto_Concepto" Association="Self.FK_ConceptoProducto_Concepto">
             <End Role="Concepto" EntitySet="Concepto" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConceptoProducto_Parametro" Association="Self.FK_ConceptoProducto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
             <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
           </AssociationSet>
           <AssociationSet Name="FK_ConceptoProducto_Producto" Association="Self.FK_ConceptoProducto_Producto">
             <End Role="Producto" EntitySet="Producto" />
             <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Parametro" Association="Self.FK_Producto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Producto" EntitySet="Producto" />
           </AssociationSet>
           <AssociationSet Name="FK_ProductoBanco_Banco" Association="Self.FK_ProductoBanco_Banco">
             <End Role="Banco" EntitySet="Banco" />
@@ -137,29 +234,39 @@
             <End Role="ProductoBanco" EntitySet="ProductoBanco" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SimuladorFinancieroModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Archivo">
+          <Key>
+            <PropertyRef Name="ArchivoId" />
+          </Key>
+          <Property Name="ArchivoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_Archivo_Parametro" FromRole="Archivo" ToRole="Parametro" />
+        </EntityType>
         <EntityType Name="Banco">
           <Key>
             <PropertyRef Name="IdBanco" />
           </Key>
           <Property Name="IdBanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Web" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ProductoBanco" Relationship="Self.FK_ProductoBanco_Banco" FromRole="Banco" ToRole="ProductoBanco" />
+          <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_Banco_Parametro" FromRole="Banco" ToRole="Parametro" />
         </EntityType>
         <EntityType Name="Concepto">
           <Key>
             <PropertyRef Name="IdConcepto" />
           </Key>
-          <Property Name="IdConcepto" Type="Int32" Nullable="false" />
+          <Property Name="IdConcepto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ConceptoProducto" Relationship="Self.FK_ConceptoProducto_Concepto" FromRole="Concepto" ToRole="ConceptoProducto" />
+          <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_Concepto_Parametro" FromRole="Concepto" ToRole="Parametro" />
         </EntityType>
         <EntityType Name="ConceptoProducto">
           <Key>
@@ -179,12 +286,13 @@
           <Property Name="Observaciones" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Concepto" Relationship="Self.FK_ConceptoProducto_Concepto" FromRole="ConceptoProducto" ToRole="Concepto" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_ConceptoProducto_Producto" FromRole="ConceptoProducto" ToRole="Producto" />
+          <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_ConceptoProducto_Parametro" FromRole="ConceptoProducto" ToRole="Parametro" />
         </EntityType>
         <EntityType Name="Parametro">
           <Key>
             <PropertyRef Name="IdParametro" />
           </Key>
-          <Property Name="IdParametro" Type="String" MaxLength="4" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdParametro" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Nombre" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="Producto">
@@ -197,6 +305,7 @@
           <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="ConceptoProducto" Relationship="Self.FK_ConceptoProducto_Producto" FromRole="Producto" ToRole="ConceptoProducto" />
           <NavigationProperty Name="ProductoBanco" Relationship="Self.FK_ProductoBanco_Producto" FromRole="Producto" ToRole="ProductoBanco" />
+          <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_Producto_Parametro" FromRole="Producto" ToRole="Parametro" />
         </EntityType>
         <EntityType Name="ProductoBanco">
           <Key>
@@ -209,6 +318,13 @@
           <Property Name="Contacto" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Banco" Relationship="Self.FK_ProductoBanco_Banco" FromRole="ProductoBanco" ToRole="Banco" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_ProductoBanco_Producto" FromRole="ProductoBanco" ToRole="Producto" />
+        </EntityType>
+        <EntityType Name="Sugerencia">
+          <Key>
+            <PropertyRef Name="IdSugerencia" />
+          </Key>
+          <Property Name="IdSugerencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descripcion" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK_ProductoBanco_Banco">
           <End Role="Banco" Type="Self.Banco" Multiplicity="1" />
@@ -259,12 +375,14 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="SimuladorFinancieroEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Archivo" EntityType="Self.Archivo" />
           <EntitySet Name="Banco" EntityType="Self.Banco" />
           <EntitySet Name="Concepto" EntityType="Self.Concepto" />
           <EntitySet Name="ConceptoProducto" EntityType="Self.ConceptoProducto" />
           <EntitySet Name="Parametro" EntityType="Self.Parametro" />
           <EntitySet Name="Producto" EntityType="Self.Producto" />
           <EntitySet Name="ProductoBanco" EntityType="Self.ProductoBanco" />
+          <EntitySet Name="Sugerencia" EntityType="Self.Sugerencia" />
           <AssociationSet Name="FK_ProductoBanco_Banco" Association="Self.FK_ProductoBanco_Banco">
             <End Role="Banco" EntitySet="Banco" />
             <End Role="ProductoBanco" EntitySet="ProductoBanco" />
@@ -281,13 +399,102 @@
             <End Role="Producto" EntitySet="Producto" />
             <End Role="ProductoBanco" EntitySet="ProductoBanco" />
           </AssociationSet>
+          <AssociationSet Name="FK_Banco_Parametro" Association="SimuladorFinancieroModel.FK_Banco_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Banco" EntitySet="Banco" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Concepto_Parametro" Association="SimuladorFinancieroModel.FK_Concepto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Concepto" EntitySet="Concepto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConceptoProducto_Parametro" Association="SimuladorFinancieroModel.FK_ConceptoProducto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="ConceptoProducto" EntitySet="ConceptoProducto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Producto_Parametro" Association="SimuladorFinancieroModel.FK_Producto_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Producto" EntitySet="Producto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Archivo_Parametro" Association="SimuladorFinancieroModel.FK_Archivo_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Archivo" EntitySet="Archivo" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Banco_Parametro">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.Banco" Role="Banco" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Banco">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Concepto_Parametro">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.Concepto" Role="Concepto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Concepto">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConceptoProducto_Parametro">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.ConceptoProducto" Role="ConceptoProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="ConceptoProducto">
+              <PropertyRef Name="TipoComision" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Producto_Parametro">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.Producto" Role="Producto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Producto">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Archivo_Parametro">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.Archivo" Role="Archivo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Archivo">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SimuladorFinancieroModelStoreContainer" CdmEntityContainer="SimuladorFinancieroEntities">
+          <EntitySetMapping Name="Archivo">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Archivo">
+              <MappingFragment StoreEntitySet="Archivo">
+                <ScalarProperty Name="ArchivoId" ColumnName="ArchivoId" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Banco">
             <EntityTypeMapping TypeName="SimuladorFinancieroModel.Banco">
               <MappingFragment StoreEntitySet="Banco">
@@ -349,6 +556,14 @@
                 <ScalarProperty Name="IdProducto" ColumnName="IdProducto" />
                 <ScalarProperty Name="WebTarifario" ColumnName="WebTarifario" />
                 <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sugerencia">
+            <EntityTypeMapping TypeName="SimuladorFinancieroModel.Sugerencia">
+              <MappingFragment StoreEntitySet="Sugerencia">
+                <ScalarProperty Name="IdSugerencia" ColumnName="IdSugerencia" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

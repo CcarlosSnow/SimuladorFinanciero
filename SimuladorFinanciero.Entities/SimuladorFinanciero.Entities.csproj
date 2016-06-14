@@ -51,6 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Archivo.cs">
+      <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Banco.cs">
       <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
     </Compile>
@@ -85,9 +88,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SimuladorFinancieroModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Sugerencia.cs">
+      <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <Compile Include="Archivo.Metadata.cs" />
     <None Include="packages.config" />
     <EntityDeploy Include="SimuladorFinancieroModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
@@ -111,6 +118,12 @@
       <DependentUpon>SimuladorFinancieroModel.edmx</DependentUpon>
       <LastGenOutput>SimuladorFinancieroModel.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimuladorFinanciero.Helpers\SimuladorFinanciero.Helpers.csproj">
+      <Project>{71c005af-1e70-4951-9fbe-433411eba228}</Project>
+      <Name>SimuladorFinanciero.Helpers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
