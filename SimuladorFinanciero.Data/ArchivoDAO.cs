@@ -48,5 +48,19 @@ namespace SimuladorFinanciero.Data
             Context.Entry(entidad).State = System.Data.Entity.EntityState.Modified;
             return (Context.SaveChanges() != 0);
         }
+
+        public bool DisableActiveExcel()
+        {
+            IList<Archivo> Archivos = (from i in Context.Archivo
+                           where i.Estado == "0501"
+                           select i).ToList();
+
+            foreach (Archivo i in Archivos)
+            {
+                i.Estado = "0502";
+                Update(i);
+            }
+            return true;
+        }
     }
 }

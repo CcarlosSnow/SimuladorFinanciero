@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SimuladorFinanciero.Data;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
+using System.Collections;
 namespace SimuladorFinanciero.Core
 {
     public class BancoBL : IDisposable
@@ -45,6 +46,7 @@ namespace SimuladorFinanciero.Core
         {
             try
             {
+                entidad.Estado = "0101";
                 return oBancoDAO.Insert(entidad);
             }
             catch (Exception)
@@ -84,6 +86,22 @@ namespace SimuladorFinanciero.Core
             if (item != null)
             {
                 item.Dispose();
+            }
+        }
+
+        public bool BulkInsert(IEnumerable<Banco> Bancos)
+        {
+            try
+            {
+                foreach (Banco i in Bancos)
+                {
+                    Insert(i);
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

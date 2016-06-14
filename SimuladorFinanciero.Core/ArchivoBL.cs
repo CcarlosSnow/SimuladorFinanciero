@@ -11,7 +11,7 @@ namespace SimuladorFinanciero.Core
 {
     public class ArchivoBL : IDisposable
     {
-        private IArchivo oArchivoDAO = null;
+        private ArchivoDAO oArchivoDAO = null;
         public ArchivoBL()
         {
             oArchivoDAO = new ArchivoDAO();
@@ -45,6 +45,8 @@ namespace SimuladorFinanciero.Core
         {
             try
             {
+                entidad.Fecha = DateTime.Now;
+                entidad.Estado = "0501";
                 return oArchivoDAO.Insert(entidad);
             }
             catch (Exception)
@@ -71,6 +73,25 @@ namespace SimuladorFinanciero.Core
             {
                 entidad.Estado = "0503";
                 return oArchivoDAO.Update(entidad);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool UploadExcelFile(Archivo entidad)
+        {
+            try
+            {
+                if (oArchivoDAO.DisableActiveExcel())
+                {
+                    return Insert(entidad);
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
