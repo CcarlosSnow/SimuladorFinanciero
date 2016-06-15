@@ -8,7 +8,6 @@ namespace SimuladorFinanciero
 {
     public static class Constantes
     {
-        //private static string cRutaArchivosExcel = "";
         public static string RutaArchivosExcel
         {
             get
