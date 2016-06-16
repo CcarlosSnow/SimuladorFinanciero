@@ -42,6 +42,10 @@
   <ItemGroup>
     <Compile Include="ArchivoBL.cs" />
     <Compile Include="BancoBL.cs" />
+    <Compile Include="ConceptoBL.cs" />
+    <Compile Include="ConceptoProductoBL.cs" />
+    <Compile Include="ProductoBancoBL.cs" />
+    <Compile Include="ProductoBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

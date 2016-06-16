@@ -4,24 +4,24 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e4957d2880f64a559df63511d57d4011" Name="Diagram1">
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Archivo" Width="1.5" PointX="4.375" PointY="8" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3.25" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProducto" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="7.125" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="6" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Sugerencia" Width="1.5" PointX="7.75" PointY="2.125" IsExpanded="true" />
+      <Diagram DiagramId="cf56740534784d2cb76a90db986726c8" Name="Diagram1">
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Archivo" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProducto" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="5.25" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Sugerencia" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Archivo_Parametro" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Banco_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Banco" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Concepto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Concepto" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Producto" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Producto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Producto" ManuallyRouted="false" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_Banco_Parametro" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_Concepto_Parametro" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Parametro" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_Producto_Parametro" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_Archivo_Parametro" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

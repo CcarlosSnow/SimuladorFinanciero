@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Data;
 using SimuladorFinanciero.Data.Interface;
-using SimuladorFinanciero.Entities;
-using System.Collections;
+
 namespace SimuladorFinanciero.Core
 {
-    public class BancoBL : IDisposable
+    public class ProductoBL : IDisposable
     {
-        private IBanco oBancoDAO = null;
+        ProductoDAO oProductoDAO = null;
 
-        public BancoBL()
+        public ProductoBL()
         {
-            oBancoDAO = new BancoDAO();
+            oProductoDAO = new ProductoDAO();
         }
 
-        public IList<Banco> SelectAll()
+        public IList<Producto> SelectAll()
         {
             try
             {
-                return oBancoDAO.SelectAll();
+                return oProductoDAO.SelectAll();
             }
             catch (Exception)
             {
@@ -30,11 +30,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Banco Select(string id)
+        public Producto Select(string id)
         {
             try
             {
-                return oBancoDAO.Select(id);
+                return oProductoDAO.Select(id);
             }
             catch (Exception)
             {
@@ -42,12 +42,12 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Insert(Banco entidad)
+        public bool Insert(Producto entidad)
         {
             try
             {
-                entidad.Estado = "0101";
-                return oBancoDAO.Insert(entidad);
+                entidad.Estado = "0301";
+                return oProductoDAO.Insert(entidad);
             }
             catch (Exception)
             {
@@ -55,11 +55,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Update(Banco entidad)
+        public bool Update(Producto entidad)
         {
             try
             {
-                return oBancoDAO.Update(entidad);
+                return oProductoDAO.Update(entidad);
             }
             catch (Exception)
             {
@@ -67,24 +67,24 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Delete(Banco entidad)
+        public bool Delete(Producto entidad)
         {
             try
             {
-                entidad.Estado = "0102";
-                return oBancoDAO.Update(entidad);
+                entidad.Estado = "0302";
+                return oProductoDAO.Update(entidad);
             }
             catch (Exception)
             {
                 throw;
             }
         }
-    
-        public bool BulkInsert(IEnumerable<Banco> Bancos)
+
+        public bool BulkInsert(IEnumerable<Producto> Productos)
         {
             try
             {
-                foreach (Banco i in Bancos)
+                foreach (Producto i in Productos)
                 {
                     Insert(i);
                 }
@@ -96,9 +96,14 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public int GetIdProducto(string Nombre)
+        {
+            return oProductoDAO.GetIdProducto(Nombre);
+        }
+
         public void Dispose()
         {
-            var item = (BancoDAO)oBancoDAO;
+            var item = (ProductoDAO)oProductoDAO;
             if (item != null)
             {
                 item.Dispose();

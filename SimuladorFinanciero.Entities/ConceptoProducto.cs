@@ -17,7 +17,7 @@ namespace SimuladorFinanciero.Entities
         public int IdConcepto { get; set; }
         public int IdProducto { get; set; }
         public string TipoComision { get; set; }
-        public decimal Tasa { get; set; }
+        public Nullable<decimal> Tasa { get; set; }
         public Nullable<decimal> Minimo { get; set; }
         public Nullable<decimal> Maximo { get; set; }
         public Nullable<decimal> METasaMax { get; set; }
@@ -27,7 +27,7 @@ namespace SimuladorFinanciero.Entities
         public string Observaciones { get; set; }
     
         public virtual Concepto Concepto { get; set; }
-        public virtual Producto Producto { get; set; }
         public virtual Parametro Parametro { get; set; }
+        public virtual Producto Producto { get; set; }
     }
 }

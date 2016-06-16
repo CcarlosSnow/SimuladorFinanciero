@@ -24,8 +24,8 @@ namespace SimuladorFinanciero.Entities
         public string Nombre { get; set; }
         public string Estado { get; set; }
     
+        public virtual Parametro Parametro { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConceptoProducto> ConceptoProducto { get; set; }
-        public virtual Parametro Parametro { get; set; }
     }
 }

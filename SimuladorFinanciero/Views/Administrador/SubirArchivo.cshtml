@@ -43,7 +43,11 @@
                             {
                                 HttpMethod = "POST",
                                 InsertionMode = InsertionMode.Replace
-                            }, new { enctype = "multipart/form-data" }))
+                            }, new
+                            {
+                                enctype = "multipart/form-data",
+                                @class = "form-horizontal form-groups-bordered"
+                            }))
                             {
                                 <div class="form-group">
                                     <label class="col-sm-3 control-label">Archivo Excel</label>

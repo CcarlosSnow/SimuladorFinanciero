@@ -25,8 +25,8 @@ namespace SimuladorFinanciero.Entities
         public string Estado { get; set; }
         public string Web { get; set; }
     
+        public virtual Parametro Parametro { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoBanco> ProductoBanco { get; set; }
-        public virtual Parametro Parametro { get; set; }
     }
 }

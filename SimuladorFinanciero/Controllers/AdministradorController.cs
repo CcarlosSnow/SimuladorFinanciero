@@ -17,6 +17,10 @@ namespace SimuladorFinanciero.Controllers
         // GET: Administrador
         ArchivoBL oArchivoBL = new ArchivoBL();
         BancoBL oBancoBL = new BancoBL();
+        ProductoBL oProductoBL = new ProductoBL();
+        ConceptoBL oConceptoBL = new ConceptoBL();
+        ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
+        ConceptoProductoBL oConceptoProductoBL = new ConceptoProductoBL();
         public ActionResult ListaArchivos()
         {
             return View(oArchivoBL.SelectAll());
@@ -88,15 +92,68 @@ namespace SimuladorFinanciero.Controllers
                             dataAdapter.Fill(data);
                         }
 
-                        var Bancos = data.AsEnumerable().GroupBy(r => r.Field<string>("ID"))
+                        var Bancos = data.AsEnumerable().GroupBy(r => r.Field<string>("ID").Trim())
                             .Select(row => new Banco
+                            {
+                                IdBanco = row.First().Field<string>("ID").Trim(),
+                                Nombre = row.First().Field<string>("Banco").Trim(),
+                                Web = row.First().Field<string>("Web Banco").Trim()
+                            });
+                        oBancoBL.BulkInsert(Bancos);
+
+                        var Productos = data.AsEnumerable().GroupBy(r => r.Field<string>("Producto").Trim())
+                            .Select(row => new Producto
+                            {
+                                Nombre = row.First().Field<string>("Producto").Trim(),
+                                Tipo = int.Parse(Nombre.Substring(1, Nombre.IndexOf('0', 1, 1)))
+                            });
+
+                        oProductoBL.BulkInsert(Productos);
+
+                        var Conceptos = data.AsEnumerable().GroupBy(r => r.Field<string>("Concepto").Trim())
+                            .Select(row => new Concepto
+                            {
+                                Nombre = row.First().Field<string>("Concepto").Trim()
+                            });
+
+                        oConceptoBL.BulkInsert(Conceptos);
+
+                        var ProductosBancos = data.AsEnumerable().GroupBy(r => new
+                        {
+                            Banco = r.Field<string>("ID").Trim(),
+                            Producto = r.Field<string>("Producto").Trim()
+                        }).
+                        Select(row => new ProductoBanco
                         {
                             IdBanco = row.First().Field<string>("ID").Trim(),
-                            Nombre = row.First().Field<string>("Banco").Trim(),
-                            Web = row.First().Field<string>("Web Banco").Trim()
-                        }).Distinct();
+                            Producto = new Producto
+                            {
+                                Nombre = row.First().Field<string>("Producto").Trim(),
+                            },
+                            WebTarifario = row.First().Field<string>("Web Tarifario").Trim(),
+                            Contacto = row.First().Field<string>("Contacto").Trim()
+                        });
 
-                        oBancoBL.BulkInsert(Bancos);
+                        oProductoBancoBL.BulkInsert(ProductosBancos);
+
+                        //var ConceptosProductos = data.AsEnumerable().GroupBy(r => new
+                        //{
+                        //    Concepto = r.Field<string>("Concepto").Trim(),
+                        //    Producto = r.Field<string>("Producto").Trim()
+                        //}).
+                        //Select(row => new ConceptoProducto
+                        //{
+                        //    Concepto = new Concepto
+                        //    {
+                        //        Nombre = row.First().Field<string>("Concepto").Trim()
+                        //    },
+                        //    Producto = new Producto
+                        //    {
+                        //        Nombre = row.First().Field<string>("Producto").Trim()
+                        //    }
+                        //});
+
+                        //oConceptoProductoBL.BulkInsert(ConceptosProductos);
 
                         Archivo oArchivoEnt = new Archivo();
                         oArchivoEnt.Nombre = Nombre;

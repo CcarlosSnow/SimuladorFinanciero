@@ -16,8 +16,8 @@ namespace SimuladorFinanciero.Entities
     {
         public int ArchivoId { get; set; }
         public System.DateTime Fecha { get; set; }
-        public string Estado { get; set; }
         public string Nombre { get; set; }
+        public string Estado { get; set; }
     
         public virtual Parametro Parametro { get; set; }
     }

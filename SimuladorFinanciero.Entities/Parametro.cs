@@ -14,7 +14,28 @@ namespace SimuladorFinanciero.Entities
     
     public partial class Parametro
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Parametro()
+        {
+            this.Archivo = new HashSet<Archivo>();
+            this.Banco = new HashSet<Banco>();
+            this.Concepto = new HashSet<Concepto>();
+            this.ConceptoProducto = new HashSet<ConceptoProducto>();
+            this.Producto = new HashSet<Producto>();
+        }
+    
         public string IdParametro { get; set; }
         public string Nombre { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Archivo> Archivo { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Banco> Banco { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Concepto> Concepto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConceptoProducto> ConceptoProducto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Producto> Producto { get; set; }
     }
 }

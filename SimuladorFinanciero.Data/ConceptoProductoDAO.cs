@@ -8,11 +8,10 @@ using SimuladorFinanciero.Entities;
 
 namespace SimuladorFinanciero.Data
 {
-    public class ProductoDAO : IProducto
+    public class ConceptoProductoDAO : IConceptoProducto
     {
         SimuladorFinancieroEntities Context = new SimuladorFinancieroEntities();
-
-        public bool Delete(Producto entidad)
+        public bool Delete(ConceptoProducto entidad)
         {
             throw new NotImplementedException();
         }
@@ -22,33 +21,25 @@ namespace SimuladorFinanciero.Data
             throw new NotImplementedException();
         }
 
-        public bool Insert(Producto entidad)
+        public bool Insert(ConceptoProducto entidad)
         {
-            Context.Producto.Add(entidad);
+            Context.ConceptoProducto.Add(entidad);
             return (Context.SaveChanges() != 0);
         }
 
-        public Producto Select(string id)
+        public ConceptoProducto Select(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Producto> SelectAll()
+        public IList<ConceptoProducto> SelectAll()
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(Producto entidad)
+        public bool Update(ConceptoProducto entidad)
         {
             throw new NotImplementedException();
-        }
-
-        public int GetIdProducto(string Nombre)
-        {
-            var IdProducto = from i in Context.Producto
-                             where i.Nombre == Nombre
-                             select i.IdProducto;
-            return IdProducto.First();
         }
     }
 }
