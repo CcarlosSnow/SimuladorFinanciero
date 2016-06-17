@@ -44,7 +44,7 @@
     <Compile Include="IBanco.cs" />
     <Compile Include="IBase.cs" />
     <Compile Include="IConcepto.cs" />
-    <Compile Include="IConceptoProducto.cs" />
+    <Compile Include="IConceptoProductoBanco.cs" />
     <Compile Include="IProducto.cs" />
     <Compile Include="IProductoBanco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

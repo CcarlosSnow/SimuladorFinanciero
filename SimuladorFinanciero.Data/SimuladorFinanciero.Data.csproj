@@ -52,7 +52,7 @@
     <Compile Include="ArchivoDAO.cs" />
     <Compile Include="BancoDAO.cs" />
     <Compile Include="ConceptoDAO.cs" />
-    <Compile Include="ConceptoProductoDAO.cs" />
+    <Compile Include="ConceptoProductoBancoDAO.cs" />
     <Compile Include="ProductoBancoDAO.cs" />
     <Compile Include="ProductoDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

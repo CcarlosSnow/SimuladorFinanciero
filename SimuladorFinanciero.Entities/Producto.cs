@@ -17,7 +17,6 @@ namespace SimuladorFinanciero.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Producto()
         {
-            this.ConceptoProducto = new HashSet<ConceptoProducto>();
             this.ProductoBanco = new HashSet<ProductoBanco>();
         }
     
@@ -26,8 +25,6 @@ namespace SimuladorFinanciero.Entities
         public int Tipo { get; set; }
         public string Estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConceptoProducto> ConceptoProducto { get; set; }
         public virtual Parametro Parametro { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProductoBanco> ProductoBanco { get; set; }

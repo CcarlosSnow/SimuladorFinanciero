@@ -60,7 +60,7 @@
     <Compile Include="Concepto.cs">
       <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ConceptoProducto.cs">
+    <Compile Include="ConceptoProductoBanco.cs">
       <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Parametro.cs">

@@ -8,10 +8,10 @@ using SimuladorFinanciero.Entities;
 
 namespace SimuladorFinanciero.Data
 {
-    public class ConceptoProductoDAO : IConceptoProducto
+    public class ConceptoProductoBancoDAO : IConceptoProductoBanco
     {
         SimuladorFinancieroEntities Context = new SimuladorFinancieroEntities();
-        public bool Delete(ConceptoProducto entidad)
+        public bool Delete(ConceptoProductoBanco entidad)
         {
             throw new NotImplementedException();
         }
@@ -21,23 +21,23 @@ namespace SimuladorFinanciero.Data
             throw new NotImplementedException();
         }
 
-        public bool Insert(ConceptoProducto entidad)
+        public bool Insert(ConceptoProductoBanco entidad)
         {
-            Context.ConceptoProducto.Add(entidad);
+            Context.ConceptoProductoBanco.Add(entidad);
             return (Context.SaveChanges() != 0);
         }
 
-        public ConceptoProducto Select(string id)
+        public ConceptoProductoBanco Select(string id)
         {
             throw new NotImplementedException();
         }
 
-        public IList<ConceptoProducto> SelectAll()
+        public IList<ConceptoProductoBanco> SelectAll()
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(ConceptoProducto entidad)
+        public bool Update(ConceptoProductoBanco entidad)
         {
             throw new NotImplementedException();
         }

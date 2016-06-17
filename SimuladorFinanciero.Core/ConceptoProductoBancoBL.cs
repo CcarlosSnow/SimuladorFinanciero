@@ -9,20 +9,20 @@ using SimuladorFinanciero.Data.Interface;
 
 namespace SimuladorFinanciero.Core
 {
-    public class ConceptoProductoBL : IDisposable
+    public class ConceptoProductoBancoBL : IDisposable
     {
-        private IConceptoProducto oConceptoProductoDAO = null;
+        private IConceptoProductoBanco oConceptoProductoBancoDAO = null;
 
-        public ConceptoProductoBL()
+        public ConceptoProductoBancoBL()
         {
-            oConceptoProductoDAO = new ConceptoProductoDAO();
+            oConceptoProductoBancoDAO = new ConceptoProductoBancoDAO();
         }
 
-        public IList<ConceptoProducto> SelectAll()
+        public IList<ConceptoProductoBanco> SelectAll()
         {
             try
             {
-                return oConceptoProductoDAO.SelectAll();
+                return oConceptoProductoBancoDAO.SelectAll();
             }
             catch (Exception)
             {
@@ -30,11 +30,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public ConceptoProducto Select(string id)
+        public ConceptoProductoBanco Select(string id)
         {
             try
             {
-                return oConceptoProductoDAO.Select(id);
+                return oConceptoProductoBancoDAO.Select(id);
             }
             catch (Exception)
             {
@@ -42,11 +42,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Insert(ConceptoProducto entidad)
+        public bool Insert(ConceptoProductoBanco entidad)
         {
             try
             {
-                return oConceptoProductoDAO.Insert(entidad);
+                return oConceptoProductoBancoDAO.Insert(entidad);
             }
             catch (Exception)
             {
@@ -54,11 +54,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Update(ConceptoProducto entidad)
+        public bool Update(ConceptoProductoBanco entidad)
         {
             try
             {
-                return oConceptoProductoDAO.Update(entidad);
+                return oConceptoProductoBancoDAO.Update(entidad);
             }
             catch (Exception)
             {
@@ -66,11 +66,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Delete(ConceptoProducto entidad)
+        public bool Delete(ConceptoProductoBanco entidad)
         {
             try
             {
-                return oConceptoProductoDAO.Delete(entidad);
+                return oConceptoProductoBancoDAO.Delete(entidad);
             }
             catch (Exception)
             {
@@ -78,33 +78,32 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool BulkInsert(IEnumerable<ConceptoProducto> ConceptoProductos)
+        public bool BulkInsert(IEnumerable<ConceptoProductoBanco> ConceptosProductosBancos)
         {
-            int x = 0;
             try
             {
+
                 ProductoBL oProductoBL = new ProductoBL();
                 ConceptoBL oConceptoBL = new ConceptoBL();
-                foreach (ConceptoProducto i in ConceptoProductos)
+                foreach (ConceptoProductoBanco i in ConceptosProductosBancos)
                 {
-                    i.IdProducto = oProductoBL.GetIdProducto(i.Producto.Nombre);
+                    i.IdProducto = oProductoBL.GetIdProducto(i.ProductoBanco.Producto.Nombre);
                     i.IdConcepto = oConceptoBL.GetIdConcepto(i.Concepto.Nombre);
-                    i.Producto = null;
+                    i.ProductoBanco = null;
                     i.Concepto = null;
                     Insert(i);
-                    x++;
                 }
                 return true;
             }
             catch (Exception)
             {
-                throw new Exception(x.ToString());
+                throw;
             }
         }
 
         public void Dispose()
         {
-            var item = (ConceptoProductoDAO)oConceptoProductoDAO;
+            var item = (ConceptoProductoBancoDAO)oConceptoProductoBancoDAO;
             if (item != null)
             {
                 item.Dispose();

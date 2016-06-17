@@ -12,7 +12,7 @@ namespace SimuladorFinanciero.Entities
     using System;
     using System.Collections.Generic;
     
-    public partial class ConceptoProducto
+    public partial class ConceptoProductoBanco
     {
         public int IdConcepto { get; set; }
         public int IdProducto { get; set; }
@@ -25,9 +25,10 @@ namespace SimuladorFinanciero.Entities
         public Nullable<decimal> MEMin { get; set; }
         public Nullable<decimal> MEMax { get; set; }
         public string Observaciones { get; set; }
+        public string IdBanco { get; set; }
     
         public virtual Concepto Concepto { get; set; }
         public virtual Parametro Parametro { get; set; }
-        public virtual Producto Producto { get; set; }
+        public virtual ProductoBanco ProductoBanco { get; set; }
     }
 }

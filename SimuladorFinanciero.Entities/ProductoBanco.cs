@@ -14,6 +14,12 @@ namespace SimuladorFinanciero.Entities
     
     public partial class ProductoBanco
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ProductoBanco()
+        {
+            this.ConceptoProductoBanco = new HashSet<ConceptoProductoBanco>();
+        }
+    
         public string IdBanco { get; set; }
         public int IdProducto { get; set; }
         public string WebTarifario { get; set; }
@@ -21,5 +27,7 @@ namespace SimuladorFinanciero.Entities
     
         public virtual Banco Banco { get; set; }
         public virtual Producto Producto { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
     }
 }

@@ -344,7 +344,6 @@
     <Content Include="Views\Administrador\ListaArchivos.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Archivos\CargasExcel\" />
     <Folder Include="Archivos\Plantilla\" />
   </ItemGroup>

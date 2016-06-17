@@ -20,7 +20,7 @@ namespace SimuladorFinanciero.Entities
             this.Archivo = new HashSet<Archivo>();
             this.Banco = new HashSet<Banco>();
             this.Concepto = new HashSet<Concepto>();
-            this.ConceptoProducto = new HashSet<ConceptoProducto>();
+            this.ConceptoProductoBanco = new HashSet<ConceptoProductoBanco>();
             this.Producto = new HashSet<Producto>();
         }
     
@@ -34,7 +34,7 @@ namespace SimuladorFinanciero.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Concepto> Concepto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConceptoProducto> ConceptoProducto { get; set; }
+        public virtual ICollection<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Producto> Producto { get; set; }
     }

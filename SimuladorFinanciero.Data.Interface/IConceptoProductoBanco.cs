@@ -7,7 +7,7 @@ using SimuladorFinanciero.Entities;
 
 namespace SimuladorFinanciero.Data.Interface
 {
-    public interface IConceptoProducto : IBase<ConceptoProducto>
+    public interface IConceptoProductoBanco : IBase<ConceptoProductoBanco>
     {
     }
 }
