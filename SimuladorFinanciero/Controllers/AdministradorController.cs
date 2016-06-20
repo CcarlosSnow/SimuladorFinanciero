@@ -9,6 +9,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
+using SimuladorFinanciero.Helpers;
 
 namespace SimuladorFinanciero.Controllers
 {
@@ -21,6 +22,8 @@ namespace SimuladorFinanciero.Controllers
         ConceptoBL oConceptoBL = new ConceptoBL();
         ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
         ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
+        SugerenciaBL oSugerenciaBL = new SugerenciaBL();
+        ParametroBL oParametroBL = new ParametroBL();
         public ActionResult ListaArchivos()
         {
             return View(oArchivoBL.SelectAll());
@@ -44,10 +47,10 @@ namespace SimuladorFinanciero.Controllers
                         string Extension = System.IO.Path.GetExtension(file.FileName);
                         if (Extension != ".xls" && Extension != ".xlsx")
                         {
-                            return Json("El archivo debe ser de tipo XLS o XLSX");
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo debe ser de tipo XLS o XLSX" });
                         }
                         string Nombre = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
-                        string Ruta = Path.Combine(Server.MapPath(Constantes.RutaArchivosExcel), Nombre);
+                        string Ruta = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre);
                         file.SaveAs(Ruta);
 
                         string excelConnectionString = string.Empty;
@@ -72,7 +75,7 @@ namespace SimuladorFinanciero.Controllers
                         dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
                         if (dt == null)
                         {
-                            return Json("El archivo Excel se encuentra vacío");
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo se encuentra vacío" });
                         }
 
                         string[] excelSheets = new string[dt.Rows.Count];
@@ -91,6 +94,12 @@ namespace SimuladorFinanciero.Controllers
                         {
                             dataAdapter.Fill(data);
                         }
+
+                        oConceptoProductoBancoBL.DeleteAll();
+                        oProductoBancoBL.DeleteAll();
+                        oConceptoBL.DeleteAll();
+                        oProductoBL.DeleteAll();
+                        oBancoBL.DeleteAll();
 
                         var Bancos = data.AsEnumerable().GroupBy(r => r.Field<string>("ID").Trim())
                             .Select(row => new Banco
@@ -136,7 +145,24 @@ namespace SimuladorFinanciero.Controllers
 
                         oProductoBancoBL.BulkInsert(ProductosBancos);
 
-                        var ConceptosProductosBancos = data.AsEnumerable().
+                        //var ConceptosProductosBancos = from i in data.AsEnumerable()
+                        //                               select new ConceptoProductoBanco
+                        //                               {
+                        //                                   Concepto = new Concepto
+                        //                                   {
+                        //                                       Nombre = i.Field<string>("Concepto")
+                        //                                   },
+                        //                                   ProductoBanco = new ProductoBanco
+                        //                                   {
+                        //                                       Producto = new Producto
+                        //                                       {
+                        //                                           Nombre = i.Field<string>("Producto").Trim()
+                        //                                       },
+                        //                                   },
+                        //                                   IdBanco = i.Field<string>("ID").Trim(),
+                        //                                   TipoComision = i.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
+                        //                                   Tasa = i.Field<decimal>("Tasa")
+                        //                               };
                         //GroupBy(r => new
                         //{
                         //    Concepto = r.Field<string>("Concepto").Trim(),
@@ -144,30 +170,39 @@ namespace SimuladorFinanciero.Controllers
                         //    Banco = r.Field<string>("ID").Trim(),
                         //    TipoComision = r.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim()
                         //}).
-                        Select(row => new ConceptoProductoBanco
-                        {
-                            Concepto = new Concepto
-                            {
-                                Nombre = row.Field<string>("Concepto").Trim()
-                            },
-                            ProductoBanco = new ProductoBanco
-                            {
-                                Producto = new Producto
-                                {
-                                    Nombre = row.Field<string>("Producto").Trim()
-                                },
-                            },
-                            IdBanco = row.Field<string>("ID").Trim(),
-                            TipoComision = row.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim()
-                        });
+                        //Select(row => new ConceptoProductoBanco
+                        //{
+                        //    Concepto = new Concepto
+                        //    {
+                        //        Nombre = row.Field<string>("Concepto").Trim()
+                        //    },
+                        //    ProductoBanco = new ProductoBanco
+                        //    {
+                        //        Producto = new Producto
+                        //        {
+                        //            Nombre = row.Field<string>("Producto").Trim()
+                        //        },
+                        //    },
+                        //    IdBanco = row.Field<string>("ID").Trim(),
+                        //    TipoComision = row.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
+                        //    Tasa = row.Field<Nullable>("Tasa")
+                        //Minimo = row.Field<decimal>("Min"),
+                        //Maximo = row.Field<decimal>("Max"),
+                        //METasaMax = row.Field<decimal>("ME-Tasa Max."),
+                        //METasaMin = row.Field<decimal>("ME-Tasa Min."),
+                        //MEMin = row.Field<decimal>("ME-Min"),
+                        //MEMax = row.Field<decimal>("ME-Max"),
+                        //Observaciones = row.Field<string>("Observaciones").Trim()
 
-                        oConceptoProductoBancoBL.BulkInsert(ConceptosProductosBancos);
+                        //});
+
+                        //oConceptoProductoBancoBL.BulkInsert(ConceptosProductosBancos);
 
                         Archivo oArchivoEnt = new Archivo();
                         oArchivoEnt.Nombre = Nombre;
                         if (oArchivoBL.UploadExcelFile(oArchivoEnt))
                         {
-                            return Json("Archivo cargado correctamente");
+                            return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Archivo Cargado Correctamente" });
                         }
                         else
                         {
@@ -176,12 +211,22 @@ namespace SimuladorFinanciero.Controllers
                     }
                     else
                     {
-                        return Json("Seleccione un archivo a cargar");
+                        return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
+                        //Respuesta oRespuesta = new Respuesta();
+                        //oRespuesta.Titulo = "Aviso!";
+                        //oRespuesta.Texto = "Seleccione un Archivo a Cargar";
+                        //return Json(Newtonsoft.Json.JsonConvert.SerializeObject(oRespuesta, Newtonsoft.Json.Formatting.Indented));
+                        //return Json("Seleccione un archivo a cargar");
                     }
                 }
                 else
                 {
-                    return Json("Seleccione un Archivo a Cargar");
+                    return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
+                    //Respuesta oRespuesta = new Respuesta();
+                    //oRespuesta.Titulo = "Aviso!";
+                    //oRespuesta.Texto = "Seleccione un Archivo a Cargar";
+                    //return Json(Newtonsoft.Json.JsonConvert.SerializeObject(oRespuesta, Newtonsoft.Json.Formatting.Indented));
+                    //return Json("Seleccione un Archivo a Cargar");
                 }
             }
             catch (Exception ex)
@@ -189,6 +234,40 @@ namespace SimuladorFinanciero.Controllers
                 Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
                 return Json("Error al Cargar Archivo");
             }
+        }
+
+        public ActionResult Contactos()
+        {
+            DateTime Desde = ConstantesHelpers.FechaDesde;
+            DateTime Hasta = ConstantesHelpers.FechaHasta;
+            string Tipo = "";
+
+            if (Request.Form.Count > 0)
+            {
+                Desde = DateTime.Parse(Request.Form["start"].ToString());
+                Hasta = DateTime.Parse(Request.Form["end"].ToString());
+                Tipo = Request.Form["Tipo"].ToString();
+            }
+
+            var TipoContacto = oParametroBL.SelectByStart("06");
+            ViewBag.FechaDesde = Desde;
+            ViewBag.FechaHasta = Hasta;
+            ViewBag.TipoContactoList = new SelectList(TipoContacto, "IdParametro", "Nombre", Tipo);
+            return View(oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo));
+        }
+
+        //[HttpPost]
+        //public ActionResult Contactos()
+        //{
+        //    var TipoContacto = oParametroBL.SelectByStart("06");
+        //    ViewBag.TipoContactoList = new SelectList(TipoContacto, "IdParametro", "Nombre");
+        //    return View(oSugerenciaBL.SelectByFechaAndTipo(ConstantesHelpers.FechaDesde, ConstantesHelpers.FechaHasta));
+        //}
+
+        public ActionResult DownloadExcel(string Nombre)
+        {
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre));
+            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Nombre);
         }
     }
 }

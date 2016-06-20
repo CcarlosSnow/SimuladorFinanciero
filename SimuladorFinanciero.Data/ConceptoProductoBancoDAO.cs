@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
+using EntityFramework.Extensions;
 
 namespace SimuladorFinanciero.Data
 {
@@ -23,8 +24,15 @@ namespace SimuladorFinanciero.Data
 
         public bool Insert(ConceptoProductoBanco entidad)
         {
-            Context.ConceptoProductoBanco.Add(entidad);
-            return (Context.SaveChanges() != 0);
+            try
+            {
+                Context.ConceptoProductoBanco.Add(entidad);
+                return (Context.SaveChanges() != 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public ConceptoProductoBanco Select(string id)
@@ -40,6 +48,14 @@ namespace SimuladorFinanciero.Data
         public bool Update(ConceptoProductoBanco entidad)
         {
             throw new NotImplementedException();
+        }
+
+        public bool DeleteAll()
+        {
+            var ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                           select i;
+            ConceptosProductosBancos.Delete();
+            return (Context.SaveChanges() != 0);
         }
     }
 }

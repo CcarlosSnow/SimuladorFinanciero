@@ -11,7 +11,7 @@ namespace SimuladorFinanciero.Core
 {
     public class BancoBL : IDisposable
     {
-        private IBanco oBancoDAO = null;
+        private BancoDAO oBancoDAO = null;
 
         public BancoBL()
         {
@@ -91,6 +91,18 @@ namespace SimuladorFinanciero.Core
                 return true;
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool DeleteAll()
+        {
+            try
+            {
+                return oBancoDAO.DeleteAll();
+            }
+            catch(Exception)
             {
                 throw;
             }

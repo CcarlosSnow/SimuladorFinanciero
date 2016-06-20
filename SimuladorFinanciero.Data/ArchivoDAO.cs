@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
+using EntityFramework.Extensions;
 
 namespace SimuladorFinanciero.Data
 {
@@ -38,6 +39,7 @@ namespace SimuladorFinanciero.Data
         public IList<Archivo> SelectAll()
         {
             var Archivos = from i in Context.Archivo
+                           orderby i.Fecha descending
                            select i;
             return Archivos.ToList();
         }
@@ -52,8 +54,8 @@ namespace SimuladorFinanciero.Data
         public bool DisableActiveExcel()
         {
             IList<Archivo> Archivos = (from i in Context.Archivo
-                           where i.Estado == "0501"
-                           select i).ToList();
+                                       where i.Estado == "0501"
+                                       select i).ToList();
 
             foreach (Archivo i in Archivos)
             {
@@ -61,6 +63,14 @@ namespace SimuladorFinanciero.Data
                 Update(i);
             }
             return true;
+        }
+        public bool BulkDelete()
+        {
+            var Archivos = from i in Context.Archivo
+                           select i;
+
+            Archivos.Delete();
+            return (Context.SaveChanges() != 0);
         }
     }
 }

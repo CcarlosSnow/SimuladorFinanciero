@@ -16,5 +16,11 @@ namespace SimuladorFinanciero.Entities
     {
         public int IdSugerencia { get; set; }
         public string Descripcion { get; set; }
+        public System.DateTime Fecha { get; set; }
+        public string Tipo { get; set; }
+        public string Nombre { get; set; }
+        public string Correo { get; set; }
+    
+        public virtual Parametro Parametro { get; set; }
     }
 }

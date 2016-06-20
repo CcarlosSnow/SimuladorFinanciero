@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
+using EntityFramework.Extensions;
 
 namespace SimuladorFinanciero.Data
 {
@@ -49,6 +50,14 @@ namespace SimuladorFinanciero.Data
                              where i.Nombre == Nombre
                              select i.IdProducto;
             return IdProducto.First();
+        }
+
+        public bool DeleteAll()
+        {
+            var Productos = from i in Context.Producto
+                            select i;
+            Productos.Delete();
+            return (Context.SaveChanges() != 0);
         }
     }
 }

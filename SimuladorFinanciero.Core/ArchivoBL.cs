@@ -98,6 +98,17 @@ namespace SimuladorFinanciero.Core
                 throw;
             }
         }
+        public bool BulkDelete()
+        {
+            try
+            {
+                return oArchivoDAO.BulkDelete();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public void Dispose()
         {

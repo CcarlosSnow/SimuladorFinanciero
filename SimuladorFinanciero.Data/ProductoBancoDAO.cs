@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
+using EntityFramework.Extensions;
 
 namespace SimuladorFinanciero.Data
 {
@@ -40,6 +41,14 @@ namespace SimuladorFinanciero.Data
         public bool Update(ProductoBanco entidad)
         {
             throw new NotImplementedException();
+        }
+
+        public bool DeleteAll()
+        {
+            var ProductosBancos = from i in Context.ProductoBanco
+                                  select i;
+            ProductosBancos.Delete();
+            return (Context.SaveChanges() != 0);
         }
     }
 }

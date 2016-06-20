@@ -1,0 +1,97 @@
+﻿@model IList<SimuladorFinanciero.Entities.Sugerencia>
+@using SimuladorFinanciero.Helpers
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2 class="title-section">Contactos</h2>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary" data-collapsed="0">
+                        <div class="panel-body">
+                            <div class="row">
+                                @using (Ajax.BeginForm("Contactos", "Administrador", new AjaxOptions()
+                                {
+                                    HttpMethod = "POST",
+                                    InsertionMode = InsertionMode.Replace
+                                }, new
+                                {
+                                    role = "form",
+                                }))
+                                {
+                                    <div class="col-md-2">
+                                        @Html.DropDownList("Tipo", ViewBag.TipoContactoList as SelectList, "Todos", new { @class = "form-control" })
+                                    </div>
+                                    <div class="input-daterange">
+                                        <div class="form-group">
+                                            <label for="fechaInicio" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Desde</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" id="fechaInicio" name="start" class="form-control" value="@ViewBag.FechaDesde.ToString(Formatos.FechaFormat)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fechaFin" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Hasta</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" id="fechaFin" name="end" class="form-control" value="@ViewBag.FechaHasta.ToString(Formatos.FechaFormat)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1" style="padding-bottom: 8px;">
+                                        <button id="btnFiltrar" type="submit" class="btn-icon btn-blue btn">
+                                            Filtrar
+                                            <i class="fa fa-filter" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="button" class="btn btn-green btn-icon">
+                                            Descargar
+                                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="table table-condensed table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th width="15%">Fecha</th>
+                                    <th>Asunto</th>
+                                    <th width="15%">Nombre</th>
+                                    <th>Correo electrónico</th>
+                                    <th width="40%">Mensaje</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int i = 1;}
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@i</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                        <td>@item.Parametro.Nombre</td>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Correo</td>
+                                        <td class="mensaje">
+                                            @item.Descripcion
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <footer class="main">
+                &copy; 2016 <strong>Administrador - Simulador Financiero</strong>
+            </footer>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/Contactos.js"></script>

@@ -11,7 +11,7 @@ namespace SimuladorFinanciero.Core
 {
     public class ProductoBancoBL : IDisposable
     {
-        IProductoBanco oProductoBancoDAO;
+        ProductoBancoDAO oProductoBancoDAO;
         public ProductoBancoBL()
         {
             oProductoBancoDAO = new ProductoBancoDAO();
@@ -92,6 +92,19 @@ namespace SimuladorFinanciero.Core
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public bool DeleteAll()
+        {
+            try
+            {
+                return oProductoBancoDAO.DeleteAll();
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

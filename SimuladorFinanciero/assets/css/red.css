@@ -1,22 +1,3 @@
-@charset "utf-8";
-@font-face{font-family:'bree_perubold';src:url(../fonts/breeperu_bold-webfont.woff2) format("woff2"),url(../fonts/breeperu_bold-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'bree_perubold_italic';src:url(../fonts/breeperu_boldoblique-webfont.woff2) format("woff2"),url(../fonts/breeperu_boldoblique-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'bree_peru_ltlight';src:url(../fonts/breeperu_light-webfont.woff2) format("woff2"),url(../fonts/breeperu_light-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'bree_perulight_oblique';src:url(../fonts/breeperu_lightoblique-webfont.woff2) format("woff2"),url(../fonts/breeperu_lightoblique-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'bree_peruregular';src:url(../fonts/breeperu_regular-webfont.woff2) format("woff2"),url(../fonts/breeperu_regular-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'bree_peruitalic';src:url(../fonts/breeperu_regularoblique-webfont.woff2) format("woff2"),url(../fonts/breeperu_regularoblique-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'droid_sansbold';src:url(../fonts/droidsans-bold-webfont.woff2) format("woff2"),url(../fonts/droidsans-bold-webfont.woff) format("woff");font-weight:400;font-style:normal}
-@font-face{font-family:'droid_sansregular';src:url(../fonts/droidsans-webfont.woff2) format("woff2"),url(../fonts/droidsans-webfont.woff) format("woff");font-weight:400;font-style:normal}
-
-.title-log{
-  font-size: 30px;
-  margin: 0 0 42px 0;
-  text-shadow: 0 2px 3px #000;
-  letter-spacing: 1px;
-  color: #fff;
-  font-family: "bree_peruregular", sans-serif;
-}
-
 body a {
   color: #981b1b;
 }

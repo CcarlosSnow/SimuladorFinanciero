@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using SimuladorFinanciero.Data;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Data.Interface;
+using System.Data;
 
 namespace SimuladorFinanciero.Core
 {
     public class ConceptoProductoBancoBL : IDisposable
     {
-        private IConceptoProductoBanco oConceptoProductoBancoDAO = null;
+        private ConceptoProductoBancoDAO oConceptoProductoBancoDAO = null;
 
         public ConceptoProductoBancoBL()
         {
@@ -48,9 +49,9 @@ namespace SimuladorFinanciero.Core
             {
                 return oConceptoProductoBancoDAO.Insert(entidad);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
@@ -78,17 +79,20 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool BulkInsert(IEnumerable<ConceptoProductoBanco> ConceptosProductosBancos)
+        public bool BulkInsert(EnumerableRowCollection ConceptosProductosBancos)
         {
             try
             {
 
                 ProductoBL oProductoBL = new ProductoBL();
                 ConceptoBL oConceptoBL = new ConceptoBL();
+                ParametroBL oParametroBL = new ParametroBL();
                 foreach (ConceptoProductoBanco i in ConceptosProductosBancos)
                 {
                     i.IdProducto = oProductoBL.GetIdProducto(i.ProductoBanco.Producto.Nombre);
                     i.IdConcepto = oConceptoBL.GetIdConcepto(i.Concepto.Nombre);
+                    i.TipoComision = oParametroBL.GetIdParametro(i.TipoComision);
+
                     i.ProductoBanco = null;
                     i.Concepto = null;
                     Insert(i);
@@ -97,6 +101,19 @@ namespace SimuladorFinanciero.Core
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public bool DeleteAll()
+        {
+            try
+            {
+                return oConceptoProductoBancoDAO.DeleteAll();
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

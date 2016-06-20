@@ -10,9 +10,6 @@ namespace SimuladorFinanciero.Helpers
     {
         public const string FechaAnnotation = "{0:dd/MM/yyyy}";
 
-        //public static string Fecha
-        //{
-        //    get { return cFecha; }
-        //}
+        public const string FechaFormat = "dd/MM/yyyy";
     }
 }

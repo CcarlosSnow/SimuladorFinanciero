@@ -98,7 +98,28 @@ namespace SimuladorFinanciero.Core
 
         public int GetIdProducto(string Nombre)
         {
-            return oProductoDAO.GetIdProducto(Nombre);
+            try
+            {
+                return oProductoDAO.GetIdProducto(Nombre);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool DeleteAll()
+        {
+            try
+            {
+                return oProductoDAO.DeleteAll();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Dispose()

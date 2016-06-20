@@ -3,37 +3,51 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Versiones de Archivos</h2>
+            <h2 class="title-section">Versiones de archivos</h2>
             <br />
             <div class="row">
-                <div class="col-md-8">
-                    <table class="table responsive">
-                        <thead>
-                            <tr>
-                                <th width="2%">#</th>
-                                <th width="15%">Fecha de Subida</th>
-                                <th width="10%">Activado</th>
-                                <th width="15%">Accion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @{ int i = 1;}
-                            @foreach (var item in Model)
-                            {
+                <div class="col-md-10">
+                    <div class="table-responsive">
+                        <table class="table table-condensed">
+                            <thead>
                                 <tr>
-                                    <td>@i</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.Parametro.Nombre)</td>
-                                    <td>
-                                        <button type="button" class="btn btn-blue btn-icon">
-                                            <i class="entypo-check"></i> Activar
-                                        </button>
-                                    </td>
+                                    <th>#</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acción</th>
+                                    <th>Descargar</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                                i++;
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @{ int i = 1;}
+                                @foreach (var item in Model)
+                                {
+                                    <tr @(item.Estado == "0501" ? "class=active-reg" : "")>
+                                        <td>@i</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
+                                        <td>@(item.Estado == "0501" ? item.Parametro.Nombre : "")</td>
+                                        <td>
+                                            <button type="button" class="btn btn-blue btn-icon">
+                                                <i class="entypo-check"></i> Activar
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href="@Url.Action("DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.Nombre }))">
+                                                <i class="fa fa-download ico-lista-descarga" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#">
+                                                <i class="fa fa-trash-o ico-lista-eliminar" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <footer class="main">

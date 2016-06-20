@@ -34,6 +34,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
@@ -53,9 +57,11 @@
     <Compile Include="BancoDAO.cs" />
     <Compile Include="ConceptoDAO.cs" />
     <Compile Include="ConceptoProductoBancoDAO.cs" />
+    <Compile Include="ParametroDAO.cs" />
     <Compile Include="ProductoBancoDAO.cs" />
     <Compile Include="ProductoDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SugerenciaDAO.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimuladorFinanciero.Data.Interface\SimuladorFinanciero.Data.Interface.csproj">
@@ -65,6 +71,10 @@
     <ProjectReference Include="..\SimuladorFinanciero.Entities\SimuladorFinanciero.Entities.csproj">
       <Project>{7318f495-2abf-457b-a243-a65b557004b3}</Project>
       <Name>SimuladorFinanciero.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SimuladorFinanciero.Helpers\SimuladorFinanciero.Helpers.csproj">
+      <Project>{71c005af-1e70-4951-9fbe-433411eba228}</Project>
+      <Name>SimuladorFinanciero.Helpers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -45,8 +45,10 @@
     <Compile Include="IBase.cs" />
     <Compile Include="IConcepto.cs" />
     <Compile Include="IConceptoProductoBanco.cs" />
+    <Compile Include="IParametro.cs" />
     <Compile Include="IProducto.cs" />
     <Compile Include="IProductoBanco.cs" />
+    <Compile Include="ISugerencia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

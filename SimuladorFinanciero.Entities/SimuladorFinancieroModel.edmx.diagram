@@ -4,24 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="de95abd734ae4c208207f56c86ab1ab0" Name="Diagram1">
+      <Diagram DiagramId="79017bbe74a947a1ab0b155be59484fd" Name="Diagram1">
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Archivo" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="3" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProductoBanco" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="SimuladorFinancieroModel.Sugerencia" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProductoBanco" Width="1.5" PointX="7.5" PointY="6.375" IsExpanded="true" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Archivo_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Banco_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Banco" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Concepto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Concepto" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProductoBanco_Parametro" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProductoBanco_ProductoBanco" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Producto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Producto" ManuallyRouted="false" />
-        <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProductoBanco_ProductoBanco" ManuallyRouted="false" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

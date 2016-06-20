@@ -97,7 +97,28 @@ namespace SimuladorFinanciero.Core
 
         public int GetIdConcepto(string Nombre)
         {
-            return oConceptoDAO.GetIdConcepto(Nombre);
+            try
+            {
+                return oConceptoDAO.GetIdConcepto(Nombre);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool DeleteAll()
+        {
+            try
+            {
+                return oConceptoDAO.DeleteAll();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public void Dispose()

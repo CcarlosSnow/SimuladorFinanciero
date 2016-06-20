@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Data;
 using SimuladorFinanciero.Entities;
+using EntityFramework.Extensions;
 
 namespace SimuladorFinanciero.Data
 {
@@ -47,6 +48,14 @@ namespace SimuladorFinanciero.Data
         {
             Context.Banco.Attach(entidad);
             Context.Entry(entidad).State = System.Data.Entity.EntityState.Modified;
+            return (Context.SaveChanges() != 0);
+        }
+
+        public bool DeleteAll()
+        {
+            var Bancos = from i in Context.Banco
+                         select i;
+            Bancos.Delete();
             return (Context.SaveChanges() != 0);
         }
     }

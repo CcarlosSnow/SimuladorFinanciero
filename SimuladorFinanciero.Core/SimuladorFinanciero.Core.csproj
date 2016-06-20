@@ -44,9 +44,11 @@
     <Compile Include="BancoBL.cs" />
     <Compile Include="ConceptoBL.cs" />
     <Compile Include="ConceptoProductoBancoBL.cs" />
+    <Compile Include="ParametroBL.cs" />
     <Compile Include="ProductoBancoBL.cs" />
     <Compile Include="ProductoBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SugerenciaBL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimuladorFinanciero.Data.Interface\SimuladorFinanciero.Data.Interface.csproj">

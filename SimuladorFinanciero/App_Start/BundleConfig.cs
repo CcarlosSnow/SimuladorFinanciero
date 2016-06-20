@@ -27,9 +27,21 @@ namespace SimuladorFinanciero
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            bundles.Add(new StyleBundle("~/Administrador/css/Listado").Include(
+                "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
+                "~/assets/css/font-icons/entypo/css/entypo.css",
+                "~/assets/css/font-icons/font-awesome/css/font-awesome.min.css",
+                "~/assets/css/bootstrap.min.css",
+                "~/assets/css/neon-core.css",
+                "~/assets/css/neon-theme.css",
+                "~/assets/css/neon-forms.css",
+                "~/assets/css/custom.css",
+                "~/assets/css/red.css"));
+
             bundles.Add(new StyleBundle("~/Administrador/css").Include(
                 "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
                 "~/assets/css/font-icons/entypo/css/entypo.css",
+                "~/assets/css/font-icons/font-awesome/css/font-awesome.min.css",
                 "~/assets/css/bootstrap.css",
                 "~/assets/css/neon-core.css",
                 "~/assets/css/neon-theme.css",
@@ -42,11 +54,16 @@ namespace SimuladorFinanciero
             bundles.Add(new ScriptBundle("~/Administrador/jsBottom").Include("~/assets/js/gsap/TweenMax.min.js",
                 "~/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
                 "~/assets/js/bootstrap.js",
+                "~/assets/js/jquery.sidebar.min.js",
+                "~/assets/js/js/jquery.blockUI.js",
                 "~/assets/js/joinable.js",
                 "~/assets/js/resizeable.js",
                 "~/assets/js/neon-api.js",
-                "~/assets/js/neon-custom.js",
-                "~/assets/js/neon-demo.js"));
+                "~/assets/js/bootstrap-datepicker.js",
+                "~/assets/js/bootstrap-datepicker.es.min.js",
+                "~/assets/js/confirm.js",
+                "~/assets/js/functions.js",
+                "~/assets/js/custom.js"));
         }
     }
 }
