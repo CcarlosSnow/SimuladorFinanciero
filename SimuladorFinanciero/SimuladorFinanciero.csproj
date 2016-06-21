@@ -196,6 +196,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Code\SubirArchivoService.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Controllers\AdministradorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="App_Code\Enumerators.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -220,6 +222,7 @@
     <Content Include="assets\css\bootstrap.css" />
     <Content Include="assets\css\bootstrap.min.css" />
     <Content Include="assets\css\custom.css" />
+    <Content Include="assets\css\datatables.css" />
     <Content Include="assets\css\font-icons\entypo\css\animation.css" />
     <Content Include="assets\css\font-icons\entypo\css\entypo-codes.css" />
     <Content Include="assets\css\font-icons\entypo\css\entypo-embedded.css" />
@@ -248,6 +251,7 @@
     <Content Include="assets\js\bootstrap.js" />
     <Content Include="assets\js\confirm.js" />
     <Content Include="assets\js\custom.js" />
+    <Content Include="assets\js\datatables.js" />
     <Content Include="assets\js\functions.js" />
     <Content Include="assets\js\gsap\TweenMax.min.js" />
     <Content Include="assets\js\ie8-responsive-file-warning.js" />
@@ -328,6 +332,7 @@
     <Content Include="assets\fonts\droidsans-bold-webfont.woff2" />
     <Content Include="assets\fonts\droidsans-webfont.woff" />
     <Content Include="assets\fonts\droidsans-webfont.woff2" />
+    <Content Include="assets\js\datatable-spanish.json" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Contactos.js" />
@@ -338,6 +343,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\ListaArchivos.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -359,6 +365,7 @@
     <Content Include="Views\Administrador\SubirArchivo.cshtml" />
     <Content Include="Views\Administrador\ListaArchivos.cshtml" />
     <Content Include="Views\Administrador\Contactos.cshtml" />
+    <Content Include="Views\Shared\_AdministradorLayoutContacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Archivos\CargasExcel\" />

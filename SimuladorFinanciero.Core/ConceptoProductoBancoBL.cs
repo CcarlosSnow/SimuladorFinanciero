@@ -31,7 +31,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public ConceptoProductoBanco Select(string id)
+        public ConceptoProductoBanco Select(int id)
         {
             try
             {

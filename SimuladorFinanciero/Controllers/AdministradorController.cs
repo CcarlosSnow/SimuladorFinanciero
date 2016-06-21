@@ -17,13 +17,7 @@ namespace SimuladorFinanciero.Controllers
     {
         // GET: Administrador
         ArchivoBL oArchivoBL = new ArchivoBL();
-        BancoBL oBancoBL = new BancoBL();
-        ProductoBL oProductoBL = new ProductoBL();
-        ConceptoBL oConceptoBL = new ConceptoBL();
-        ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
-        ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
-        SugerenciaBL oSugerenciaBL = new SugerenciaBL();
-        ParametroBL oParametroBL = new ParametroBL();
+        SubirArchivoService oSubirArchivoService = new SubirArchivoService();
         public ActionResult ListaArchivos()
         {
             return View(oArchivoBL.SelectAll());
@@ -53,180 +47,36 @@ namespace SimuladorFinanciero.Controllers
                         string Ruta = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre);
                         file.SaveAs(Ruta);
 
-                        string excelConnectionString = string.Empty;
-                        excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                        Ruta + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
+                        Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
 
-                        if (Extension == ".xls")
+                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(Nombre, Extension, Ruta, "NUEVO");
+
+                        switch (RespuestaCargaExcel)
                         {
-                            excelConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" +
-                            Ruta + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=2\"";
-                        }
-                        else if (Extension == ".xlsx")
-                        {
-                            excelConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
-                            Ruta + ";Extended Properties=\"Excel 12.0;HDR=Yes;IMEX=2\"";
-                        }
+                            case Enumerators.RespuestaCargaExcel.Correcto:
+                                return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Archivo cargado orrectamente" });
 
-                        OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
-                        excelConnection.Open();
-                        DataTable dt = new DataTable();
+                            case Enumerators.RespuestaCargaExcel.ArchivoNoExiste:
+                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Archivo no existe" });
 
-                        dt = excelConnection.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
-                        if (dt == null)
-                        {
-                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo se encuentra vacío" });
-                        }
+                            case Enumerators.RespuestaCargaExcel.ExcelVacio:
+                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo excel se encuentra vacío" });
 
-                        string[] excelSheets = new string[dt.Rows.Count];
-                        int t = 0;
-                        //excel data saves in temp file here.
-                        foreach (DataRow row in dt.Rows)
-                        {
-                            excelSheets[t] = row["TABLE_NAME"].ToString();
-                            t++;
-                        }
-                        OleDbConnection excelConnection1 = new OleDbConnection(excelConnectionString);
+                            case Enumerators.RespuestaCargaExcel.Error:
+                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
 
-                        string query = string.Format("Select * from [{0}]", excelSheets[0]);
-                        DataTable data = new DataTable();
-                        using (OleDbDataAdapter dataAdapter = new OleDbDataAdapter(query, excelConnection1))
-                        {
-                            dataAdapter.Fill(data);
-                        }
-
-                        oConceptoProductoBancoBL.DeleteAll();
-                        oProductoBancoBL.DeleteAll();
-                        oConceptoBL.DeleteAll();
-                        oProductoBL.DeleteAll();
-                        oBancoBL.DeleteAll();
-
-                        var Bancos = data.AsEnumerable().GroupBy(r => r.Field<string>("ID").Trim())
-                            .Select(row => new Banco
-                            {
-                                IdBanco = row.First().Field<string>("ID").Trim(),
-                                Nombre = row.First().Field<string>("Banco").Trim(),
-                                Web = row.First().Field<string>("Web Banco").Trim()
-                            });
-                        oBancoBL.BulkInsert(Bancos);
-
-                        var Productos = data.AsEnumerable().GroupBy(r => r.Field<string>("Producto").Trim())
-                            .Select(row => new Producto
-                            {
-                                Nombre = row.First().Field<string>("Producto").Trim(),
-                                Tipo = int.Parse(Nombre.Substring(1, Nombre.IndexOf('0', 1, 1)))
-                            });
-
-                        oProductoBL.BulkInsert(Productos);
-
-                        var Conceptos = data.AsEnumerable().GroupBy(r => r.Field<string>("Concepto").Trim())
-                            .Select(row => new Concepto
-                            {
-                                Nombre = row.First().Field<string>("Concepto").Trim()
-                            });
-
-                        oConceptoBL.BulkInsert(Conceptos);
-
-                        var ProductosBancos = data.AsEnumerable().GroupBy(r => new
-                        {
-                            Banco = r.Field<string>("ID").Trim(),
-                            Producto = r.Field<string>("Producto").Trim()
-                        }).
-                        Select(row => new ProductoBanco
-                        {
-                            IdBanco = row.First().Field<string>("ID").Trim(),
-                            Producto = new Producto
-                            {
-                                Nombre = row.First().Field<string>("Producto").Trim(),
-                            },
-                            WebTarifario = row.First().Field<string>("Web Tarifario").Trim(),
-                            Contacto = row.First().Field<string>("Contacto").Trim()
-                        });
-
-                        oProductoBancoBL.BulkInsert(ProductosBancos);
-
-                        //var ConceptosProductosBancos = from i in data.AsEnumerable()
-                        //                               select new ConceptoProductoBanco
-                        //                               {
-                        //                                   Concepto = new Concepto
-                        //                                   {
-                        //                                       Nombre = i.Field<string>("Concepto")
-                        //                                   },
-                        //                                   ProductoBanco = new ProductoBanco
-                        //                                   {
-                        //                                       Producto = new Producto
-                        //                                       {
-                        //                                           Nombre = i.Field<string>("Producto").Trim()
-                        //                                       },
-                        //                                   },
-                        //                                   IdBanco = i.Field<string>("ID").Trim(),
-                        //                                   TipoComision = i.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
-                        //                                   Tasa = i.Field<decimal>("Tasa")
-                        //                               };
-                        //GroupBy(r => new
-                        //{
-                        //    Concepto = r.Field<string>("Concepto").Trim(),
-                        //    Producto = r.Field<string>("Producto").Trim(),
-                        //    Banco = r.Field<string>("ID").Trim(),
-                        //    TipoComision = r.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim()
-                        //}).
-                        //Select(row => new ConceptoProductoBanco
-                        //{
-                        //    Concepto = new Concepto
-                        //    {
-                        //        Nombre = row.Field<string>("Concepto").Trim()
-                        //    },
-                        //    ProductoBanco = new ProductoBanco
-                        //    {
-                        //        Producto = new Producto
-                        //        {
-                        //            Nombre = row.Field<string>("Producto").Trim()
-                        //        },
-                        //    },
-                        //    IdBanco = row.Field<string>("ID").Trim(),
-                        //    TipoComision = row.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
-                        //    Tasa = row.Field<Nullable>("Tasa")
-                        //Minimo = row.Field<decimal>("Min"),
-                        //Maximo = row.Field<decimal>("Max"),
-                        //METasaMax = row.Field<decimal>("ME-Tasa Max."),
-                        //METasaMin = row.Field<decimal>("ME-Tasa Min."),
-                        //MEMin = row.Field<decimal>("ME-Min"),
-                        //MEMax = row.Field<decimal>("ME-Max"),
-                        //Observaciones = row.Field<string>("Observaciones").Trim()
-
-                        //});
-
-                        //oConceptoProductoBancoBL.BulkInsert(ConceptosProductosBancos);
-
-                        Archivo oArchivoEnt = new Archivo();
-                        oArchivoEnt.Nombre = Nombre;
-                        if (oArchivoBL.UploadExcelFile(oArchivoEnt))
-                        {
-                            return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Archivo Cargado Correctamente" });
-                        }
-                        else
-                        {
-                            return Json("Error al cargar archivo");
+                            default:
+                                return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
                         }
                     }
                     else
                     {
                         return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
-                        //Respuesta oRespuesta = new Respuesta();
-                        //oRespuesta.Titulo = "Aviso!";
-                        //oRespuesta.Texto = "Seleccione un Archivo a Cargar";
-                        //return Json(Newtonsoft.Json.JsonConvert.SerializeObject(oRespuesta, Newtonsoft.Json.Formatting.Indented));
-                        //return Json("Seleccione un archivo a cargar");
                     }
                 }
                 else
                 {
                     return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
-                    //Respuesta oRespuesta = new Respuesta();
-                    //oRespuesta.Titulo = "Aviso!";
-                    //oRespuesta.Texto = "Seleccione un Archivo a Cargar";
-                    //return Json(Newtonsoft.Json.JsonConvert.SerializeObject(oRespuesta, Newtonsoft.Json.Formatting.Indented));
-                    //return Json("Seleccione un Archivo a Cargar");
                 }
             }
             catch (Exception ex)
@@ -236,6 +86,8 @@ namespace SimuladorFinanciero.Controllers
             }
         }
 
+        ParametroBL oParametroBL = new ParametroBL();
+        SugerenciaBL oSugerenciaBL = new SugerenciaBL();
         public ActionResult Contactos()
         {
             DateTime Desde = ConstantesHelpers.FechaDesde;
@@ -256,18 +108,44 @@ namespace SimuladorFinanciero.Controllers
             return View(oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo));
         }
 
-        //[HttpPost]
-        //public ActionResult Contactos()
-        //{
-        //    var TipoContacto = oParametroBL.SelectByStart("06");
-        //    ViewBag.TipoContactoList = new SelectList(TipoContacto, "IdParametro", "Nombre");
-        //    return View(oSugerenciaBL.SelectByFechaAndTipo(ConstantesHelpers.FechaDesde, ConstantesHelpers.FechaHasta));
-        //}
-
         public ActionResult DownloadExcel(string Nombre)
         {
             byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre));
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Nombre);
+        }
+
+        public ActionResult EliminarExcel(int Id)
+        {
+            oArchivoBL.Delete(Id);
+            return RedirectToAction("ListaArchivos");
+        }
+
+        public ActionResult ActivarExcel(int ArchivoId)
+        {
+            Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
+            Archivo oArchivo = oArchivoBL.Select(ArchivoId);
+            string Ruta = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.Nombre);
+            string Extension = System.IO.Path.GetExtension(oArchivo.Nombre);
+
+            RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.Nombre, Extension, Ruta, "CARGAR", ArchivoId);
+
+            switch (RespuestaCargaExcel)
+            {
+                case Enumerators.RespuestaCargaExcel.Correcto:
+                    return RedirectToAction("ListaArchivos");
+
+                case Enumerators.RespuestaCargaExcel.ArchivoNoExiste:
+                    return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Archivo no existe" });
+
+                case Enumerators.RespuestaCargaExcel.ExcelVacio:
+                    return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo excel se encuentra vacío" });
+
+                case Enumerators.RespuestaCargaExcel.Error:
+                    return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
+
+                default:
+                    return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
+            }
         }
     }
 }

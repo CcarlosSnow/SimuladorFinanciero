@@ -26,7 +26,7 @@ namespace SimuladorFinanciero.Data
             throw new NotImplementedException();
         }
 
-        public Parametro Select(string id)
+        public Parametro Select(int id)
         {
             throw new NotImplementedException();
         }

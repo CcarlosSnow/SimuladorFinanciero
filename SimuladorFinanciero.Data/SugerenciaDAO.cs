@@ -27,7 +27,7 @@ namespace SimuladorFinanciero.Data
             throw new NotImplementedException();
         }
 
-        public Sugerencia Select(string id)
+        public Sugerencia Select(int id)
         {
             throw new NotImplementedException();
         }

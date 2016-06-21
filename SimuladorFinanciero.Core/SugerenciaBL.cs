@@ -29,7 +29,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Sugerencia Select(string id)
+        public Sugerencia Select(int id)
         {
             try
             {

@@ -40,19 +40,19 @@
                     </a>
                 </div>
                 <ul class="navbar-nav">
-                    <li @(ViewContext.RouteData.GetRequiredString("action") == "ListaArchivos" ? "class=active" : "")>
-                        <a href="@Url.Action("ListaArchivos", "Administrador")">
+                    <li>
+                        <a href="@Url.Action("ListaArchivos","Administrador")">
                             <i class="fa fa-list" aria-hidden="true"></i>&nbsp;
                             <span class="title">Versiones de Archivos</span>
                         </a>
                     </li>
-                    <li @(ViewContext.RouteData.GetRequiredString("action") == "SubirArchivo" ? "class=active" : "")>
-                        <a href="@Url.Action("SubirArchivo", "Administrador")">
+                    <li>
+                        <a href="@Url.Action("SubirArchivo","Administrador")">
                             <i class="fa fa-upload" aria-hidden="true"></i>&nbsp;
                             <span class="title">Cargar Archivo Base</span>
                         </a>
                     </li>
-                    <li @(ViewContext.RouteData.GetRequiredString("action") == "Contactos" ? "class=active" : "")>
+                    <li class="active">
                         <a href="@Url.Action("Contactos", "Administrador")">
                             <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
                             <span class="title">Contactos</span>
@@ -92,6 +92,5 @@
             @RenderBody()
         </div>
     </div>
-    @Scripts.Render("~/Administrador/jsBottom")
 </body>
 </html>

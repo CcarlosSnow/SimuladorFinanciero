@@ -28,7 +28,7 @@ namespace SimuladorFinanciero.Data
             return (Context.SaveChanges() != 0);
         }
 
-        public ProductoBanco Select(string id)
+        public ProductoBanco Select(int id)
         {
             throw new NotImplementedException();
         }

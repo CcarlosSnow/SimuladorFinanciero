@@ -58,5 +58,10 @@ namespace SimuladorFinanciero.Data
             Bancos.Delete();
             return (Context.SaveChanges() != 0);
         }
+
+        public Banco Select(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

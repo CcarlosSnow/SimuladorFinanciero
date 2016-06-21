@@ -28,19 +28,30 @@
                                         <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
                                         <td>@(item.Estado == "0501" ? item.Parametro.Nombre : "")</td>
                                         <td>
-                                            <button type="button" class="btn btn-blue btn-icon">
-                                                <i class="entypo-check"></i> Activar
-                                            </button>
+                                            @if (item.Estado != "0501")
+                                            {
+                                                <a href="@Url.Action("ActivarExcel", "Administrador", new RouteValueDictionary(new { ArchivoId = item.ArchivoId}))" class="active-file">
+                                                    <button type="button" class="btn btn-blue btn-icon">
+                                                        <i class="entypo-check"></i> Activar
+                                                    </button>
+                                                </a>
+
+                                            }
                                         </td>
                                         <td>
+                                            @*@Html.ActionLink("<i class='fa fa - download ico - lista - descarga' aria-hidden='true'></i>", "DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.Nombre }), new { onclick = "return confirm('Are you sure you wish to delete this article?');" })*@
                                             <a href="@Url.Action("DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.Nombre }))">
                                                 <i class="fa fa-download ico-lista-descarga" aria-hidden="true"></i>
                                             </a>
                                         </td>
                                         <td>
-                                            <a href="#">
-                                                <i class="fa fa-trash-o ico-lista-eliminar" aria-hidden="true"></i>
-                                            </a>
+                                            @if (item.Estado != "0501")
+                                            {
+                                                <a href="@Url.Action("EliminarExcel", "Administrador", new RouteValueDictionary( new { ID = item.ArchivoId }))" class="remove-file">
+                                                    <i class="fa fa-trash-o ico-lista-eliminar" aria-hidden="true">
+                                                    </i>
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                     i++;
@@ -56,3 +67,4 @@
         </div>
     </div>
 </div>
+<script src="~/Scripts/ListaArchivos.js"></script>

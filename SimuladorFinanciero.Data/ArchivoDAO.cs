@@ -28,10 +28,10 @@ namespace SimuladorFinanciero.Data
             return (Context.SaveChanges() != 0);
         }
 
-        public Archivo Select(string id)
+        public Archivo Select(int id)
         {
             var Archivos = from i in Context.Archivo
-                           where i.ArchivoId == int.Parse(id)
+                           where i.ArchivoId == id
                            select i;
             return Archivos.SingleOrDefault();
         }
@@ -39,7 +39,7 @@ namespace SimuladorFinanciero.Data
         public IList<Archivo> SelectAll()
         {
             var Archivos = from i in Context.Archivo
-                           orderby i.Fecha descending
+                           orderby i.ArchivoId descending
                            select i;
             return Archivos.ToList();
         }
@@ -63,14 +63,6 @@ namespace SimuladorFinanciero.Data
                 Update(i);
             }
             return true;
-        }
-        public bool BulkDelete()
-        {
-            var Archivos = from i in Context.Archivo
-                           select i;
-
-            Archivos.Delete();
-            return (Context.SaveChanges() != 0);
         }
     }
 }

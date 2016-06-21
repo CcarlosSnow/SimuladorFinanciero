@@ -29,7 +29,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Concepto Select(string id)
+        public Concepto Select(int id)
         {
             try
             {

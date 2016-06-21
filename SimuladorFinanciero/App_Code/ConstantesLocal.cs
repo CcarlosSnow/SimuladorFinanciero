@@ -17,15 +17,14 @@ namespace SimuladorFinanciero
                 return ConfigurationManager.AppSettings["RutaArchivosExcel"];
             }
         }
-
-        public static byte[] GetFile(string s)
+        public static string ConnectionExcelXLS(string Ruta)
         {
-            System.IO.FileStream fs = System.IO.File.OpenRead(s);
-            byte[] data = new byte[fs.Length];
-            int br = fs.Read(data, 0, data.Length);
-            if (br != fs.Length)
-                throw new System.IO.IOException(s);
-            return data;
+            return ConfigurationManager.AppSettings["ConnectionExcelXLS1"] + Ruta + ConfigurationManager.AppSettings["ConnectionExcelXLS2"];
+        }
+
+        public static string ConnectionExcelXLSX(string Ruta)
+        {
+            return ConfigurationManager.AppSettings["ConnectionExcelXLSX1"] + Ruta + ConfigurationManager.AppSettings["ConnectionExcelXLSX2"];
         }
     }
 }

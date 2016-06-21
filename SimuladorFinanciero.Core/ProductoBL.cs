@@ -30,7 +30,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Producto Select(string id)
+        public Producto Select(int id)
         {
             try
             {

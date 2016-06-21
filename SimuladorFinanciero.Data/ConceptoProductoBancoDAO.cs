@@ -35,7 +35,7 @@ namespace SimuladorFinanciero.Data
             }
         }
 
-        public ConceptoProductoBanco Select(string id)
+        public ConceptoProductoBanco Select(int id)
         {
             throw new NotImplementedException();
         }

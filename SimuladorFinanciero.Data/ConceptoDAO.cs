@@ -28,7 +28,7 @@ namespace SimuladorFinanciero.Data
             return (Context.SaveChanges() != 0);
         }
 
-        public Concepto Select(string id)
+        public Concepto Select(int id)
         {
             throw new NotImplementedException();
         }

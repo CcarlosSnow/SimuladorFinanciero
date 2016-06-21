@@ -29,7 +29,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Archivo Select(string id)
+        public Archivo Select(int id)
         {
             try
             {
@@ -67,10 +67,11 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool Delete(Archivo entidad)
+        public bool Delete(int ArchivoId)
         {
             try
             {
+                Archivo entidad = Select(ArchivoId);
                 entidad.Estado = "0503";
                 return oArchivoDAO.Update(entidad);
             }
@@ -98,11 +99,21 @@ namespace SimuladorFinanciero.Core
                 throw;
             }
         }
-        public bool BulkDelete()
+
+        public bool ActiveExcelFile(int IdArchivo)
         {
             try
             {
-                return oArchivoDAO.BulkDelete();
+                if (oArchivoDAO.DisableActiveExcel())
+                {
+                    Archivo entidad = Select(IdArchivo);
+                    entidad.Estado = "0501";
+                    return Update(entidad);
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {

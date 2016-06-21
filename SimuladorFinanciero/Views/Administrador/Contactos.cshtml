@@ -1,5 +1,8 @@
 ﻿@model IList<SimuladorFinanciero.Entities.Sugerencia>
 @using SimuladorFinanciero.Helpers
+@{
+    Layout = "~/Views/Shared/_AdministradorLayoutContacto.cshtml";
+}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -56,7 +59,7 @@
                 <div class="clearfix"></div>
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-condensed table-hover">
+                        <table class="table table-condensed table-hover datatable" id="table-1">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -94,4 +97,24 @@
         </div>
     </div>
 </div>
+
+@Scripts.Render("~/Administrador/jsContacto1")
 <script src="~/Scripts/Contactos.js"></script>
+<script>
+$(document).ready(function () {
+    
+
+    $("#table-1").DataTable({
+        lengthChange: false,
+        ordering: false,
+        searching: false,
+        info: false,
+        pageLength: 15,
+        order: [[0, "DESC"]],
+        language: {
+            url: '../assets/js/datatable-spanish.json'
+        }
+    });
+});
+</script>
+@Scripts.Render("~/Administrador/jsContacto2")

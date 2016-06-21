@@ -28,7 +28,7 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public Parametro Select(string id)
+        public Parametro Select(int id)
         {
             try
             {
