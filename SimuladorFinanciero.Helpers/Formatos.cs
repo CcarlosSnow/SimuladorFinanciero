@@ -11,5 +11,7 @@ namespace SimuladorFinanciero.Helpers
         public const string FechaAnnotation = "{0:dd/MM/yyyy}";
 
         public const string FechaFormat = "dd/MM/yyyy";
+
+        public const string FechaTitleFormat = "dd-MM-yyyy HH-mm-ss";
     }
 }

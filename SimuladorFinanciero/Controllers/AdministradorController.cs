@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
 using SimuladorFinanciero.Helpers;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace SimuladorFinanciero.Controllers
 {
@@ -104,6 +106,7 @@ namespace SimuladorFinanciero.Controllers
             var TipoContacto = oParametroBL.SelectByStart("06");
             ViewBag.FechaDesde = Desde;
             ViewBag.FechaHasta = Hasta;
+            ViewBag.Tipo = Tipo;
             ViewBag.TipoContactoList = new SelectList(TipoContacto, "IdParametro", "Nombre", Tipo);
             return View(oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo));
         }
@@ -146,6 +149,75 @@ namespace SimuladorFinanciero.Controllers
                 default:
                     return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
             }
+        }
+
+        public ActionResult ExportExcelContactos(DateTime Desde, DateTime Hasta, string Tipo = "")
+        {
+            //GridView gv = new GridView();
+            //gv.DataSource = oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo);
+            //gv.DataBind();
+            var Sugerencias = oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo);
+            Response.Clear();
+            Response.ClearContent();
+            Response.ClearHeaders();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=Contactos " + DateTime.Now.ToString(Formatos.FechaTitleFormat) + ".xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "utf-8";
+            Response.Write("<!DOCTYPE html>");
+            Response.Write("<table cellspacing='0' border='0'>" +
+                            "<colgroup width='39'></colgroup>" +
+                            "<colgroup width='146'></colgroup>" +
+                            "<colgroup width='124'></colgroup>" +
+                            "<colgroup width='158'></colgroup>" +
+                            "<colgroup width='81'></colgroup>" +
+                            "<colgroup width='246'></colgroup>" +
+                            "<tr><td style='border-bottom: 1px solid #ffffff' colspan=6 height='24' align='left' valign=top bgcolor='#FFFFFF'><b><br></b></td></tr>" +
+                            "<tr><td style='background-color: #CF232B;color: white;border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=6 rowspan=2 height='58' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                            "<b><font face='Tahoma' style='font-size: 17px'>Simulador financiero " + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + "</font></b></td></tr>" +
+                            "<tr><td style='border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=6 rowspan=2 height='47' align='left' valign=top><br></td></tr>" +
+                            "<tr><td colspan='6' style='height: 21px;'></td></tr>" +
+                            "<tr>" +
+            "<td style='background-color: #7F7F7F;color: white; border-bottom: 1px solid #E2E0E0;border-left: 1px solid #E2E0E0; height='40' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>#</font></b>" +
+            "</td>" +
+            "<td style='background-color: #7F7F7F;color: white; border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Fecha</font></b>" +
+            "</td>" +
+            "<td style='background-color: #7F7F7F;color: white;border-bottom: 1px solid #E2E0E0;border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Nombre</font></b>" +
+            "</td>" +
+            "<td style='background-color: #7F7F7F;color: white; border-bottom: 1px solid #E2E0E0;border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Correo electr&oacute;nico</font></b>" +
+            "</td>" +
+            "<td style='background-color: #7F7F7F;color: white; border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Asunto</font></b>" +
+            "</td>" +
+            "<td style='background-color: #7F7F7F;color: white;border-bottom: 1px solid #E2E0E0; border-right: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Mensaje</font></b>" +
+            "</td>" +
+            "</tr>");
+            int x = 0;
+            foreach (var i in Sugerencias)
+            {
+                x++;
+                Response.Write("<tr><td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'height='89' align='center' valign=middle><font face='Tahoma' style='font-size: 14px'>" + x.ToString() + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle bgcolor='#FFFFFF'><font face='Tahoma' style='font-size: 14px'>" + i.Fecha.ToString(Formatos.FechaFormat) + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Nombre + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Correo + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Parametro.Nombre + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0;border-right: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='left' valign=middle> <font face='Tahoma' style='font-size: 14px'>" + i.Descripcion + "</font></td></tr>");
+            }
+            Response.Write("</table>");
+            //StringWriter sw = new StringWriter();
+            //HtmlTextWriter htw = new HtmlTextWriter(sw);
+            //gv.RenderControl(htw);
+            //Response.Output.Write(sw.ToString());
+
+            Response.Flush();
+            Response.End();
+
+            return RedirectToAction("Contactos");
         }
     }
 }

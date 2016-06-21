@@ -35,12 +35,11 @@ namespace SimuladorFinanciero
                 if (dt == null)
                 {
                     return Enumerators.RespuestaCargaExcel.ExcelVacio;
-                    //return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo se encuentra vacío" });
                 }
 
                 string[] excelSheets = new string[dt.Rows.Count];
                 int t = 0;
-                //excel data saves in temp file here.
+                
                 foreach (DataRow row in dt.Rows)
                 {
                     excelSheets[t] = row["TABLE_NAME"].ToString();
