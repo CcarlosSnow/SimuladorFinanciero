@@ -45,11 +45,15 @@
                                             <i class="fa fa-filter" aria-hidden="true"></i>
                                         </button>
                                     </div>
+                                    @*@ViewBag.FechaDesde.ToString(Formatos.FechaFormat)
+                                        @ViewBag.FechaHasta.ToString(Formatos.FechaFormat)*@
                                     <div class="col-md-1">
-                                        <button type="button" class="btn btn-green btn-icon">
-                                            Descargar
-                                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
-                                        </button>
+                                        <a href="@Url.Action("ExportExcelContactos", "Administrador", new RouteValueDictionary(new { Desde = ViewBag.FechaDesde, Hasta = ViewBag.FechaHasta, Tipo = ViewBag.Tipo }))">
+                                            <button type="button" class="btn btn-green btn-icon">
+                                                Descargar
+                                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                            </button>
+                                        </a>
                                     </div>
                                 }
                             </div>
@@ -101,20 +105,20 @@
 @Scripts.Render("~/Administrador/jsContacto1")
 <script src="~/Scripts/Contactos.js"></script>
 <script>
-$(document).ready(function () {
-    
+    $(document).ready(function () {
 
-    $("#table-1").DataTable({
-        lengthChange: false,
-        ordering: false,
-        searching: false,
-        info: false,
-        pageLength: 15,
-        order: [[0, "DESC"]],
-        language: {
-            url: '../assets/js/datatable-spanish.json'
-        }
+
+        $("#table-1").DataTable({
+            lengthChange: false,
+            ordering: false,
+            searching: false,
+            info: false,
+            pageLength: 15,
+            order: [[0, "DESC"]],
+            language: {
+                url: '../assets/js/datatable-spanish.json'
+            }
+        });
     });
-});
 </script>
 @Scripts.Render("~/Administrador/jsContacto2")
