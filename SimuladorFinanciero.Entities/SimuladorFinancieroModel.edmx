@@ -11,7 +11,8 @@
           </Key>
           <Property Name="ArchivoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Fecha" Type="date" Nullable="false" />
-          <Property Name="Nombre" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreXLS" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NombreTXT" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="Banco">
@@ -277,9 +278,10 @@
           </Key>
           <Property Name="ArchivoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Estado" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Parametro" Relationship="Self.FK_Archivo_Parametro" FromRole="Archivo" ToRole="Parametro" />
+          <Property Name="NombreXLS" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NombreTXT" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Banco">
           <Key>
@@ -562,9 +564,10 @@
           <EntitySetMapping Name="Archivo">
             <EntityTypeMapping TypeName="SimuladorFinancieroModel.Archivo">
               <MappingFragment StoreEntitySet="Archivo">
+                <ScalarProperty Name="NombreTXT" ColumnName="NombreTXT" />
+                <ScalarProperty Name="NombreXLS" ColumnName="NombreXLS" />
                 <ScalarProperty Name="ArchivoId" ColumnName="ArchivoId" />
                 <ScalarProperty Name="Fecha" ColumnName="Fecha" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
               </MappingFragment>
             </EntityTypeMapping>

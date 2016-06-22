@@ -79,11 +79,10 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public bool BulkInsert(EnumerableRowCollection ConceptosProductosBancos)
+        public bool BulkInsert(List<ConceptoProductoBanco> ConceptosProductosBancos)
         {
             try
             {
-
                 ProductoBL oProductoBL = new ProductoBL();
                 ConceptoBL oConceptoBL = new ConceptoBL();
                 ParametroBL oParametroBL = new ParametroBL();
@@ -99,7 +98,7 @@ namespace SimuladorFinanciero.Core
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

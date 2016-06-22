@@ -40,7 +40,7 @@
                                         </td>
                                         <td>
                                             @*@Html.ActionLink("<i class='fa fa - download ico - lista - descarga' aria-hidden='true'></i>", "DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.Nombre }), new { onclick = "return confirm('Are you sure you wish to delete this article?');" })*@
-                                            <a href="@Url.Action("DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.Nombre }))">
+                                            <a href="@Url.Action("DownloadExcel", "Administrador", new RouteValueDictionary(new { Nombre = item.NombreXLS }))">
                                                 <i class="fa fa-download ico-lista-descarga" aria-hidden="true"></i>
                                             </a>
                                         </td>

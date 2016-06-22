@@ -13,18 +13,18 @@ namespace SimuladorFinanciero
 {
     public class SubirArchivoService
     {
-        public Enumerators.RespuestaCargaExcel CargarExcelDataBase(string Nombre, string Extension, string Ruta, string Accion, int IdArchivo = 0)
+        public Enumerators.RespuestaCargaExcel CargarExcelDataBase(string NombreXLS, string NombreTXT, string Extension, string RutaXLS, string RutaTXT, string Accion, int IdArchivo = 0)
         {
-            if (File.Exists(Ruta))
+            if (File.Exists(RutaXLS))
             {
                 string excelConnectionString = string.Empty;
                 if (Extension == ".xls")
                 {
-                    excelConnectionString = ConstantesLocal.ConnectionExcelXLS(Ruta);
+                    excelConnectionString = ConstantesLocal.ConnectionExcelXLS(RutaXLS);
                 }
                 else if (Extension == ".xlsx")
                 {
-                    excelConnectionString = ConstantesLocal.ConnectionExcelXLSX(Ruta);
+                    excelConnectionString = ConstantesLocal.ConnectionExcelXLSX(RutaXLS);
                 }
 
                 OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);
@@ -113,6 +113,66 @@ namespace SimuladorFinanciero
 
                 oProductoBancoBL.BulkInsert(ProductosBancos);
 
+                //StreamReader oStreamReader = new StreamReader(RutaTXT, Encoding.UTF7);
+                //string[] Datos = oStreamReader.ReadLine().Split(Convert.ToChar(9));
+                //int Linea = 0;
+                //string LineaError = "";
+                //List<ConceptoProductoBanco> ConceptosProductosBancos = new List<ConceptoProductoBanco>();
+                //ConceptoProductoBanco oConceptoProductoBanco = null;
+                //while (oStreamReader.Peek() >= 0)
+                //{
+                //    try
+                //    {
+                //        Linea++;
+                //        LineaError = oStreamReader.ReadLine();
+                //        Datos = LineaError.Split(Convert.ToChar(9));
+                //        oConceptoProductoBanco = new ConceptoProductoBanco();
+                //        oConceptoProductoBanco.Concepto = new Concepto
+                //        {
+                //            Nombre = Datos[4]
+                //        };
+                //        oConceptoProductoBanco.ProductoBanco = new ProductoBanco
+                //        {
+                //            Producto = new Producto
+                //            {
+                //                Nombre = Datos[3]
+                //            }
+                //        };
+                //        oConceptoProductoBanco.IdBanco = Datos[1];
+                //        oConceptoProductoBanco.TipoComision = Datos[5];
+                //        decimal Tasa = 0;
+                //        oConceptoProductoBanco.Tasa = decimal.TryParse(Datos[6], out Tasa) ? Tasa : 0;
+
+                //        decimal Min = 0;
+                //        oConceptoProductoBanco.Minimo = decimal.TryParse(Datos[7], out Min) ? Min : 0;
+
+                //        decimal Max = 0;
+                //        oConceptoProductoBanco.Maximo = decimal.TryParse(Datos[8], out Max) ? Max : 0;
+
+                //        decimal METasaMax = 0;
+                //        oConceptoProductoBanco.METasaMax = decimal.TryParse(Datos[9], out METasaMax) ? METasaMax : 0;
+
+                //        decimal METasaMin = 0;
+                //        oConceptoProductoBanco.METasaMin = decimal.TryParse(Datos[10], out METasaMin) ? METasaMin : 0;
+
+                //        decimal MEMin = 0;
+                //        oConceptoProductoBanco.MEMin = decimal.TryParse(Datos[11], out MEMin) ? MEMin : 0;
+
+                //        decimal MEMax = 0;
+                //        oConceptoProductoBanco.MEMax = decimal.TryParse(Datos[12], out MEMax) ? MEMax : 0;
+
+                //        oConceptoProductoBanco.Observaciones = Datos[13];
+
+                //        ConceptosProductosBancos.Add(oConceptoProductoBanco);
+                //    }
+                //    catch (Exception)
+                //    {
+
+                //        throw;
+                //    }
+                //}
+                //oStreamReader.Close();
+                //oStreamReader.Dispose();
                 //var ConceptosProductosBancos = from i in data.AsEnumerable()
                 //                               select new ConceptoProductoBanco
                 //                               {
@@ -172,7 +232,8 @@ namespace SimuladorFinanciero
                 if (Accion == "NUEVO")
                 {
                     Archivo oArchivoEnt = new Archivo();
-                    oArchivoEnt.Nombre = Nombre;
+                    oArchivoEnt.NombreXLS = NombreXLS;
+                    oArchivoEnt.NombreTXT = NombreTXT;
                     if (oArchivoBL.UploadExcelFile(oArchivoEnt))
                     {
                         return Enumerators.RespuestaCargaExcel.Correcto;

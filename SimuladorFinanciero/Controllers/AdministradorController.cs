@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
 using SimuladorFinanciero.Helpers;
+using Bytescout.Spreadsheet;
 
 namespace SimuladorFinanciero.Controllers
 {
@@ -43,13 +44,21 @@ namespace SimuladorFinanciero.Controllers
                         {
                             return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo debe ser de tipo XLS o XLSX" });
                         }
-                        string Nombre = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
-                        string Ruta = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre);
-                        file.SaveAs(Ruta);
+                        string NombreXLS = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
+                        string NombreTXT = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt";
+                        string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreXLS);
+                        string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
+                        file.SaveAs(RutaXLS);
+
+                        FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
+
+                        Spreadsheet oSpreadsheet = new Spreadsheet();
+                        oSpreadsheet.LoadFromStream(FileStr);
+                        oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
 
                         Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
 
-                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(Nombre, Extension, Ruta, "NUEVO");
+                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(NombreXLS, NombreTXT, Extension, RutaXLS, RutaTXT, "NUEVO");
 
                         switch (RespuestaCargaExcel)
                         {
@@ -124,10 +133,11 @@ namespace SimuladorFinanciero.Controllers
         {
             Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
             Archivo oArchivo = oArchivoBL.Select(ArchivoId);
-            string Ruta = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.Nombre);
-            string Extension = System.IO.Path.GetExtension(oArchivo.Nombre);
+            string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreXLS);
+            string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreTXT);
+            string Extension = System.IO.Path.GetExtension(oArchivo.NombreXLS);
 
-            RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.Nombre, Extension, Ruta, "CARGAR", ArchivoId);
+            RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.NombreXLS, oArchivo.NombreTXT, Extension, RutaXLS, RutaTXT, "CARGAR", ArchivoId);
 
             switch (RespuestaCargaExcel)
             {
