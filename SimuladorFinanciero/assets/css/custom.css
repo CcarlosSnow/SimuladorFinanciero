@@ -435,7 +435,7 @@ body.jconfirm-noscroll {
     }
 
     .jconfirm.jconfirm-white .jconfirm-box {
-        width: 300px;
+        width: auto;
         margin: auto;
         box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         border-radius: 4px;
@@ -815,7 +815,6 @@ body.jconfirm-noscroll {
 
     .buttonConfirmCancel:hover {
         background: #ddd !important;
-        ;
     }
 
 .buttonConfirm {

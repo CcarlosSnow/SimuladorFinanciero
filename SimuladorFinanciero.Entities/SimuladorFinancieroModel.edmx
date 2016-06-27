@@ -91,10 +91,11 @@
           </Key>
           <Property Name="IdSugerencia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Descripcion" Type="nvarchar" MaxLength="4000" Nullable="false" />
-          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="Fecha" Type="datetime2" Precision="0" Nullable="false" />
           <Property Name="Tipo" Type="nvarchar" MaxLength="4" Nullable="false" />
           <Property Name="Nombre" Type="nvarchar" MaxLength="400" Nullable="false" />
           <Property Name="Correo" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Estado" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <Association Name="FK_Archivo_Parametro">
           <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
@@ -218,6 +219,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Sugerencia_Parametro1">
+          <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
+          <End Role="Sugerencia" Type="Self.Sugerencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Sugerencia">
+              <PropertyRef Name="Estado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SimuladorFinancieroModelStoreContainer">
           <EntitySet Name="Archivo" EntityType="Self.Archivo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Banco" EntityType="Self.Banco" Schema="dbo" store:Type="Tables" />
@@ -264,6 +277,10 @@
             <End Role="ProductoBanco" EntitySet="ProductoBanco" />
           </AssociationSet>
           <AssociationSet Name="FK_Sugerencia_Parametro" Association="Self.FK_Sugerencia_Parametro">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Sugerencia" EntitySet="Sugerencia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sugerencia_Parametro1" Association="Self.FK_Sugerencia_Parametro1">
             <End Role="Parametro" EntitySet="Parametro" />
             <End Role="Sugerencia" EntitySet="Sugerencia" />
           </AssociationSet>
@@ -346,6 +363,7 @@
           <NavigationProperty Name="ConceptoProductoBanco" Relationship="Self.FK_ConceptoProductoBanco_Parametro" FromRole="Parametro" ToRole="ConceptoProductoBanco" />
           <NavigationProperty Name="Producto" Relationship="Self.FK_Producto_Parametro" FromRole="Parametro" ToRole="Producto" />
           <NavigationProperty Name="Sugerencia" Relationship="SimuladorFinancieroModel.FK_Sugerencia_Parametro" FromRole="Parametro" ToRole="Sugerencia" />
+          <NavigationProperty Name="Sugerencia1" Relationship="SimuladorFinancieroModel.FK_Sugerencia_Parametro1" FromRole="Parametro" ToRole="Sugerencia" />
         </EntityType>
         <EntityType Name="Producto">
           <Key>
@@ -377,11 +395,13 @@
           </Key>
           <Property Name="IdSugerencia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Descripcion" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Tipo" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Parametro" Relationship="SimuladorFinancieroModel.FK_Sugerencia_Parametro" FromRole="Sugerencia" ToRole="Parametro" />
           <Property Name="Nombre" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="Correo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Estado" Type="String" Nullable="false" MaxLength="4" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Parametro1" Relationship="SimuladorFinancieroModel.FK_Sugerencia_Parametro1" FromRole="Sugerencia" ToRole="Parametro" />
         </EntityType>
         <Association Name="FK_Archivo_Parametro">
           <End Role="Parametro" Type="Self.Parametro" Multiplicity="1" />
@@ -542,6 +562,10 @@
             <End Role="Parametro" EntitySet="Parametro" />
             <End Role="Sugerencia" EntitySet="Sugerencia" />
           </AssociationSet>
+          <AssociationSet Name="FK_Sugerencia_Parametro1" Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro1">
+            <End Role="Parametro" EntitySet="Parametro" />
+            <End Role="Sugerencia" EntitySet="Sugerencia" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="FK_Sugerencia_Parametro">
           <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
@@ -552,6 +576,18 @@
             </Principal>
             <Dependent Role="Sugerencia">
               <PropertyRef Name="Tipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sugerencia_Parametro1">
+          <End Type="SimuladorFinancieroModel.Parametro" Role="Parametro" Multiplicity="1" />
+          <End Type="SimuladorFinancieroModel.Sugerencia" Role="Sugerencia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parametro">
+              <PropertyRef Name="IdParametro" />
+            </Principal>
+            <Dependent Role="Sugerencia">
+              <PropertyRef Name="Estado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -640,6 +676,7 @@
           <EntitySetMapping Name="Sugerencia">
             <EntityTypeMapping TypeName="SimuladorFinancieroModel.Sugerencia">
               <MappingFragment StoreEntitySet="Sugerencia">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Correo" ColumnName="Correo" />
                 <ScalarProperty Name="Nombre" ColumnName="Nombre" />
                 <ScalarProperty Name="IdSugerencia" ColumnName="IdSugerencia" />

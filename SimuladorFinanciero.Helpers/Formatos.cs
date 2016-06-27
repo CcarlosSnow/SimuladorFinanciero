@@ -8,7 +8,7 @@ namespace SimuladorFinanciero.Helpers
 {
     public static class Formatos
     {
-        public const string FechaAnnotation = "{0:dd/MM/yyyy}";
+        public const string FechaAnnotation = "{0:dd/MM/yyyy HH:mm:ss}";
 
         public const string FechaFormat = "dd/MM/yyyy";
 

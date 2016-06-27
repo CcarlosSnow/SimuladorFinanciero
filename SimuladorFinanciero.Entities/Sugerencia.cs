@@ -20,7 +20,9 @@ namespace SimuladorFinanciero.Entities
         public string Tipo { get; set; }
         public string Nombre { get; set; }
         public string Correo { get; set; }
+        public string Estado { get; set; }
     
         public virtual Parametro Parametro { get; set; }
+        public virtual Parametro Parametro1 { get; set; }
     }
 }

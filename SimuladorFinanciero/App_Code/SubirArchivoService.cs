@@ -13,8 +13,9 @@ namespace SimuladorFinanciero
 {
     public class SubirArchivoService
     {
-        public Enumerators.RespuestaCargaExcel CargarExcelDataBase(string NombreXLS, string NombreTXT, string Extension, string RutaXLS, string RutaTXT, string Accion, int IdArchivo = 0)
+        public Enumerators.RespuestaCargaExcel CargarExcelDataBase(string NombreXLS, string NombreTXT, string Extension, string RutaXLS, string RutaTXT, string Accion, out int FilaError, int IdArchivo = 0)
         {
+            FilaError = 0;
             if (File.Exists(RutaXLS))
             {
                 string excelConnectionString = string.Empty;
@@ -39,7 +40,7 @@ namespace SimuladorFinanciero
 
                 string[] excelSheets = new string[dt.Rows.Count];
                 int t = 0;
-                
+
                 foreach (DataRow row in dt.Rows)
                 {
                     excelSheets[t] = row["TABLE_NAME"].ToString();
@@ -112,119 +113,110 @@ namespace SimuladorFinanciero
 
                 oProductoBancoBL.BulkInsert(ProductosBancos);
 
-                //StreamReader oStreamReader = new StreamReader(RutaTXT, Encoding.UTF7);
-                //string[] Datos = oStreamReader.ReadLine().Split(Convert.ToChar(9));
-                //int Linea = 0;
-                //string LineaError = "";
-                //List<ConceptoProductoBanco> ConceptosProductosBancos = new List<ConceptoProductoBanco>();
-                //ConceptoProductoBanco oConceptoProductoBanco = null;
-                //while (oStreamReader.Peek() >= 0)
-                //{
-                //    try
-                //    {
-                //        Linea++;
-                //        LineaError = oStreamReader.ReadLine();
-                //        Datos = LineaError.Split(Convert.ToChar(9));
-                //        oConceptoProductoBanco = new ConceptoProductoBanco();
-                //        oConceptoProductoBanco.Concepto = new Concepto
-                //        {
-                //            Nombre = Datos[4]
-                //        };
-                //        oConceptoProductoBanco.ProductoBanco = new ProductoBanco
-                //        {
-                //            Producto = new Producto
-                //            {
-                //                Nombre = Datos[3]
-                //            }
-                //        };
-                //        oConceptoProductoBanco.IdBanco = Datos[1];
-                //        oConceptoProductoBanco.TipoComision = Datos[5];
-                //        decimal Tasa = 0;
-                //        oConceptoProductoBanco.Tasa = decimal.TryParse(Datos[6], out Tasa) ? Tasa : 0;
+                StreamReader oStreamReader = new StreamReader(RutaTXT, Encoding.Default, false);
+                string[] Datos = oStreamReader.ReadLine().Split(Convert.ToChar(9));
+                int Linea = 0;
+                string LineaError = "";
+                List<ConceptoProductoBanco> ConceptosProductosBancos = new List<ConceptoProductoBanco>();
+                ConceptoProductoBanco oConceptoProductoBanco = null;
+                try
+                {
+                    while (oStreamReader.Peek() >= 0)
+                    {
 
-                //        decimal Min = 0;
-                //        oConceptoProductoBanco.Minimo = decimal.TryParse(Datos[7], out Min) ? Min : 0;
+                        Linea++;
+                        LineaError = oStreamReader.ReadLine();
+                        Datos = LineaError.Split(Convert.ToChar(9));
+                        oConceptoProductoBanco = new ConceptoProductoBanco();
+                        if (Linea == 62)
+                        {
+                            oConceptoProductoBanco.Concepto = new Concepto
+                            {
+                                Nombre = Datos[4]
+                            };
+                        }
+                        oConceptoProductoBanco.Concepto = new Concepto
+                        {
+                            Nombre = Datos[4]
+                        };
+                        oConceptoProductoBanco.ProductoBanco = new ProductoBanco
+                        {
+                            Producto = new Producto
+                            {
+                                Nombre = Datos[3]
+                            }
+                        };
+                        oConceptoProductoBanco.IdBanco = Datos[1];
+                        oConceptoProductoBanco.TipoComision = Datos[5];
+                        //decimal Tasa = 0;
+                        if (Datos[6].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.Tasa = decimal.Parse(Datos[6]);
+                        }
+                        //decimal Min = 0;
+                        //oConceptoProductoBanco.Minimo = decimal.TryParse(Datos[7], out Min) ? Min : 0;
 
-                //        decimal Max = 0;
-                //        oConceptoProductoBanco.Maximo = decimal.TryParse(Datos[8], out Max) ? Max : 0;
+                        if (Datos[7].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.Minimo = decimal.Parse(Datos[7]);
+                        }
 
-                //        decimal METasaMax = 0;
-                //        oConceptoProductoBanco.METasaMax = decimal.TryParse(Datos[9], out METasaMax) ? METasaMax : 0;
+                        //decimal Max = 0;
+                        //oConceptoProductoBanco.Maximo = decimal.TryParse(Datos[8], out Max) ? Max : 0;
 
-                //        decimal METasaMin = 0;
-                //        oConceptoProductoBanco.METasaMin = decimal.TryParse(Datos[10], out METasaMin) ? METasaMin : 0;
+                        if (Datos[8].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.Maximo = decimal.Parse(Datos[8]);
+                        }
 
-                //        decimal MEMin = 0;
-                //        oConceptoProductoBanco.MEMin = decimal.TryParse(Datos[11], out MEMin) ? MEMin : 0;
+                        //decimal METasaMax = 0;
+                        //oConceptoProductoBanco.METasaMax = decimal.TryParse(Datos[9], out METasaMax) ? METasaMax : 0;
 
-                //        decimal MEMax = 0;
-                //        oConceptoProductoBanco.MEMax = decimal.TryParse(Datos[12], out MEMax) ? MEMax : 0;
+                        if (Datos[9].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.METasaMax = decimal.Parse(Datos[9]);
+                        }
 
-                //        oConceptoProductoBanco.Observaciones = Datos[13];
+                        //decimal METasaMin = 0;
+                        //oConceptoProductoBanco.METasaMin = decimal.TryParse(Datos[10], out METasaMin) ? METasaMin : 0;
 
-                //        ConceptosProductosBancos.Add(oConceptoProductoBanco);
-                //    }
-                //    catch (Exception)
-                //    {
+                        if (Datos[10].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.METasaMin = decimal.Parse(Datos[10]);
+                        }
 
-                //        throw;
-                //    }
-                //}
-                //oStreamReader.Close();
-                //oStreamReader.Dispose();
-                //var ConceptosProductosBancos = from i in data.AsEnumerable()
-                //                               select new ConceptoProductoBanco
-                //                               {
-                //                                   Concepto = new Concepto
-                //                                   {
-                //                                       Nombre = i.Field<string>("Concepto")
-                //                                   },
-                //                                   ProductoBanco = new ProductoBanco
-                //                                   {
-                //                                       Producto = new Producto
-                //                                       {
-                //                                           Nombre = i.Field<string>("Producto").Trim()
-                //                                       },
-                //                                   },
-                //                                   IdBanco = i.Field<string>("ID").Trim(),
-                //                                   TipoComision = i.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
-                //                                   Tasa = i.Field<decimal>("Tasa")
-                //                               };
-                //GroupBy(r => new
-                //{
-                //    Concepto = r.Field<string>("Concepto").Trim(),
-                //    Producto = r.Field<string>("Producto").Trim(),
-                //    Banco = r.Field<string>("ID").Trim(),
-                //    TipoComision = r.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim()
-                //}).
-                //Select(row => new ConceptoProductoBanco
-                //{
-                //    Concepto = new Concepto
-                //    {
-                //        Nombre = row.Field<string>("Concepto").Trim()
-                //    },
-                //    ProductoBanco = new ProductoBanco
-                //    {
-                //        Producto = new Producto
-                //        {
-                //            Nombre = row.Field<string>("Producto").Trim()
-                //        },
-                //    },
-                //    IdBanco = row.Field<string>("ID").Trim(),
-                //    TipoComision = row.Field<string>("Tipo de comisión (usual (U) o eventual E)").Trim(),
-                //    Tasa = row.Field<Nullable>("Tasa")
-                //Minimo = row.Field<decimal>("Min"),
-                //Maximo = row.Field<decimal>("Max"),
-                //METasaMax = row.Field<decimal>("ME-Tasa Max."),
-                //METasaMin = row.Field<decimal>("ME-Tasa Min."),
-                //MEMin = row.Field<decimal>("ME-Min"),
-                //MEMax = row.Field<decimal>("ME-Max"),
-                //Observaciones = row.Field<string>("Observaciones").Trim()
+                        //decimal MEMin = 0;
+                        //oConceptoProductoBanco.MEMin = decimal.TryParse(Datos[11], out MEMin) ? MEMin : 0;
 
-                //});
+                        if (Datos[11].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.MEMin = decimal.Parse(Datos[11]);
+                        }
 
-                //oConceptoProductoBancoBL.BulkInsert(ConceptosProductosBancos);
+                        //decimal MEMax = 0;
+                        //oConceptoProductoBanco.MEMax = decimal.TryParse(Datos[12], out MEMax) ? MEMax : 0;
 
+                        if (Datos[12].Trim().Length > 0)
+                        {
+                            oConceptoProductoBanco.MEMax = decimal.Parse(Datos[12]);
+                        }
+
+                        oConceptoProductoBanco.Observaciones = Datos[13];
+
+                        ConceptosProductosBancos.Add(oConceptoProductoBanco);
+                    }
+
+                    oStreamReader.Close();
+                    oStreamReader.Dispose();
+
+                    oConceptoProductoBancoBL.BulkInsert(ConceptosProductosBancos);
+
+                }
+                catch (Exception)
+                {
+                    FilaError = Linea;
+                    return Enumerators.RespuestaCargaExcel.ErrorFila;
+                }
 
                 excelConnection.Dispose();
                 excelConnection1.Dispose();

@@ -40,6 +40,30 @@ namespace SimuladorFinanciero.Data
             throw new NotImplementedException();
         }
 
+        public ConceptoProductoBanco Select(ConceptoProductoBanco entidad)
+        {
+            try
+            {
+                var ConceptoProductoBanco = from i in Context.ConceptoProductoBanco
+                                            where i.IdConcepto == entidad.IdConcepto &&
+                                                  i.IdProducto == entidad.IdProducto &&
+                                                  i.IdBanco == entidad.IdBanco &&
+                                                  i.Minimo == entidad.Minimo &&
+                                                  i.Maximo == entidad.Maximo &&
+                                                  i.METasaMax == entidad.METasaMax &&
+                                                  i.METasaMin == entidad.METasaMin &&
+                                                  i.MEMin == entidad.MEMin &&
+                                                  i.MEMax == entidad.MEMax
+                                            select i;
+
+                return ConceptoProductoBanco.SingleOrDefault();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public IList<ConceptoProductoBanco> SelectAll()
         {
             throw new NotImplementedException();

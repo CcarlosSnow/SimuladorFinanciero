@@ -23,7 +23,10 @@
                                 }))
                                 {
                                     <div class="col-md-2">
-                                        @Html.DropDownList("Tipo", ViewBag.TipoContactoList as SelectList, "Todos", new { @class = "form-control" })
+                                        @*<label for="Tipo" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Tipo</label>*@
+
+                                        @Html.DropDownList("Tipo", ViewBag.TipoCombo as SelectList, "(Seleccione Tipo)", new { @class = "form-control" })
+
                                     </div>
                                     <div class="input-daterange">
                                         <div class="form-group">
@@ -38,6 +41,10 @@
                                                 <input type="text" id="fechaFin" name="end" class="form-control" value="@ViewBag.FechaHasta.ToString(Formatos.FechaFormat)">
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*<label for="Estado" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Estado</label>*@
+                                        @Html.DropDownList("Estado", ViewBag.EstadoCombo as SelectList, "(Seleccione Estado)", new { @class = "form-control" })
                                     </div>
                                     <div class="col-md-1" style="padding-bottom: 8px;">
                                         <button id="btnFiltrar" type="submit" class="btn-icon btn-blue btn">
@@ -72,6 +79,7 @@
                                     <th width="15%">Nombre</th>
                                     <th>Correo electrónico</th>
                                     <th width="40%">Mensaje</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -83,13 +91,34 @@
                                         <td>@Html.DisplayFor(modelItem => item.Fecha)</td>
                                         <td>@item.Parametro.Nombre</td>
                                         <td>@item.Nombre</td>
-                                        <td>@item.Correo</td>
+                                        <td><a href="mailto:@item.Correo">@item.Correo</a></td>
                                         <td class="mensaje">
-                                            @item.Descripcion
+                                            @if (item.Descripcion.Length > 50)
+                                            {
+                                                @(item.Descripcion.Substring(0, 50) + "...")
+                                            }
+                                            else
+                                            {
+                                                @item.Descripcion;
+                                            }
+                                            <a class="ver-mensaje" data-idsugerencia="@item.IdSugerencia" href="#">Ver más</a>
+                                        </td>
+
+                                        <td>
+                                            @{ bool Checked = false; }
+                                            @if (item.Estado == "0701")
+                                            {
+                                                Checked = false;
+                                            }
+                                            else if (item.Estado == "0702")
+                                            {
+                                                Checked = true;
+                                            }
+                                            @Html.CheckBox("Estado", Checked, new { data_idsugerencia = item.IdSugerencia })
                                         </td>
                                     </tr>
-                                    i++;
-                                }
+                                                    i++;
+                                                }
                             </tbody>
                         </table>
                     </div>
@@ -106,8 +135,6 @@
 <script src="~/Scripts/Contactos.js"></script>
 <script>
     $(document).ready(function () {
-
-
         $("#table-1").DataTable({
             lengthChange: false,
             ordering: false,
@@ -122,3 +149,4 @@
     });
 </script>
 @Scripts.Render("~/Administrador/jsContacto2")
+<input type="hidden" id="url" data-urlcambiarestado="@Url.Action("UpdateEstadoSugerencia","Administrador")" data-urlmostrardetalle="@Url.Action("MostrarDetalleSugerencia","Administrador")" />

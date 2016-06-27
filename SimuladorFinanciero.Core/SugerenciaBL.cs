@@ -93,15 +93,28 @@ namespace SimuladorFinanciero.Core
             }
         }
 
-        public IList<Sugerencia> SelectByFechaAndTipo(DateTime? Desde = null, DateTime? Hasta= null, string Tipo = "")
+        public IList<Sugerencia> SelectByFechaAndTipo(DateTime? Desde = null, DateTime? Hasta = null, string Tipo = "", string Estado = "")
         {
             try
             {
-                return oSugerenciaDAO.SelectByFechaAndTipo(Desde, Hasta, Tipo);
+                return oSugerenciaDAO.SelectByFechaAndTipo(Desde, Hasta, Tipo, Estado);
             }
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+        public bool UpdateEstado(int IdSugerencia, string Estado)
+        {
+            try
+            {
+                Sugerencia entidad = Select(IdSugerencia);
+                entidad.Estado = Estado;
+                return Update(entidad);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

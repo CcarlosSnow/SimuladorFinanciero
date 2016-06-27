@@ -13,6 +13,8 @@ using SimuladorFinanciero.Helpers;
 using System.Web.UI.WebControls;
 using System.Web.UI;
 using Bytescout.Spreadsheet;
+using System.Text;
+using Newtonsoft.Json;
 
 namespace SimuladorFinanciero.Controllers
 {
@@ -52,15 +54,15 @@ namespace SimuladorFinanciero.Controllers
                         string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
                         file.SaveAs(RutaXLS);
 
-                        FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
+                        //FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
 
                         Spreadsheet oSpreadsheet = new Spreadsheet();
-                        oSpreadsheet.LoadFromStream(FileStr);
+                        oSpreadsheet.LoadFromFile(RutaXLS);
                         oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
 
                         Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
-
-                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(NombreXLS, NombreTXT, Extension, RutaXLS, RutaTXT, "NUEVO");
+                        int FilaError = 0;
+                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(NombreXLS, NombreTXT, Extension, RutaXLS, RutaTXT, "NUEVO", out FilaError);
 
                         switch (RespuestaCargaExcel)
                         {
@@ -75,6 +77,9 @@ namespace SimuladorFinanciero.Controllers
 
                             case Enumerators.RespuestaCargaExcel.Error:
                                 return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
+
+                            case Enumerators.RespuestaCargaExcel.ErrorFila:
+                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error en la fila " + FilaError.ToString() });
 
                             default:
                                 return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
@@ -104,20 +109,25 @@ namespace SimuladorFinanciero.Controllers
             DateTime Desde = ConstantesHelpers.FechaDesde;
             DateTime Hasta = ConstantesHelpers.FechaHasta;
             string Tipo = "";
+            string Estado = "";
 
             if (Request.Form.Count > 0)
             {
                 Desde = DateTime.Parse(Request.Form["start"].ToString());
                 Hasta = DateTime.Parse(Request.Form["end"].ToString());
                 Tipo = Request.Form["Tipo"].ToString();
+                Estado = Request.Form["Estado"].ToString();
             }
 
-            var TipoContacto = oParametroBL.SelectByStart("06");
+            var TipoCombo = oParametroBL.SelectByStart("06");
+            var EstadoCombo = oParametroBL.SelectByStart("07");
             ViewBag.FechaDesde = Desde;
             ViewBag.FechaHasta = Hasta;
             ViewBag.Tipo = Tipo;
-            ViewBag.TipoContactoList = new SelectList(TipoContacto, "IdParametro", "Nombre", Tipo);
-            return View(oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo));
+            ViewBag.Estado = Estado;
+            ViewBag.TipoCombo = new SelectList(TipoCombo, "IdParametro", "Nombre", Tipo);
+            ViewBag.EstadoCombo = new SelectList(EstadoCombo, "IdParametro", "Nombre", Estado);
+            return View(oSugerenciaBL.SelectByFechaAndTipo(Desde, Hasta, Tipo, Estado));
         }
 
         public ActionResult DownloadExcel(string Nombre)
@@ -132,6 +142,18 @@ namespace SimuladorFinanciero.Controllers
             return RedirectToAction("ListaArchivos");
         }
 
+        [HttpGet]
+        public bool UpdateEstadoSugerencia(int IdSugerencia, string Estado)
+        {
+            return oSugerenciaBL.UpdateEstado(IdSugerencia, Estado);
+        }
+
+        [HttpGet]
+        public string MostrarDetalleSugerencia(int IdSugerencia)
+        {
+            return oSugerenciaBL.Select(IdSugerencia).Descripcion;
+        }
+
         public ActionResult ActivarExcel(int ArchivoId)
         {
             Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
@@ -139,8 +161,8 @@ namespace SimuladorFinanciero.Controllers
             string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreXLS);
             string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreTXT);
             string Extension = System.IO.Path.GetExtension(oArchivo.NombreXLS);
-
-            RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.NombreXLS, oArchivo.NombreTXT, Extension, RutaXLS, RutaTXT, "CARGAR", ArchivoId);
+            int FilaError = 0;
+            RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.NombreXLS, oArchivo.NombreTXT, Extension, RutaXLS, RutaTXT, "CARGAR", out FilaError, ArchivoId);
 
             switch (RespuestaCargaExcel)
             {
@@ -155,6 +177,9 @@ namespace SimuladorFinanciero.Controllers
 
                 case Enumerators.RespuestaCargaExcel.Error:
                     return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
+
+                case Enumerators.RespuestaCargaExcel.ErrorFila:
+                    return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error en la fila " + FilaError.ToString() });
 
                 default:
                     return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
@@ -173,7 +198,9 @@ namespace SimuladorFinanciero.Controllers
             Response.Buffer = true;
             Response.AddHeader("content-disposition", "attachment; filename=Contactos " + DateTime.Now.ToString(Formatos.FechaTitleFormat) + ".xls");
             Response.ContentType = "application/ms-excel";
-            Response.Charset = "utf-8";
+            Response.ContentEncoding = Encoding.Unicode;
+            Response.BinaryWrite(Encoding.Unicode.GetPreamble());
+            //Response.Charset = ;
             Response.Write("<!DOCTYPE html>");
             Response.Write("<table cellspacing='0' border='0'>" +
                             "<colgroup width='39'></colgroup>" +
@@ -182,10 +209,10 @@ namespace SimuladorFinanciero.Controllers
                             "<colgroup width='158'></colgroup>" +
                             "<colgroup width='81'></colgroup>" +
                             "<colgroup width='246'></colgroup>" +
-                            "<tr><td style='border-bottom: 1px solid #ffffff' colspan=6 height='24' align='left' valign=top bgcolor='#FFFFFF'><b><br></b></td></tr>" +
-                            "<tr><td style='background-color: #CF232B;color: white;border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=6 rowspan=2 height='58' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                            "<tr><td style='border-bottom: 1px solid #ffffff' colspan=7 height='24' align='left' valign=top bgcolor='#FFFFFF'><b><br></b></td></tr>" +
+                            "<tr><td style='background-color: #CF232B;color: white;border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=7 rowspan=2 height='58' align='center' valign=middle bgcolor='#FFFFFF'>" +
                             "<b><font face='Tahoma' style='font-size: 17px'>Simulador financiero " + DateTime.Now.ToString("dd-MM-yyyy HH:mm:ss") + "</font></b></td></tr>" +
-                            "<tr><td style='border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=6 rowspan=2 height='47' align='left' valign=top><br></td></tr>" +
+                            "<tr><td style='border-top: 1px solid #ffffff; border-bottom: 1px solid #ffffff' colspan=7 rowspan=2 height='47' align='left' valign=top><br></td></tr>" +
                             "<tr><td colspan='6' style='height: 21px;'></td></tr>" +
                             "<tr>" +
             "<td style='background-color: #7F7F7F;color: white; border-bottom: 1px solid #E2E0E0;border-left: 1px solid #E2E0E0; height='40' align='center' valign=middle bgcolor='#FFFFFF'>" +
@@ -206,6 +233,9 @@ namespace SimuladorFinanciero.Controllers
             "<td style='background-color: #7F7F7F;color: white;border-bottom: 1px solid #E2E0E0; border-right: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
                 "<b><font face='Tahoma' style='font-size: 15px'>Mensaje</font></b>" +
             "</td>" +
+            "<td style='background-color: #7F7F7F;color: white;border-bottom: 1px solid #E2E0E0; border-right: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='center' valign=middle bgcolor='#FFFFFF'>" +
+                "<b><font face='Tahoma' style='font-size: 15px'>Estado</font></b>" +
+            "</td>" +
             "</tr>");
             int x = 0;
             foreach (var i in Sugerencias)
@@ -216,7 +246,8 @@ namespace SimuladorFinanciero.Controllers
                 Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Nombre + "</font></td>");
                 Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Correo + "</font></td>");
                 Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Parametro.Nombre + "</font></td>");
-                Response.Write("<td style='border-bottom: 1px solid #E2E0E0;border-right: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;' align='left' valign=middle> <font face='Tahoma' style='font-size: 14px'>" + i.Descripcion + "</font></td></tr>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0;'align='left' valign=middle> <font face='Tahoma' style='font-size: 14px'>" + i.Descripcion + "</font></td>");
+                Response.Write("<td style='border-bottom: 1px solid #E2E0E0; border-left: 1px solid #E2E0E0; border-right: 1px solid #E2E0E0;' align='left' valign=middle><font face='Tahoma' style='font-size: 14px'>" + i.Parametro1.Nombre + "</font></td></tr>");
             }
             Response.Write("</table>");
             //StringWriter sw = new StringWriter();

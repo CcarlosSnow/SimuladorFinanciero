@@ -23,6 +23,7 @@
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Producto_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Producto" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro" />
+        <AssociationConnector Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -43,6 +43,18 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public ConceptoProductoBanco Select(ConceptoProductoBanco entidad)
+        {
+            try
+            {
+                return oConceptoProductoBancoDAO.Select(entidad);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public bool Insert(ConceptoProductoBanco entidad)
         {
             try
@@ -94,7 +106,10 @@ namespace SimuladorFinanciero.Core
 
                     i.ProductoBanco = null;
                     i.Concepto = null;
-                    Insert(i);
+                    if (Select(i) == null)
+                    {
+                        Insert(i);
+                    }
                 }
                 return true;
             }

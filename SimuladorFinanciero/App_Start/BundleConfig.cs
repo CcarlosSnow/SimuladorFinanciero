@@ -66,6 +66,7 @@ namespace SimuladorFinanciero
                 "~/assets/js/custom.js"));
 
             bundles.Add(new ScriptBundle("~/Administrador/jsContacto2").Include("~/assets/js/datatables.js",
+                "~/assets/js/confirm.js",
                 "~/assets/js/jquery.sidebar.min.js",
                 "~/assets/js/bootstrap-datepicker.js",
                 "~/assets/js/bootstrap-datepicker.es.min.js"
