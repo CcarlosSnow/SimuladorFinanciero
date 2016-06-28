@@ -54,10 +54,10 @@ namespace SimuladorFinanciero.Controllers
                         string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
                         file.SaveAs(RutaXLS);
 
-                        //FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
+                        FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
 
                         Spreadsheet oSpreadsheet = new Spreadsheet();
-                        oSpreadsheet.LoadFromFile(RutaXLS);
+                        oSpreadsheet.LoadFromStream(FileStr);
                         oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
 
                         Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
