@@ -27,15 +27,24 @@ namespace SimuladorFinanciero
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 
+            //bundles.Add(new StyleBundle("~/Administrador/css").Include(
+            //    "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
+            //    "~/assets/css/font-icons/entypo/css/entypo.css",
+            //    "~/assets/css/font-icons/font-awesome/css/font-awesome.min.css",
+            //    "~/assets/css/bootstrap.min.css",
+            //    "~/assets/css/neon-core.css",
+            //    "~/assets/css/neon-theme.css",
+            //    "~/assets/css/neon-forms.css",
+            //    "~/assets/css/custom.css",
+            //    "~/assets/css/red.css",
+            //    "~/assets/css/datatables.css"));
+
             bundles.Add(new StyleBundle("~/Administrador/css").Include(
                 "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
-                "~/assets/css/font-icons/entypo/css/entypo.css",
-                "~/assets/css/font-icons/font-awesome/css/font-awesome.min.css",
                 "~/assets/css/bootstrap.min.css",
                 "~/assets/css/neon-core.css",
                 "~/assets/css/neon-theme.css",
                 "~/assets/css/neon-forms.css",
-                "~/assets/css/custom.css",
                 "~/assets/css/red.css",
                 "~/assets/css/datatables.css"));
 

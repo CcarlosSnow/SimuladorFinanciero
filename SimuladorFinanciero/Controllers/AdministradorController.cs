@@ -36,58 +36,56 @@ namespace SimuladorFinanciero.Controllers
         [HttpPost]
         public ActionResult Subir()
         {
-            try
+            //try
+            //{
+            //Response.Write("<script>alert('1');</script>");
+            if (Request.Files.Count > 0)
             {
-                if (Request.Files.Count > 0)
+                HttpPostedFileBase file = Request.Files[0];
+                if (file != null && file.ContentLength > 0)
                 {
-                    HttpPostedFileBase file = Request.Files[0];
-                    if (file != null && file.ContentLength > 0)
+                    string Extension = System.IO.Path.GetExtension(file.FileName);
+                    if (Extension != ".xls" && Extension != ".xlsx")
                     {
-                        string Extension = System.IO.Path.GetExtension(file.FileName);
-                        if (Extension != ".xls" && Extension != ".xlsx")
-                        {
-                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo debe ser de tipo XLS o XLSX" });
-                        }
-                        string NombreXLS = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
-                        string NombreTXT = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt";
-                        string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreXLS);
-                        string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
-                        file.SaveAs(RutaXLS);
-
-                        FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
-
-                        Spreadsheet oSpreadsheet = new Spreadsheet();
-                        oSpreadsheet.LoadFromStream(FileStr);
-                        oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
-
-                        Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
-                        int FilaError = 0;
-                        RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(NombreXLS, NombreTXT, Extension, RutaXLS, RutaTXT, "NUEVO", out FilaError);
-
-                        switch (RespuestaCargaExcel)
-                        {
-                            case Enumerators.RespuestaCargaExcel.Correcto:
-                                return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Archivo cargado orrectamente" });
-
-                            case Enumerators.RespuestaCargaExcel.ArchivoNoExiste:
-                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Archivo no existe" });
-
-                            case Enumerators.RespuestaCargaExcel.ExcelVacio:
-                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo excel se encuentra vacío" });
-
-                            case Enumerators.RespuestaCargaExcel.Error:
-                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
-
-                            case Enumerators.RespuestaCargaExcel.ErrorFila:
-                                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error en la fila " + FilaError.ToString() });
-
-                            default:
-                                return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
-                        }
+                        return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo debe ser de tipo XLS o XLSX" });
                     }
-                    else
+                    
+                    string NombreXLS = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
+                    string NombreTXT = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt";
+                    string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreXLS);
+                    string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
+                    file.SaveAs(RutaXLS);
+
+
+                    //FileStream FileStr = new FileStream(RutaXLS, FileMode.Open);
+                    
+                    Spreadsheet oSpreadsheet = new Spreadsheet();
+                    oSpreadsheet.LoadFromFile(RutaXLS);
+                    oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
+                    
+                    Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
+                    int FilaError = 0;
+                    RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(NombreXLS, NombreTXT, Extension, RutaXLS, RutaTXT, "NUEVO", out FilaError);
+
+                    switch (RespuestaCargaExcel)
                     {
-                        return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
+                        case Enumerators.RespuestaCargaExcel.Correcto:
+                            return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Archivo cargado orrectamente" });
+
+                        case Enumerators.RespuestaCargaExcel.ArchivoNoExiste:
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Archivo no existe" });
+
+                        case Enumerators.RespuestaCargaExcel.ExcelVacio:
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "El archivo excel se encuentra vacío" });
+
+                        case Enumerators.RespuestaCargaExcel.Error:
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error al cargar el archivo" });
+
+                        case Enumerators.RespuestaCargaExcel.ErrorFila:
+                            return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Error en la fila " + FilaError.ToString() });
+
+                        default:
+                            return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Respuesta por defecto" });
                     }
                 }
                 else
@@ -95,11 +93,16 @@ namespace SimuladorFinanciero.Controllers
                     return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
                 }
             }
-            catch (Exception ex)
+            else
             {
-                Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
-                return Json("Error al Cargar Archivo");
+                return Json(new Respuesta { Estado = "Error", Titulo = "Aviso!", Texto = "Seleccione un archivo a cargar" });
             }
+            //}
+            //catch (Exception ex)
+            //{
+            //    //Response.StatusCode = (int)System.Net.HttpStatusCode.BadRequest;
+            //    return Json(ex.Message);
+            //}
         }
 
         ParametroBL oParametroBL = new ParametroBL();

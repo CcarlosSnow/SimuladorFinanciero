@@ -27,10 +27,11 @@
                 }
             },
             error: function (error) {
+                console.log(error);
                 $.unblockUI();
                 $.alert({
                     title: "Aviso!",
-                    content: "Error",
+                    content: error,
                     confirmButton: 'Aceptar',
                     confirmButtonClass: 'error'
                 });
