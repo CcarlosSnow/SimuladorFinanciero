@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero", "SimuladorFinanciero\SimuladorFinanciero.csproj", "{4A0537B0-3371-4D37-9F37-9D8360A1C841}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Core", "SimuladorFinanciero.Core\SimuladorFinanciero.Core.csproj", "{1D16D021-C453-40A7-AAEC-74CE0ECB0234}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Helpers", "SimuladorFinanciero.Helpers\SimuladorFinanciero.Helpers.csproj", "{71C005AF-1E70-4951-9FBE-433411EBA228}"
@@ -17,16 +15,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Data", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Data.Interface", "SimuladorFinanciero.Data.Interface\SimuladorFinanciero.Data.Interface.csproj", "{62B23E50-E3C3-4EAC-A5B4-BC41C10F73DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Front", "SimuladorFinanciero.Front\SimuladorFinanciero.Front.csproj", "{852A82A8-49FE-4176-958B-EB8F3668E70C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimuladorFinanciero.Admin", "SimuladorFinanciero.Admin\SimuladorFinanciero.Admin.csproj", "{4A0537B0-3371-4D37-9F37-9D8360A1C841}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1D16D021-C453-40A7-AAEC-74CE0ECB0234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1D16D021-C453-40A7-AAEC-74CE0ECB0234}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D16D021-C453-40A7-AAEC-74CE0ECB0234}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +49,14 @@ Global
 		{62B23E50-E3C3-4EAC-A5B4-BC41C10F73DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62B23E50-E3C3-4EAC-A5B4-BC41C10F73DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62B23E50-E3C3-4EAC-A5B4-BC41C10F73DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852A82A8-49FE-4176-958B-EB8F3668E70C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852A82A8-49FE-4176-958B-EB8F3668E70C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852A82A8-49FE-4176-958B-EB8F3668E70C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852A82A8-49FE-4176-958B-EB8F3668E70C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A0537B0-3371-4D37-9F37-9D8360A1C841}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
