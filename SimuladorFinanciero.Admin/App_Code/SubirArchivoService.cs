@@ -82,7 +82,7 @@ namespace SimuladorFinanciero
                     .Select(row => new Producto
                     {
                         Nombre = row.First().Field<string>("Producto").Trim(),
-                        Tipo = int.Parse(row.First().Field<string>("Producto").Trim().Substring(2, 1))
+                        Tipo = int.Parse(row.First().Field<string>("Producto").Trim().Substring(0, 1))
                     });
 
                 oProductoBL.BulkInsert(Productos);

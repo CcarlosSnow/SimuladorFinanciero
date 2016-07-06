@@ -1,0 +1,112 @@
+﻿@using SimuladorFinanciero.Entities
+
+<section class="row">
+    <div class="center">
+        <div class="page a">
+            <h1>Simulador Financiero</h1>
+            <p class="m">Infórmate sobre los costos financieros referenciales de las principales operaciones de comercio exterior.</p>
+            <a href="#condiciones" class="link fancybox">Ver condiciones de uso</a>
+            <div class="steps">
+                <div class="num active">1</div>
+                <div class="line"><div class="load"></div></div>
+                <div class="num">2</div>
+            </div>
+            <div class="box-transition">
+                <div id="setp-1">
+                    <h2>Seleccione un producto</h2>
+                    <div class="accordion">
+                        <ul>
+                            <li class="a">
+                                <a class="title">Medios de pago <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                <div class="content">
+                                    @foreach (Producto i in ViewBag.ListaMediosDePago)
+                                    {
+                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                    }
+                                    @*<a class="item"><span></span>Pagos y comercio electrónico</a>
+                                        <a class="item"><span></span>Transferencias recibidas</a>
+                                        <a class="item"><span></span>Cobranza Simple de Exportación</a>
+                                        <a class="item"><span></span>Cobranza Documentaria de Exportación</a>
+                                        <a class="item"><span></span>Carta de Crédito de Exportación</a>*@
+                                </div>
+                            </li>
+                            <li class="b">
+                                <a class="title">Financiamiento <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                <div class="content">
+                                    @foreach (Producto i in ViewBag.ListaFinanciamiento)
+                                    {
+                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                    }
+                                    @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
+                                        <a class="item"><span></span>Financiamiento Post Embarque</a>
+                                        <a class="item"><span></span>Factoring Internacional de Exportación</a>
+                                        <a class="item"><span></span>Compra de documentos - Forfaiting</a>*@
+                                </div>
+                            </li>
+                            <li class="c">
+                                <a class="title">Garantías <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                <div class="content">
+                                    @foreach (Producto i in ViewBag.ListaGarantias)
+                                    {
+                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                    }
+                                    @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
+                                        <a class="item"><span></span> Stand By Recibidas</a>
+                                        <a class="item"><span></span> Stand By Emitidas</a>*@
+                                </div>
+                            </li>
+                            <li class="d">
+                                <a href="cartas-fianza.html" class="title">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="condiciones" class="hidden">
+    <h3>Consideraciones de uso</h3>
+    <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero. Puede variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
+    <p>Todos los datos son proporcionados por los bancos, PROMPERÚ no se responsabiliza.</p>
+    <p>Puede dejar sus consultas o comentarios <a href="contacto.html">aquí</a>.</p>
+</div>
+<div id="medios-de-pago" class="hidden acc">
+    <h3>Medios de pago</h3>
+    <div class="content">
+        @foreach (Producto i in ViewBag.ListaMediosDePago)
+        {
+            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+        }
+        @*<a class="item"><span></span>Pagos y comercio electrónico</a>
+            <a class="item"><span></span>Transferencias recibidas</a>
+            <a class="item"><span></span>Cobranza Simple de Exportación</a>
+            <a class="item"><span></span>Cobranza Documentaria de Exportación</a>
+            <a class="item"><span></span>Carta de Crédito de Exportación</a>*@
+    </div>
+</div>
+<div id="financiamiento" class="hidden acc">
+    <h3>Financiamiento</h3>
+    <div class="content">
+        @foreach (Producto i in ViewBag.ListaFinanciamiento)
+        {
+            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+        }
+        @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
+            <a class="item"><span></span>Financiamiento Post Embarque</a>
+            <a class="item"><span></span>Factoring Internacional de Exportación</a>
+            <a class="item"><span></span>Compra de documentos - Forfaiting</a>*@
+    </div>
+</div>
+<div id="garantias" class="hidden acc">
+    <h3>Garantías</h3>
+    <div class="content">
+        @foreach (Producto i in ViewBag.ListaGarantias)
+        {
+            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+        }
+        @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
+            <a class="item"><span></span> Stand By Recibidas</a>
+            <a class="item"><span></span> Stand By Emitidas</a>*@
+    </div>
+</div>

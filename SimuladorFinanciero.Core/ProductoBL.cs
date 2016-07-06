@@ -122,6 +122,18 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public IList<Producto> SelectByTipo(int Tipo)
+        {
+            try
+            {
+                return oProductoDAO.SelectByTipo(Tipo);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public void Dispose()
         {
             var item = (ProductoDAO)oProductoDAO;

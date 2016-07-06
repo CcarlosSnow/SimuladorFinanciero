@@ -59,5 +59,13 @@ namespace SimuladorFinanciero.Data
             Productos.Delete();
             return (Context.SaveChanges() != 0);
         }
+
+        public IList<Producto> SelectByTipo(int Tipo)
+        {
+            var Productos = from i in Context.Producto
+                            where i.Tipo == Tipo
+                            select i;
+            return Productos.ToList();
+        }
     }
 }
