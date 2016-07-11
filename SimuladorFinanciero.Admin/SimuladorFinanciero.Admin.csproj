@@ -363,13 +363,11 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_AdministradorLayout.cshtml" />
     <Content Include="Views\Administrador\SubirArchivo.cshtml" />
     <Content Include="Views\Administrador\ListaArchivos.cshtml" />
     <Content Include="Views\Administrador\Contactos.cshtml" />
-    <Content Include="Views\Shared\_AdministradorLayoutContacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Archivos\CargasExcel\" />

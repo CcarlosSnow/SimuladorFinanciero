@@ -1,7 +1,9 @@
 ﻿@model IList<SimuladorFinanciero.Entities.Sugerencia>
 @using SimuladorFinanciero.Helpers
-@{
-    Layout = "~/Views/Shared/_AdministradorLayoutContacto.cshtml";
+@section ScriptHead
+{
+    @Styles.Render("~/Administrador/css")
+    @Scripts.Render("~/Administrador/jsTop")
 }
 <div class="container">
     <div class="row">
@@ -23,10 +25,7 @@
                                 }))
                                 {
                                     <div class="col-md-2">
-                                        @*<label for="Tipo" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Tipo</label>*@
-
                                         @Html.DropDownList("Tipo", ViewBag.TipoCombo as SelectList, "(Seleccione Tipo)", new { @class = "form-control" })
-
                                     </div>
                                     <div class="input-daterange">
                                         <div class="form-group">
@@ -43,7 +42,6 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2">
-                                        @*<label for="Estado" style="margin-top: 7px;width: 50px;" class="col-sm-3 control-label">Estado</label>*@
                                         @Html.DropDownList("Estado", ViewBag.EstadoCombo as SelectList, "(Seleccione Estado)", new { @class = "form-control" })
                                     </div>
                                     <div class="col-md-1" style="padding-bottom: 8px;">
@@ -52,8 +50,6 @@
                                             <i class="fa fa-filter" aria-hidden="true"></i>
                                         </button>
                                     </div>
-                                    @*@ViewBag.FechaDesde.ToString(Formatos.FechaFormat)
-                                        @ViewBag.FechaHasta.ToString(Formatos.FechaFormat)*@
                                     <div class="col-md-1">
                                         <a href="@Url.Action("ExportExcelContactos", "Administrador", new RouteValueDictionary(new { Desde = ViewBag.FechaDesde, Hasta = ViewBag.FechaHasta, Tipo = ViewBag.Tipo }))">
                                             <button type="button" class="btn btn-green btn-icon">
@@ -131,22 +127,25 @@
     </div>
 </div>
 
-@Scripts.Render("~/Administrador/jsContacto1")
-<script src="~/Scripts/Contactos.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#table-1").DataTable({
-            lengthChange: false,
-            ordering: false,
-            searching: false,
-            info: false,
-            pageLength: 15,
-            order: [[0, "DESC"]],
-            language: {
-                url: '../assets/js/datatable-spanish.json'
-            }
+@section ScriptBottom{
+    @Scripts.Render("~/Administrador/jsContacto1")
+    <script src="~/Scripts/Contactos.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#table-1").DataTable({
+                lengthChange: false,
+                ordering: false,
+                searching: false,
+                info: false,
+                pageLength: 15,
+                order: [[0, "DESC"]],
+                language: {
+                    url: '../assets/js/datatable-spanish.json'
+                }
+            });
         });
-    });
-</script>
-@Scripts.Render("~/Administrador/jsContacto2")
+    </script>
+    @Scripts.Render("~/Administrador/jsContacto2")
+}
+
 <input type="hidden" id="url" data-urlcambiarestado="@Url.Action("UpdateEstadoSugerencia","Administrador")" data-urlmostrardetalle="@Url.Action("MostrarDetalleSugerencia","Administrador")" />

@@ -76,6 +76,11 @@
       <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <Compile Include="Archivo.Metadata.cs" />
+    <None Include="packages.config" />
     <Compile Include="SimuladorFinancieroModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -94,19 +99,14 @@
     <Compile Include="Sugerencia.cs">
       <DependentUpon>SimuladorFinancieroModel.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <Compile Include="Archivo.Metadata.cs" />
+    <Compile Include="Sugerencia.Metadata.cs" />
     <EntityDeploy Include="SimuladorFinancieroModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>SimuladorFinancieroModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="packages.config" />
     <None Include="SimuladorFinancieroModel.edmx.diagram">
       <DependentUpon>SimuladorFinancieroModel.edmx</DependentUpon>
     </None>
-    <Compile Include="Sugerencia.Metadata.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

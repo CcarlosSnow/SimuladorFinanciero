@@ -1,0 +1,79 @@
+﻿@model SimuladorFinanciero.Entities.Sugerencia
+
+@section ScriptHead{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    @Scripts.Render("~/Front/base")
+    @Scripts.Render("~/Front/confirm")
+    @Styles.Render("~/Front/base")
+    <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        var verifyCallback = function (response) {
+            // aqui llena un elemento hiden o input o algo y cuando haces tu jquery jalas
+            // ese elemento para validacion, si esta lleno pasa sino entonces No pasa xk nunca le dio click
+            console.log(response);
+            var r = new XMLHttpRequest();
+            r.open("POST", "https://www.google.com/recaptcha/api/siteverify", true);
+            r.onreadystatechange = function () {
+                if (r.readyState != 4 || r.status != 200) {
+                    return;
+                }
+                console.log(r.responseText);
+            };
+            r.send("secret=6LcayCETAAAAAHzSn9k4xYANvuncIzX22VW2KKJg&response=" + response);
+        };
+        var onloadCallback = function () {
+            grecaptcha.render('myCaptcha', {
+                'sitekey': '6LcayCETAAAAAHzSn9k4xYANvuncIzX22VW2KKJg',
+                'callback': verifyCallback,
+                'theme': 'light'
+            });
+        };
+    </script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+}
+
+<section class="row">
+    <div class="center">
+        <div class="page a">
+            <h1>Contacto</h1>
+            <div class="f-content">
+                <form action="?" method="post">
+                    <div class="row">
+                        <p>@Html.DisplayName(Model.Nombre)</p>
+                        <input class="nombres-apellidos" type="text" placeholder="Nombres y apellidos" />
+                    </div>
+                    <div class="row">
+                        <p>Correo electrónico</p>
+                        <input class="email" type="email" placeholder="Correo electrónico" />
+                    </div>
+                    <div class="row">
+                        <p>Asunto</p>
+                        <div class="btn-asunto">
+                            <div class="select">
+                                <input class="asunto" disabled type="text" placeholder="Seleccione asunto" />
+                                <div class="sc">
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <ul>
+                                <li data-rel="">Consulta</li>
+                                <li data-rel="">Sugerencias</li>
+                                <li data-rel="">Otros</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>Mensaje</p>
+                        <textarea class="mensaje" placeholder="Mensaje"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="g-recaptcha" id="myCaptcha"></div>
+                    </div>
+                    <!--<a href="#" class="btn-Enviar">Enviar</a>-->
+                    <input type="submit" id="enviar-now" class="btn-Enviar" value="Enviar" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

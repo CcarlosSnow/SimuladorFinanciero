@@ -1,5 +1,11 @@
 ﻿@model IList<SimuladorFinanciero.Entities.Archivo>
 
+@section ScriptHead
+{
+    @Styles.Render("~/Administrador/css")
+    @Scripts.Render("~/Administrador/jsTop")
+}
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -67,4 +73,7 @@
         </div>
     </div>
 </div>
-<script src="~/Scripts/ListaArchivos.js"></script>
+@section ScriptBottom{
+    @Scripts.Render("~/Administrador/jsBottom")
+    <script src="~/Scripts/ListaArchivos.js"></script>
+}

@@ -18,7 +18,13 @@ namespace SimuladorFinanciero.Front.Controllers
             IList<Producto> ListaFinanciamiento = oProductoBL.SelectByTipo(2);
             IList<Producto> ListaGarantias = oProductoBL.SelectByTipo(3);
             ViewBag.ListaMediosDePago = ListaMediosDePago;
+            ViewBag.ListaFinanciamiento = ListaFinanciamiento;
             ViewBag.ListaGarantias = ListaGarantias;
+            return View();
+        }
+
+        public ActionResult Contacto()
+        {
             return View();
         }
     }
