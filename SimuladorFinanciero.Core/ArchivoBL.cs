@@ -23,7 +23,7 @@ namespace SimuladorFinanciero.Core
             {
                 return oArchivoDAO.SelectAll().Where(a => a.Estado != "0503").ToList();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }

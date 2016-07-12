@@ -27,8 +27,7 @@
             margin-left: 8px;
         }
     </style>
-    @Styles.Render("~/Administrador/css")
-    @Scripts.Render("~/Administrador/jsTop")
+    @RenderSection("ScriptHead", false)
     <link rel="stylesheet" href="/SimuladorFinanciero/assets/css/custom.css">
     <link rel="stylesheet" href="/SimuladorFinanciero/assets/css/font-icons/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/SimuladorFinanciero/assets/css/font-icons/entypo/css/entypo.css">
@@ -96,6 +95,6 @@
             @RenderBody()
         </div>
     </div>
-    @Scripts.Render("~/Administrador/jsBottom")
+    @RenderSection("ScriptBottom", false)
 </body>
 </html>

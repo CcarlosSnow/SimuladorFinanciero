@@ -1,101 +1,102 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
-<title>Simulador Financiero</title>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-<script type="text/javascript" src="js/confirm.js"></script>
-<script type="text/javascript" src="js/modernizr-min.js"></script>
-<script type="text/javascript" src="js/selectivizr-min.js"></script>
-<script type="text/javascript" src="js/sim.js"></script>
-<link rel="stylesheet" href="css/sim.css"/>
+    <title>Simulador Financiero</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="js/confirm.js"></script>
+    <script type="text/javascript" src="js/modernizr-min.js"></script>
+    <script type="text/javascript" src="js/selectivizr-min.js"></script>
+    <script type="text/javascript" src="js/sim.js"></script>
+    <link rel="stylesheet" href="css/sim.css" />
 </head>
 <body>
-<section class="wallp">
-    <div class="overlay"></div>
-    <header class="row">
-        <div class="center">
-            <a href="index.html" class="peru"></a>
-            <a href="index.html" class="home"><i></i></a>
-            <a href="contacto.html" class="contact"><i></i></a>        
-        </div>
-    </header>
-    <section class="row">
-        <div class="center">
-            <div class="page a">
-                <h1>Simulador Financiero</h1>
-                <p class="m">Infórmate sobre los costos financieros referenciales de las principales operaciones de comercio exterior.</p>
-                <a href="#condiciones" class="link fancybox">Ver condiciones de uso</a>
-                <div class="steps">
-                    <div class="num">1</div>
-                    <div class="line"><div class="load"></div></div>
-                    <div class="num active">2</div>
-                </div>
-                <div class="box-transition">
-                    <div id="setp-2">
-                        <h2>Garantías - Carta fianza</h2>
-                        <div class="middle">
-                            <a href="#bancos" class="btn-bank fancybox">
-                                
-                                <div class="banco">Seleccionar banco(s)</div>
-                                <i class="fa fa-plus-circle" aria-hidden="true"></i>
-                                <!-- selecionar active 
-                                <div class="banco active">BBVA Banco Continental, Banco Financiero...</div>
-                                <i class="fa fa-check active" aria-hidden="true"></i>
-                                -->
-                            </a>
-                            <div class="btn-money"><span>$</span><input type="text" maxlength="15" placeholder="Ingresar monto Ej.: 60.5" /></div>
-                            <div class="btn-days">
-                                <div class="select"><input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)"/>
-                                    <div class="sc">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+    <section class="wallp">
+        <div class="overlay"></div>
+        <header class="row">
+            <div class="center">
+                <a href="index.html" class="peru"></a>
+                <a href="index.html" class="home"><i></i></a>
+                <a href="contacto.html" class="contact"><i></i></a>
+            </div>
+        </header>
+        <section class="row">
+            <div class="center">
+                <div class="page a">
+                    <h1>Simulador Financiero</h1>
+                    <p class="m">Infórmate sobre los costos financieros referenciales de las principales operaciones de comercio exterior.</p>
+                    <a href="#condiciones" class="link fancybox">Ver condiciones de uso</a>
+                    <div class="steps">
+                        <div class="num">1</div>
+                        <div class="line"><div class="load"></div></div>
+                        <div class="num active">2</div>
+                    </div>
+                    <div class="box-transition">
+                        <div id="setp-2">
+                            <h2>Garantías - Carta fianza</h2>
+                            <div class="middle">
+                                <a href="#bancos" class="btn-bank fancybox">
+
+                                    <div class="banco">Seleccionar banco(s)</div>
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                    <!-- selecionar active
+                                    <div class="banco active">BBVA Banco Continental, Banco Financiero...</div>
+                                    <i class="fa fa-check active" aria-hidden="true"></i>
+                                    -->
+                                </a>
+                                <div class="btn-money"><span>$</span><input type="text" maxlength="15" placeholder="Ingresar monto Ej.: 60.5" /></div>
+                                <div class="btn-days">
+                                    <div class="select">
+                                        <input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" />
+                                        <div class="sc">
+                                            <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </div>
                                     </div>
+                                    <ul>
+                                        <li data-rel="30">30 días</li>
+                                        <li data-rel="60">60 días</li>
+                                        <li data-rel="90">90 días</li>
+                                    </ul>
                                 </div>
-                                <ul>
-                                    <li data-rel="30">30 días</li>
-                                    <li data-rel="60">60 días</li>
-                                    <li data-rel="90">90 días</li>
-                                </ul>
+                                <a href="resultados.html" class="btn-Calcular">Calcular</a>
+                                <a href="index.html" class="back"><< Regresar</a>
                             </div>
-                            <a href="resultados.html" class="btn-Calcular">Calcular</a>
-                            <a href="index.html" class="back"><< Regresar</a>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <section class="row bottom">
+            <div class="center">
+                <p class="txt-right">Derechos de imagen: Todas las imágenes fueron extraídas de Shutter Stock y del banco de imágenes de Promperu</p>
+            </div>
+        </section>
     </section>
-    <section class="row bottom">
-        <div class="center">
-            <p class="txt-right">Derechos de imagen: Todas las imágenes fueron extraídas de Shutter Stock y del banco de imágenes de Promperu</p>
-        </div>
-    </section>
-</section>
-<div id="condiciones" class="hidden">
-    <h3>Consideraciones de uso</h3>
-    <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero. Puede variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
-    <p>Todos los datos son proporcionados por los bancos, PROMPERÚ no se responsabiliza.</p>
-    <p>Puede dejar sus consultas o comentarios <a href="contacto.html">aquí</a>.</p>
-</div>
-<div id="bancos" class="hidden">
-    <h3>Seleccione uno o más bancos</h3>
-    <div class="all"><label><input type="checkbox"/><span>Seleccionar todo<span></label></div>
-    <ul>
-        <li><label><input type="checkbox" rel="1"/><span>BBVA Banco Continental</span></label></li>
-        <li><label><input type="checkbox" rel="2"/><span>Banco Financiero</span></label></li>
-        <li><label><input type="checkbox" rel="3"/><span>Banco GNB</span></label></li>
-        <li><label><input type="checkbox" rel="4"/><span>Banco Interamericano de Finanzas</span></label></li>
-        <li><label><input type="checkbox" rel="5"/><span>Banco Santander</span></label></li>
-        <li><label><input type="checkbox" rel="6"/><span>Banco de Comercio</span></label></li>
-        <li><label><input type="checkbox" rel="7"/><span>Banco de Crédito del Perú</span></label></li>
-        <li><label><input type="checkbox" rel="8"/><span>Citibank</span></label></li>
-        <li><label><input type="checkbox" rel="9"/><span>Interbank</span></label></li>
-        <li><label><input type="checkbox" rel="10"/><span>Scotiabank</span></label></li>
-    </ul>
-    <a class="btn-Select">Seleccionar</a>
-</div>
+    <div id="condiciones" class="hidden">
+        <h3>Consideraciones de uso</h3>
+        <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero. Puede variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
+        <p>Todos los datos son proporcionados por los bancos, PROMPERÚ no se responsabiliza.</p>
+        <p>Puede dejar sus consultas o comentarios <a href="contacto.html">aquí</a>.</p>
+    </div>
+    <div id="bancos" class="hidden">
+        <h3>Seleccione uno o más bancos</h3>
+        <div class="all"><label><input type="checkbox" /><span>Seleccionar todo<span></label></div>
+        <ul>
+            <li><label><input type="checkbox" rel="1" /><span>BBVA Banco Continental</span></label></li>
+            <li><label><input type="checkbox" rel="2" /><span>Banco Financiero</span></label></li>
+            <li><label><input type="checkbox" rel="3" /><span>Banco GNB</span></label></li>
+            <li><label><input type="checkbox" rel="4" /><span>Banco Interamericano de Finanzas</span></label></li>
+            <li><label><input type="checkbox" rel="5" /><span>Banco Santander</span></label></li>
+            <li><label><input type="checkbox" rel="6" /><span>Banco de Comercio</span></label></li>
+            <li><label><input type="checkbox" rel="7" /><span>Banco de Crédito del Perú</span></label></li>
+            <li><label><input type="checkbox" rel="8" /><span>Citibank</span></label></li>
+            <li><label><input type="checkbox" rel="9" /><span>Interbank</span></label></li>
+            <li><label><input type="checkbox" rel="10" /><span>Scotiabank</span></label></li>
+        </ul>
+        <a class="btn-Select">Seleccionar</a>
+    </div>
 </body>
 </html>
