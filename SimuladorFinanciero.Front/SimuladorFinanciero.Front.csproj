@@ -275,6 +275,7 @@
     <Content Include="images\desktop.ini" />
     <Content Include="js\.DS_Store" />
     <Content Include="js\desktop.ini" />
+    <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
