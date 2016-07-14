@@ -54,7 +54,7 @@ namespace SimuladorFinanciero
                 "~/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
                 "~/assets/js/bootstrap.js",
                 "~/assets/js/jquery.sidebar.min.js",
-                "~/assets/js/js/jquery.blockUI.js",
+                "~/assets/js/jquery.blockUI.js",
                 "~/assets/js/joinable.js",
                 "~/assets/js/resizeable.js",
                 "~/assets/js/neon-api.js",

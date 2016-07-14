@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using SimuladorFinanciero.Core;
 using SimuladorFinanciero.Entities;
+using SimuladorFinanciero.Helpers;
 
 namespace SimuladorFinanciero.Front.Controllers
 {
@@ -20,13 +21,26 @@ namespace SimuladorFinanciero.Front.Controllers
             ViewBag.ListaMediosDePago = ListaMediosDePago;
             ViewBag.ListaFinanciamiento = ListaFinanciamiento;
             ViewBag.ListaGarantias = ListaGarantias;
-            ViewBag.ListaFinanciamiento = ListaFinanciamiento;
             return View();
         }
 
         public ActionResult Contacto()
         {
             return View();
+        }
+
+        public JsonResult GuardarContacto(Sugerencia model)
+        {
+            SugerenciaBL oSugerenciaBL = new SugerenciaBL();
+            //Sugerencia oSugerencia = new Sugerencia();
+            //oSugerencia.Descripcion = mensaje;
+            //oSugerencia.Nombre = nombres;
+            //oSugerencia.Correo = correo;
+            model.Fecha = DateTime.Now;
+            model.Tipo = "0601";
+            model.Estado = "0701";
+            oSugerenciaBL.Insert(model);
+            return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Los datos fueron registrados correctamente." });
         }
     }
 }

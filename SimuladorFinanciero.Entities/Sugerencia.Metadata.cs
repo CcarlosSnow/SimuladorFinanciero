@@ -18,29 +18,29 @@ namespace SimuladorFinanciero.Entities
 
         public int IdSugerencia { get; set; }
 
-        [Display(Name = "Descripción")]
-        [Required]
+        [Display(Name = "Mensaje")]
+        //[Required(ErrorMessage = "(*)")]
         public string Descripcion { get; set; }
 
         [Display(Name = "Fecha")]
         [DisplayFormat(DataFormatString = Formatos.FechaAnnotation)]
-        [Required]
+        //[Required(ErrorMessage = "(*)")]
         public System.DateTime Fecha { get; set; }
 
-        [Display(Name = "Tipo")]
-        [Required]
+        [Display(Name = "Asunto")]
+        //[Required(ErrorMessage = "(*)")]
         public string Tipo { get; set; }
 
         [Display(Name = "Nombres y apellidos")]
-        [Required]
+        [Required(ErrorMessage = "(*)")]
         public string Nombre { get; set; }
 
         [Display(Name = "Correo Electrónico")]
-        [Required]
+        //[Required(ErrorMessage = "(*)")]
         public string Correo { get; set; }
 
         [Display(Name = "Estado")]
-        [Required]
+        //[Required(ErrorMessage = "(*)")]
         public string Estado { get; set; }
     }
 }

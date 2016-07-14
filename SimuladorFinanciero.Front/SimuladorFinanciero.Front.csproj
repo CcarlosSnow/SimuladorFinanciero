@@ -242,6 +242,7 @@
     <Content Include="images\peru.png" />
     <Content Include="index.html" />
     <Content Include="js\confirm.js" />
+    <Content Include="js\jquery.blockUI.js" />
     <Content Include="js\modernizr-min.js" />
     <Content Include="js\selectivizr-min.js" />
     <Content Include="js\sim.js" />
@@ -304,6 +305,7 @@
     <Content Include="Views\Front\Contacto.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@
         var formData = new FormData();
         var file = $('#file').get(0).files[0];
         formData.append('file', file);
-        console.log($('#url').data('urlSubir'));
+        //console.log($('#url').data('urlSubir'));
         $.ajax({
             type: "POST",
             url: $('#url').data('urlsubir'),

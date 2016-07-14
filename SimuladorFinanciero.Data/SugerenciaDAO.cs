@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Helpers;
+using System.Data.Entity;
 
 namespace SimuladorFinanciero.Data
 {
@@ -24,7 +25,8 @@ namespace SimuladorFinanciero.Data
 
         public bool Insert(Sugerencia entidad)
         {
-            throw new NotImplementedException();
+            Context.Sugerencia.Add(entidad);
+            return (Context.SaveChanges() != 0);
         }
 
         public Sugerencia Select(int id)
@@ -55,15 +57,18 @@ namespace SimuladorFinanciero.Data
             if (Desde == null && Hasta == null && Tipo.Trim().Length == 0 && Estado.Trim().Length == 0)
             {
                 Sugerencias = (from i in Context.Sugerencia
-                               where (i.Fecha >= ConstantesHelpers.FechaDesde && i.Fecha <= ConstantesHelpers.FechaHasta)
+                               where (DbFunctions.TruncateTime(i.Fecha) >= ConstantesHelpers.FechaDesde && DbFunctions.TruncateTime(i.Fecha) <= ConstantesHelpers.FechaHasta)
+                               orderby i.Fecha descending
                                select i).ToList();
             }
             else
             {
+                
                 if (Tipo.Trim().Length == 0 && Estado.Trim().Length == 0)
                 {
                     Sugerencias = (from i in Context.Sugerencia
-                                   where i.Fecha >= Desde && i.Fecha <= Hasta
+                                   where DbFunctions.TruncateTime(i.Fecha) >= DbFunctions.TruncateTime(Desde) && DbFunctions.TruncateTime(i.Fecha) <= DbFunctions.TruncateTime(Hasta)
+                                   orderby i.Fecha descending
                                    select i).ToList();
                 }
                 else
@@ -71,19 +76,22 @@ namespace SimuladorFinanciero.Data
                     if (Tipo.Trim().Length != 0 && Estado.Trim().Length == 0)
                     {
                         Sugerencias = (from i in Context.Sugerencia
-                                       where (i.Fecha >= Desde && i.Fecha <= Hasta) && i.Tipo == Tipo
+                                       where (DbFunctions.TruncateTime(i.Fecha) >= Desde && DbFunctions.TruncateTime(i.Fecha) <= Hasta) && i.Tipo == Tipo
+                                       orderby i.Fecha descending
                                        select i).ToList();
                     }
                     else if (Tipo.Trim().Length == 0 && Estado.Trim().Length != 0)
                     {
                         Sugerencias = (from i in Context.Sugerencia
-                                       where (i.Fecha >= Desde && i.Fecha <= Hasta) && i.Estado == Estado
+                                       where (DbFunctions.TruncateTime(i.Fecha) >= Desde && DbFunctions.TruncateTime(i.Fecha) <= Hasta) && i.Estado == Estado
+                                       orderby i.Fecha descending
                                        select i).ToList();
                     }
                     else
                     {
                         Sugerencias = (from i in Context.Sugerencia
-                                       where (i.Fecha >= Desde && i.Fecha <= Hasta) && i.Tipo == Tipo && i.Estado == Estado
+                                       where (DbFunctions.TruncateTime(i.Fecha) >= Desde && DbFunctions.TruncateTime(i.Fecha) <= Hasta) && i.Tipo == Tipo && i.Estado == Estado
+                                       orderby i.Fecha descending
                                        select i).ToList();
                     }
                 }

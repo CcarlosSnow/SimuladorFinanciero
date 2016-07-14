@@ -2,9 +2,10 @@
 
 @section ScriptHead{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    @Scripts.Render("~/Front/base")
+    @Scripts.Render("~/Front/basejs")
     @Scripts.Render("~/Front/confirm")
-    @Styles.Render("~/Front/base")
+    @Scripts.Render("~/Front/blockui")
+    @Styles.Render("~/Front/basecss")
     <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
     <script type="text/javascript">
         var verifyCallback = function (response) {
@@ -31,23 +32,32 @@
     </script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 }
-
+<div id="overlay-success">
+    <div id="success-send">
+        <i class="fa fa-times close" aria-hidden="true"></i>
+        <img src="../images/check-success.png" border="0" />
+        <p>Los datos fueron registrados correctamente.</p>
+    </div>
+</div>
 <section class="row">
     <div class="center">
         <div class="page a">
             <h1>Contacto</h1>
             <div class="f-content">
-                <form action="?" method="post">
+                @using (Ajax.BeginForm("GuardarContacto", "Front", new AjaxOptions { HttpMethod = "POST" }))
+                {
                     <div class="row">
-                        <p>@Html.DisplayName(Model.Nombre)</p>
-                        <input class="nombres-apellidos" type="text" placeholder="Nombres y apellidos" />
+                        <p>@Html.DisplayNameFor(m => m.Nombre)</p>
+                        @Html.TextBoxFor(m => m.Nombre, new { @class = "nombres-apellidos", placeholder = "Nombres y apellidos" })
+                        @*<input type="text"  />*@
                     </div>
                     <div class="row">
-                        <p>Correo electrónico</p>
-                        <input class="email" type="email" placeholder="Correo electrónico" />
+                        <p>@Html.DisplayNameFor(m => m.Correo)</p>
+                        @Html.TextBoxFor(m => m.Correo, new { @class = "email", placeholder = "Correo electrónico", type = "email" })
+                        @*<input class="email" type="email" placeholder="Correo electrónico" />*@
                     </div>
                     <div class="row">
-                        <p>Asunto</p>
+                        <p>@Html.DisplayNameFor(m => m.Tipo)</p>
                         <div class="btn-asunto">
                             <div class="select">
                                 <input class="asunto" disabled type="text" placeholder="Seleccione asunto" />
@@ -64,16 +74,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <p>Mensaje</p>
-                        <textarea class="mensaje" placeholder="Mensaje"></textarea>
+                        <p>@Html.DisplayNameFor(m => m.Descripcion)</p>
+                        @Html.TextAreaFor(m => m.Descripcion, new { @class = "mensaje", placeholder = "Mensaje" })
+                        @*<textarea class="mensaje" placeholder="Mensaje"></textarea>*@
                     </div>
                     <div class="row">
                         <div class="g-recaptcha" id="myCaptcha"></div>
                     </div>
-                    <!--<a href="#" class="btn-Enviar">Enviar</a>-->
+                <!--<a href="#" class="btn-Enviar">Enviar</a>-->
+                    @*<input type="submit" id="enviar-now" class="btn-Enviar" value="Enviar" />*@
                     <input type="submit" id="enviar-now" class="btn-Enviar" value="Enviar" />
-                </form>
+                }
             </div>
         </div>
     </div>
 </section>
+<input id="url" type="hidden" data-urlcorrecto="@Url.Action("Contacto","Front")" data-urlguardar="@Url.Action("GuardarContacto","Front")" />

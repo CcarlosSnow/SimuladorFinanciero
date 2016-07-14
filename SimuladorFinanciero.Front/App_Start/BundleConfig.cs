@@ -29,16 +29,19 @@ namespace SimuladorFinanciero.Front
 
 
 
-            bundles.Add(new ScriptBundle("~/Front/base").Include(
+            bundles.Add(new ScriptBundle("~/Front/basejs").Include(
                 "~/js/modernizr-min.js",
                 "~/js/selectivizr-min.js",
-                "~/js/sim.j"));
+                "~/js/sim.js"));
 
             bundles.Add(new ScriptBundle("~/Front/confirm").Include(
                 "~/js/confirm.js"));
 
-            bundles.Add(new StyleBundle("~/Front/base").Include(
+            bundles.Add(new StyleBundle("~/Front/basecss").Include(
                       "~/css/sim.css"));
+
+            bundles.Add(new ScriptBundle("~/Front/blockui").Include(
+               "~/js/jquery.blockUI.js"));
 
 
         }
