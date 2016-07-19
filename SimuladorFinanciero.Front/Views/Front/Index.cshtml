@@ -27,7 +27,7 @@
                                 <div class="content">
                                     @foreach (Producto i in ViewBag.ListaMediosDePago)
                                     {
-                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                        <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 1, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
                                     @*<a class="item"><span></span>Pagos y comercio electrónico</a>
                                         <a class="item"><span></span>Transferencias recibidas</a>
@@ -41,7 +41,7 @@
                                 <div class="content">
                                     @foreach (Producto i in ViewBag.ListaFinanciamiento)
                                     {
-                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                        <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 2, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
                                     @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
                                         <a class="item"><span></span>Financiamiento Post Embarque</a>
@@ -54,7 +54,7 @@
                                 <div class="content">
                                     @foreach (Producto i in ViewBag.ListaGarantias)
                                     {
-                                        <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+                                        <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 3, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
                                     @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
                                         <a class="item"><span></span> Stand By Recibidas</a>
@@ -62,7 +62,7 @@
                                 </div>
                             </li>
                             <li class="d">
-                                <a href="cartas-fianza.html" class="title">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                                <a href="@Url.Action("Paso2","Front", new { Tipo = 4 })" class="title">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -82,7 +82,7 @@
     <div class="content">
         @foreach (Producto i in ViewBag.ListaMediosDePago)
         {
-            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+            <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 1, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
         @*<a class="item"><span></span>Pagos y comercio electrónico</a>
             <a class="item"><span></span>Transferencias recibidas</a>
@@ -96,7 +96,7 @@
     <div class="content">
         @foreach (Producto i in ViewBag.ListaFinanciamiento)
         {
-            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+            <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 2, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
         @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
             <a class="item"><span></span>Financiamiento Post Embarque</a>
@@ -109,7 +109,7 @@
     <div class="content">
         @foreach (Producto i in ViewBag.ListaGarantias)
         {
-            <a class="item"><span></span>@i.Nombre.Substring(4)</a>
+            <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 3, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
         @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
             <a class="item"><span></span> Stand By Recibidas</a>

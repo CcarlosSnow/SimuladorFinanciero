@@ -31,7 +31,11 @@ namespace SimuladorFinanciero.Data
 
         public Producto Select(int id)
         {
-            throw new NotImplementedException();
+            var Producto = from i in Context.Producto
+                           where i.IdProducto == id
+                           select i;
+
+            return Producto.SingleOrDefault();
         }
 
         public IList<Producto> SelectAll()

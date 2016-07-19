@@ -50,5 +50,23 @@ namespace SimuladorFinanciero.Data
             ProductosBancos.Delete();
             return (Context.SaveChanges() != 0);
         }
+
+        public List<Banco> SelectByIdProducto(int IdProducto)
+        {
+            var Bancos = from i in Context.ProductoBanco
+                         where i.IdProducto == IdProducto
+                         select i.Banco;
+
+            return Bancos.ToList();
+        }
+
+        public ProductoBanco SelectByIdProductoAndIdBanco(int IdProducto, string IdBanco)
+        {
+            var ProductoBanco = from i in Context.ProductoBanco
+                                where i.IdBanco == IdBanco && i.IdProducto == IdProducto
+                                select i;
+
+            return ProductoBanco.SingleOrDefault();
+        }
     }
 }

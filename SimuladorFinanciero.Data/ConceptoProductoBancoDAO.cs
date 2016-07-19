@@ -81,5 +81,14 @@ namespace SimuladorFinanciero.Data
             ConceptosProductosBancos.Delete();
             return (Context.SaveChanges() != 0);
         }
+
+        public IList<ConceptoProductoBanco> SelectByProductoAndBancoAndTipoComision(int IdProducto, string IdBanco, string TipoComision)
+        {
+            var ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                           where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                           select i;
+
+            return ConceptosProductosBancos.ToList();
+        }
     }
 }

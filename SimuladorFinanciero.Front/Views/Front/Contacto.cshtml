@@ -1,4 +1,5 @@
-﻿@model SimuladorFinanciero.Entities.Sugerencia
+﻿@using SimuladorFinanciero.Entities;
+@model SimuladorFinanciero.Entities.Sugerencia
 
 @section ScriptHead{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
@@ -18,13 +19,12 @@
                 if (r.readyState != 4 || r.status != 200) {
                     return;
                 }
-                console.log(r.responseText);
             };
-            r.send("secret=6LcayCETAAAAAHzSn9k4xYANvuncIzX22VW2KKJg&response=" + response);
+            r.send("secret=6LfFXyUTAAAAAJPH24daSKZqb-DFWSdiM6lrnACa&response=" + response);
         };
         var onloadCallback = function () {
             grecaptcha.render('myCaptcha', {
-                'sitekey': '6LcayCETAAAAAHzSn9k4xYANvuncIzX22VW2KKJg',
+                'sitekey': '6LfFXyUTAAAAAJPH24daSKZqb-DFWSdiM6lrnACa',
                 'callback': verifyCallback,
                 'theme': 'light'
             });
@@ -60,16 +60,20 @@
                         <p>@Html.DisplayNameFor(m => m.Tipo)</p>
                         <div class="btn-asunto">
                             <div class="select">
-                                <input class="asunto" disabled type="text" placeholder="Seleccione asunto" />
+                                @Html.TextBox("Tipo", "", new { @class = "asunto", disabled = true, placeholder = "Seleccione asunto", data_value = "" })
+                                @*<input class="asunto" disabled type="text" placeholder="Seleccione asunto" />*@
                                 <div class="sc">
                                     <i class="fa fa-caret-up" aria-hidden="true"></i>
                                     <i class="fa fa-caret-down" aria-hidden="true"></i>
                                 </div>
                             </div>
                             <ul>
-                                <li data-rel="">Consulta</li>
-                                <li data-rel="">Sugerencias</li>
-                                <li data-rel="">Otros</li>
+                                @foreach (var tipo in ViewBag.Tipos)
+                                {
+                                    <li data-rel="@tipo.IdParametro">@tipo.Nombre</li>
+                                    @*<li data-rel="tipo.IdParametro">Sugerencias</li>
+                                        <li data-rel="tipo.IdParametro">Otros</li>*@
+                                }
                             </ul>
                         </div>
                     </div>

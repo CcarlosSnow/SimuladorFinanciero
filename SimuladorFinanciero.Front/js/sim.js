@@ -123,7 +123,9 @@ $(document).ready(function () {
     });
     $('.btn-asunto ul li').on('click', function () {
         var opLia = $(this).html();
+        var value = $(this).data('rel');
         $('.btn-asunto .select input').addClass('focus').val(opLia);
+        $('.btn-asunto .select input').data('value', value);
         $('.btn-asunto ul').slideToggle('fast');
     });
     //Numero
@@ -231,7 +233,7 @@ $(document).ready(function () {
                 'IdSugerencia': 1,
                 'Descripcion': $('#Descripcion').val(),
                 'Fecha': Date.now,
-                'Tipo': '0601',
+                'Tipo': $('.btn-asunto .select input').data('value'),
                 'Nombre': $('#Nombre').val(),
                 'Correo': $('#Correo').val(),
                 'Estado': ''

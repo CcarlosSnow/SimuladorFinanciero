@@ -206,8 +206,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cartas-fianza.html" />
-    <Content Include="contacto.html" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="css\sim.css" />
@@ -240,7 +238,6 @@
     <Content Include="images\n-radio.jpg" />
     <Content Include="images\overlay.png" />
     <Content Include="images\peru.png" />
-    <Content Include="index.html" />
     <Content Include="js\confirm.js" />
     <Content Include="js\jquery.blockUI.js" />
     <Content Include="js\modernizr-min.js" />
@@ -303,6 +300,8 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Front\Index.cshtml" />
     <Content Include="Views\Front\Contacto.cshtml" />
+    <Content Include="Views\Front\Paso2.cshtml" />
+    <Content Include="Views\Front\Resultado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

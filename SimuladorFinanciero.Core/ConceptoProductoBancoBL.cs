@@ -132,6 +132,19 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public IList<ConceptoProductoBanco> SelectByProductoAndBancoAndTipoComision(int IdProducto, string IdBanco, string TipoComision)
+        {
+            try
+            {
+                return oConceptoProductoBancoDAO.SelectByProductoAndBancoAndTipoComision(IdProducto, IdBanco, TipoComision);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public void Dispose()
         {
             var item = (ConceptoProductoBancoDAO)oConceptoProductoBancoDAO;
