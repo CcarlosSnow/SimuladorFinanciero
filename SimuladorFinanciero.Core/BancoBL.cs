@@ -49,9 +49,9 @@ namespace SimuladorFinanciero.Core
                 entidad.Estado = "0101";
                 return oBancoDAO.Insert(entidad);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 

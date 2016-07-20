@@ -16,7 +16,7 @@
         confirmButtonClass: 'buttonConfirm',
         cancelButtonClass: 'buttonConfirmCancel',
         confirm: function () {
-            $.blockUI({ message: '<h2><img src="../assets/images/loading.gif" /> &nbsp; Espere un momento.</h2>' });
+            $.blockUI({ message: '<h2><img src="../images/loading.gif" /> &nbsp; Espere un momento.</h2>' });
             window.location = this.$target.attr('href');
         }
     });

@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     $('#btnSubmit').click(function () {
-        $.blockUI({ message: '<h2><img src="../assets/images/loading.gif" /> &nbsp; Espere un momento.</h>' });
+        $.blockUI({ message: '<h2><img src="../images/loading.gif" /> &nbsp; Espere un momento.</h>' });
         var formData = new FormData();
         var file = $('#file').get(0).files[0];
         formData.append('file', file);

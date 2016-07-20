@@ -1,13 +1,18 @@
 ﻿@using SimuladorFinanciero.Entities
 @using SimuladorFinanciero.Helpers
+@section ScriptHead{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    @Scripts.Render("~/Front/confirm")
+    @Scripts.Render("~/Front/basejs")
+    @Styles.Render("~/Front/basecss")
+    <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+}
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
-@Scripts.Render("~/Front/confirm")
-@Scripts.Render("~/Front/basejs")
-@Styles.Render("~/Front/basecss")
-<link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+@section Titulo{
+    <p class="title">Simulador financiero</p>
+}
 
 <div id="overlay-success">
     <div id="success-send">
@@ -179,12 +184,23 @@
                                             }
                                         }
                                         <script>
-                                            $('#gastototal-@i.IdBanco').html(@Formatos.ConvertirNumeroFormat(GastoTotalUsualDesktop));
+                                            $('#gastototal-@i.IdBanco').html("$ " + @Formatos.ConvertirNumeroFormat(GastoTotalUsualDesktop));
                                         </script>
                                     </div>
                                     <div class="actions">
                                         <a href="#@i.IdBanco-informacion" class="fancybox"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ver información de contacto</a>
-                                        <a href="#@i.IdBanco-costos" class="fancybox"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ver costos eventuales</a>
+                                        @{ var Conteo = 0; }
+                                        @foreach (ConceptoProductoBanco cpbu in ViewBag.ListaConceptosProductosBancosEventuales)
+                                        {
+                                            if (i.Banco.IdBanco == cpbu.IdBanco)
+                                            {
+                                                Conteo = Conteo + 1;
+                                            }
+                                        }
+                                        @if (Conteo > 0)
+                                        {
+                                            <a href="#@i.IdBanco-costos" class="fancybox"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ver costos eventuales</a>
+                                        }
                                         <div id="@i.IdBanco-informacion" class="hidden resultado">
                                             <p>
                                                 (*) Consulte la fuente de información <a href="@i.WebTarifario">aqui</a> o tome contacto
@@ -240,7 +256,7 @@
                                     </div>
                                 </div>
                             </div>
-                        }
+                                            }
                     </div>
                 </div>
                 <a href="@Url.Action("Index","Front")" class="btn-Nueva">Nueva simulación</a>

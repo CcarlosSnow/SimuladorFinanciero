@@ -28,57 +28,57 @@ namespace SimuladorFinanciero
                       "~/Content/site.css"));
 
             //bundles.Add(new StyleBundle("~/Administrador/css").Include(
-            //    "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
-            //    "~/assets/css/font-icons/entypo/css/entypo.css",
-            //    "~/assets/css/font-icons/font-awesome/css/font-awesome.min.css",
-            //    "~/assets/css/bootstrap.min.css",
-            //    "~/assets/css/neon-core.css",
-            //    "~/assets/css/neon-theme.css",
-            //    "~/assets/css/neon-forms.css",
-            //    "~/assets/css/custom.css",
-            //    "~/assets/css/red.css",
-            //    "~/assets/css/datatables.css"));
+            //    "~/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
+            //    "~/css/font-icons/entypo/css/entypo.css",
+            //    "~/css/font-icons/font-awesome/css/font-awesome.min.css",
+            //    "~/css/bootstrap.min.css",
+            //    "~/css/neon-core.css",
+            //    "~/css/neon-theme.css",
+            //    "~/css/neon-forms.css",
+            //    "~/css/custom.css",
+            //    "~/css/red.css",
+            //    "~/css/datatables.css"));
 
             bundles.Add(new StyleBundle("~/Administrador/css").Include(
-                "~/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
-                "~/assets/css/bootstrap.min.css",
-                "~/assets/css/neon-core.css",
-                "~/assets/css/neon-theme.css",
-                "~/assets/css/neon-forms.css",
-                "~/assets/css/red.css",
-                "~/assets/css/datatables.css"));
+                "~/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css",
+                "~/css/bootstrap.min.css",
+                "~/css/neon-core.css",
+                "~/css/neon-theme.css",
+                "~/css/neon-forms.css",
+                "~/css/red.css",
+                "~/css/datatables.css"));
 
-            bundles.Add(new ScriptBundle("~/Administrador/jsTop").Include("~/assets/js/jquery-1.11.3.min.js"));
+            bundles.Add(new ScriptBundle("~/Administrador/jsTop").Include("~/js/jquery-1.11.3.min.js"));
 
-            bundles.Add(new ScriptBundle("~/Administrador/jsBottom").Include("~/assets/js/gsap/TweenMax.min.js",
-                "~/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
-                "~/assets/js/bootstrap.js",
-                "~/assets/js/jquery.sidebar.min.js",
-                "~/assets/js/jquery.blockUI.js",
-                "~/assets/js/joinable.js",
-                "~/assets/js/resizeable.js",
-                "~/assets/js/neon-api.js",
-                "~/assets/js/bootstrap-datepicker.js",
-                "~/assets/js/bootstrap-datepicker.es.min.js",
-                "~/assets/js/confirm.js",
-                "~/assets/js/functions.js",
-                "~/assets/js/custom.js"));
+            bundles.Add(new ScriptBundle("~/Administrador/jsBottom").Include("~/js/gsap/TweenMax.min.js",
+                "~/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
+                "~/js/bootstrap.js",
+                "~/js/jquery.sidebar.min.js",
+                "~/js/jquery.blockUI.js",
+                "~/js/joinable.js",
+                "~/js/resizeable.js",
+                "~/js/neon-api.js",
+                "~/js/bootstrap-datepicker.js",
+                "~/js/bootstrap-datepicker.es.min.js",
+                "~/js/confirm.js",
+                "~/js/functions.js",
+                "~/js/custom.js"));
 
-            bundles.Add(new ScriptBundle("~/Administrador/jsContacto1").Include("~/assets/js/gsap/TweenMax.min.js",
-                "~/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
-                "~/assets/js/bootstrap.js",
-                "~/assets/js/joinable.js",
-                "~/assets/js/js/jquery.blockUI.js",
-                "~/assets/js/resizeable.js",
-                "~/assets/js/neon-api.js",
-                "~/assets/js/functions.js",
-                "~/assets/js/custom.js"));
+            bundles.Add(new ScriptBundle("~/Administrador/jsContacto1").Include("~/js/gsap/TweenMax.min.js",
+                "~/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js",
+                "~/js/bootstrap.js",
+                "~/js/joinable.js",
+                "~/js/js/jquery.blockUI.js",
+                "~/js/resizeable.js",
+                "~/js/neon-api.js",
+                "~/js/functions.js",
+                "~/js/custom.js"));
 
-            bundles.Add(new ScriptBundle("~/Administrador/jsContacto2").Include("~/assets/js/datatables.js",
-                "~/assets/js/confirm.js",
-                "~/assets/js/jquery.sidebar.min.js",
-                "~/assets/js/bootstrap-datepicker.js",
-                "~/assets/js/bootstrap-datepicker.es.min.js"
+            bundles.Add(new ScriptBundle("~/Administrador/jsContacto2").Include("~/js/datatables.js",
+                "~/js/confirm.js",
+                "~/js/jquery.sidebar.min.js",
+                "~/js/bootstrap-datepicker.js",
+                "~/js/bootstrap-datepicker.es.min.js"
                 ));
         }
     }

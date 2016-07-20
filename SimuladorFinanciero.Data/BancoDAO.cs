@@ -25,8 +25,15 @@ namespace SimuladorFinanciero.Data
 
         public bool Insert(Banco entidad)
         {
-            Context.Banco.Add(entidad);
-            return (Context.SaveChanges() != 0);
+            try
+            {
+                Context.Banco.Add(entidad);
+                return (Context.SaveChanges() != 0);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public Banco Select(string id)

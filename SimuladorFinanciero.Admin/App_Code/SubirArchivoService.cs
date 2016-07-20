@@ -127,14 +127,8 @@ namespace SimuladorFinanciero
                         Linea++;
                         LineaError = oStreamReader.ReadLine();
                         Datos = LineaError.Split(Convert.ToChar(9));
+
                         oConceptoProductoBanco = new ConceptoProductoBanco();
-                        if (Linea == 62)
-                        {
-                            oConceptoProductoBanco.Concepto = new Concepto
-                            {
-                                Nombre = Datos[4]
-                            };
-                        }
                         oConceptoProductoBanco.Concepto = new Concepto
                         {
                             Nombre = Datos[4]
@@ -148,62 +142,74 @@ namespace SimuladorFinanciero
                         };
                         oConceptoProductoBanco.IdBanco = Datos[1];
                         oConceptoProductoBanco.TipoComision = Datos[5];
-                        //decimal Tasa = 0;
+
                         if (Datos[6].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.Tasa = decimal.Parse(Datos[6]);
                         }
-                        //decimal Min = 0;
-                        //oConceptoProductoBanco.Minimo = decimal.TryParse(Datos[7], out Min) ? Min : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.Tasa = 0;
+                        }
 
                         if (Datos[7].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.Minimo = decimal.Parse(Datos[7]);
                         }
-
-                        //decimal Max = 0;
-                        //oConceptoProductoBanco.Maximo = decimal.TryParse(Datos[8], out Max) ? Max : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.Minimo = 0;
+                        }
 
                         if (Datos[8].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.Maximo = decimal.Parse(Datos[8]);
                         }
-
-                        //decimal METasaMax = 0;
-                        //oConceptoProductoBanco.METasaMax = decimal.TryParse(Datos[9], out METasaMax) ? METasaMax : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.Maximo = 0;
+                        }
 
                         if (Datos[9].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.METasaMax = decimal.Parse(Datos[9]);
                         }
-
-                        //decimal METasaMin = 0;
-                        //oConceptoProductoBanco.METasaMin = decimal.TryParse(Datos[10], out METasaMin) ? METasaMin : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.METasaMax = 0;
+                        }
 
                         if (Datos[10].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.METasaMin = decimal.Parse(Datos[10]);
                         }
-
-                        //decimal MEMin = 0;
-                        //oConceptoProductoBanco.MEMin = decimal.TryParse(Datos[11], out MEMin) ? MEMin : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.METasaMin = 0;
+                        }
 
                         if (Datos[11].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.MEMin = decimal.Parse(Datos[11]);
                         }
-
-                        //decimal MEMax = 0;
-                        //oConceptoProductoBanco.MEMax = decimal.TryParse(Datos[12], out MEMax) ? MEMax : 0;
+                        else
+                        {
+                            oConceptoProductoBanco.MEMin = 0;
+                        }
 
                         if (Datos[12].Trim().Length > 0)
                         {
                             oConceptoProductoBanco.MEMax = decimal.Parse(Datos[12]);
                         }
+                        else
+                        {
+                            oConceptoProductoBanco.MEMax = 0;
+                        }
 
                         oConceptoProductoBanco.Observaciones = Datos[13];
 
                         ConceptosProductosBancos.Add(oConceptoProductoBanco);
+
                     }
 
                     oStreamReader.Close();
