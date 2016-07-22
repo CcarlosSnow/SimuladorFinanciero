@@ -9,16 +9,16 @@
 
 namespace SimuladorFinanciero.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    
+
     public partial class ConceptoProductoBanco
     {
         public int IdConcepto { get; set; }
         public int IdProducto { get; set; }
         public string IdBanco { get; set; }
         public string TipoComision { get; set; }
-        public decimal Tasa { get; set; }
+        public decimal Tasa30 { get; set; }
+        public decimal Tasa60 { get; set; }
+        public decimal Tasa90 { get; set; }
         public decimal Minimo { get; set; }
         public decimal Maximo { get; set; }
         public decimal METasaMax { get; set; }

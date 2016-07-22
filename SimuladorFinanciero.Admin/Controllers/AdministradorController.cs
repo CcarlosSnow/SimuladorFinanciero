@@ -1,20 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Core;
 using System.IO;
-using System.Threading.Tasks;
-using System.Data;
-using System.Data.OleDb;
 using SimuladorFinanciero.Helpers;
-using System.Web.UI.WebControls;
-using System.Web.UI;
 using Bytescout.Spreadsheet;
 using System.Text;
-using Newtonsoft.Json;
 
 namespace SimuladorFinanciero.Controllers
 {

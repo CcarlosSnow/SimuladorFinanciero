@@ -148,7 +148,7 @@
                                         <div class="thead">
                                             <div class="col a">Concepto</div>
                                             <div class="col b">Observaciones</div>
-                                            <div class="col c">Tasa %</div>
+                                            <div class="col c">Tasa30 %</div>
                                             <div class="col d">Minimo $</div>
                                             <div class="col e">Máximo $</div>
                                             <div class="col f">Gastos $</div>
@@ -164,10 +164,10 @@
                                                         <div class="cols mobile">
                                                             <div>
                                                                 <div class="row"><p>Observaciones</p><p><a href="#detalle-@cpbu.IdConcepto" class="fancybox">Detalle</a></p></div>
-                                                                <div class="row"><p>Tasa</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa)</p></div>
+                                                                <div class="row"><p>Tasa30</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30)</p></div>
                                                                 <div class="row"><p>Minimo $</p><p>@Formatos.ConvertirNumeroFormat(cpbu.Minimo)</p></div>
                                                                 <div class="row"><p>Máximo $</p><p>@Formatos.ConvertirNumeroFormat(cpbu.Maximo)</p></div>
-                                                                <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbu.Tasa, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualMobile)</p></div>
+                                                                <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbu.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualMobile)</p></div>
                                                             </div>
                                                             <div id="#detalle-@cpbu.IdConcepto" class="hidden mod-ban">
                                                                 @cpbu.Observaciones
@@ -176,10 +176,10 @@
                                                         <!-- /mobile -->
                                                     </div>
                                                     <div class="col b">@cpbu.Observaciones</div>
-                                                    <div class="col c">@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa)</div>
+                                                    <div class="col c">@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30)</div>
                                                     <div class="col d">@Formatos.ConvertirNumeroFormat(cpbu.Minimo)</div>
                                                     <div class="col e">@Formatos.ConvertirNumeroFormat(cpbu.Maximo)</div>
-                                                    <div class="col f">@Formatos.CalcularGasto(cpbu.Tasa, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualDesktop)</div>
+                                                    <div class="col f">@Formatos.CalcularGasto(cpbu.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualDesktop)</div>
                                                 </div>
                                             }
                                         }
@@ -215,7 +215,7 @@
                                                 <div class="thead">
                                                     <div class="col a">Concepto</div>
                                                     <div class="col b">Observaciones</div>
-                                                    <div class="col c">Tasa %</div>
+                                                    <div class="col c">Tasa30 %</div>
                                                     <div class="col d">Minimo $</div>
                                                     <div class="col e">Máximo $</div>
                                                     <div class="col f">Gastos $</div>
@@ -232,10 +232,10 @@
                                                                 <div class="cols mobile">
                                                                     <div>
                                                                         <div class="row"><p>Observaciones</p><p><a href="#detalle-@cpbe.IdConcepto" class="fancybox">Detalle</a></p></div>
-                                                                        <div class="row"><p>Tasa</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa)</p></div>
+                                                                        <div class="row"><p>Tasa30</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30)</p></div>
                                                                         <div class="row"><p>Minimo $</p><p>@Formatos.ConvertirNumeroFormat(cpbe.Minimo)</p></div>
                                                                         <div class="row"><p>Máximo $</p><p>@Formatos.ConvertirNumeroFormat(cpbe.Maximo)</p></div>
-                                                                        <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbe.Tasa, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</p></div>
+                                                                        <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbe.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</p></div>
                                                                     </div>
                                                                     <div id="detalle-@cpbe.IdConcepto" class="hidden mod-ban">
                                                                         @cpbe.Observaciones
@@ -244,10 +244,10 @@
                                                                 <!-- /mobile -->
                                                             </div>
                                                             <div class="col b">@cpbe.Observaciones</div>
-                                                            <div class="col c">@Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa)</div>
+                                                            <div class="col c">@Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30)</div>
                                                             <div class="col d">@Formatos.ConvertirNumeroFormat(cpbe.Minimo)</div>
                                                             <div class="col e">@Formatos.ConvertirNumeroFormat(cpbe.Maximo)</div>
-                                                            <div class="col f">@Formatos.CalcularGasto(cpbe.Tasa, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</div>
+                                                            <div class="col f">@Formatos.CalcularGasto(cpbe.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</div>
                                                         </div>
                                                     }
                                                 }

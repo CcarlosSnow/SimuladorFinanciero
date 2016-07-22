@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Data;
-using SimuladorFinanciero.Data.Interface;
 
 namespace SimuladorFinanciero.Core
 {
@@ -46,7 +42,6 @@ namespace SimuladorFinanciero.Core
         {
             try
             {
-                entidad.Estado = "0301";
                 return oProductoDAO.Insert(entidad);
             }
             catch (Exception)

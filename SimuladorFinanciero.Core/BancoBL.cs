@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Data;
-using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
-using System.Collections;
 namespace SimuladorFinanciero.Core
 {
     public class BancoBL : IDisposable
@@ -46,7 +41,6 @@ namespace SimuladorFinanciero.Core
         {
             try
             {
-                entidad.Estado = "0101";
                 return oBancoDAO.Insert(entidad);
             }
             catch (Exception ex)

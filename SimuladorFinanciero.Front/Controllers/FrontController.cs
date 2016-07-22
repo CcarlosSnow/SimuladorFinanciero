@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using SimuladorFinanciero.Core;
 using SimuladorFinanciero.Entities;
-using SimuladorFinanciero.Helpers;
 using System.Collections.Specialized;
 
 namespace SimuladorFinanciero.Front.Controllers
@@ -47,25 +45,58 @@ namespace SimuladorFinanciero.Front.Controllers
             ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
             ProductoBL oProductoBL = new ProductoBL();
             string TipoNombre = "";
-            var Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
-            ViewBag.ListaBancos = Bancos;
+            string BancoEmpresa = "";
+            string MensajeBancoEmpresaJS = "";
+            string MensajeBancoEmpresaPopUp = "";
+            Producto Producto = null;
+            List<Banco> Bancos = null;
+            bool MostrarPeriodo = true;
             switch (Tipo)
             {
                 case 1:
                     TipoNombre = "Medios de pago";
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
                     break;
                 case 2:
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
                     TipoNombre = "Financiamiento";
                     break;
                 case 3:
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
                     TipoNombre = "Garantías";
                     break;
                 case 4:
+                    Producto = oProductoBL.SelectByTipo(4).First();
+                    Bancos = oProductoBancoBL.SelectByIdProducto(Producto.IdProducto);
                     TipoNombre = "Envío de dinero";
+                    MostrarPeriodo = false;
                     break;
             }
+            
+            if (Producto.Nombre.StartsWith("1.5") || IdProducto == 0)
+            {
+                BancoEmpresa = "Empresa";
+                MensajeBancoEmpresaJS = "una Empresa";
+                MensajeBancoEmpresaPopUp = "una o más Empresas";
+                MostrarPeriodo = false;
+            }
+            else
+            {
+                BancoEmpresa = "Banco";
+                MensajeBancoEmpresaJS = "un Banco";
+                MensajeBancoEmpresaPopUp = "uno o más bancos";
+            }
+
             ViewBag.TipoNombre = TipoNombre;
-            ViewBag.Producto = oProductoBL.Select(IdProducto);
+            ViewBag.Producto = Producto;
+            ViewBag.ListaBancos = Bancos;
+            ViewBag.BancoEmpresa = BancoEmpresa;
+            ViewBag.MensajeBancoEmpresaJS = MensajeBancoEmpresaJS;
+            ViewBag.MensajeBancoEmpresaPopUp = MensajeBancoEmpresaPopUp;
+            ViewBag.MostrarPeriodo = MostrarPeriodo;
             return View();
         }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
 using EntityFramework.Extensions;
@@ -48,6 +46,9 @@ namespace SimuladorFinanciero.Data
                                             where i.IdConcepto == entidad.IdConcepto &&
                                                   i.IdProducto == entidad.IdProducto &&
                                                   i.IdBanco == entidad.IdBanco &&
+                                                  i.Tasa30 == entidad.Tasa30 &&
+                                                  i.Tasa60 == entidad.Tasa60 &&
+                                                  i.Tasa90 == entidad.Tasa90 &&
                                                   i.Minimo == entidad.Minimo &&
                                                   i.Maximo == entidad.Maximo &&
                                                   i.METasaMax == entidad.METasaMax &&

@@ -9,9 +9,7 @@
 
 namespace SimuladorFinanciero.Entities
 {
-    using System;
-    using System.Collections.Generic;
-    
+
     public partial class Archivo
     {
         public int ArchivoId { get; set; }

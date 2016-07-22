@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
 using EntityFramework.Extensions;
@@ -25,6 +23,7 @@ namespace SimuladorFinanciero.Data
 
         public bool Insert(Producto entidad)
         {
+            entidad.Estado = "0301";
             Context.Producto.Add(entidad);
             return (Context.SaveChanges() != 0);
         }

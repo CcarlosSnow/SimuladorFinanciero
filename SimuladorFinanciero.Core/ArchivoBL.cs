@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Data;
-using SimuladorFinanciero.Data.Interface;
 using SimuladorFinanciero.Entities;
 
 namespace SimuladorFinanciero.Core
@@ -114,6 +111,18 @@ namespace SimuladorFinanciero.Core
                 {
                     return false;
                 }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public bool InsertExcel(IEnumerable<Banco> Bancos, IEnumerable<Producto> Productos, IEnumerable<Concepto> Conceptos, IEnumerable<ProductoBanco> ProductosBancos, IEnumerable<ConceptoProductoBanco> ConceptosProductosBancos)
+        {
+            try
+            {
+                return oArchivoDAO.InsertExcel(Bancos, Productos, Conceptos, ProductosBancos, ConceptosProductosBancos);
             }
             catch (Exception)
             {

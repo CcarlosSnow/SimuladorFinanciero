@@ -9,10 +9,9 @@
 
 namespace SimuladorFinanciero.Entities
 {
-    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-    
+
     public partial class SimuladorFinancieroEntities : DbContext
     {
         public SimuladorFinancieroEntities()
@@ -28,10 +27,10 @@ namespace SimuladorFinanciero.Entities
         public virtual DbSet<Archivo> Archivo { get; set; }
         public virtual DbSet<Banco> Banco { get; set; }
         public virtual DbSet<Concepto> Concepto { get; set; }
-        public virtual DbSet<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
         public virtual DbSet<Parametro> Parametro { get; set; }
         public virtual DbSet<Producto> Producto { get; set; }
         public virtual DbSet<ProductoBanco> ProductoBanco { get; set; }
         public virtual DbSet<Sugerencia> Sugerencia { get; set; }
+        public virtual DbSet<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
     }
 }

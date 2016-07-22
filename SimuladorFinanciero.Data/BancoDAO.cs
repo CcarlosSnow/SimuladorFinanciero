@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SimuladorFinanciero.Data.Interface;
-using SimuladorFinanciero.Data;
 using SimuladorFinanciero.Entities;
 using EntityFramework.Extensions;
 
@@ -27,6 +24,7 @@ namespace SimuladorFinanciero.Data
         {
             try
             {
+                entidad.Estado = "0101";
                 Context.Banco.Add(entidad);
                 return (Context.SaveChanges() != 0);
             }

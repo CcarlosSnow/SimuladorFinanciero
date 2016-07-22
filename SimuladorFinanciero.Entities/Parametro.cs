@@ -9,9 +9,8 @@
 
 namespace SimuladorFinanciero.Entities
 {
-    using System;
     using System.Collections.Generic;
-    
+
     public partial class Parametro
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,10 +19,10 @@ namespace SimuladorFinanciero.Entities
             this.Archivo = new HashSet<Archivo>();
             this.Banco = new HashSet<Banco>();
             this.Concepto = new HashSet<Concepto>();
-            this.ConceptoProductoBanco = new HashSet<ConceptoProductoBanco>();
             this.Producto = new HashSet<Producto>();
             this.Sugerencia = new HashSet<Sugerencia>();
             this.Sugerencia1 = new HashSet<Sugerencia>();
+            this.ConceptoProductoBanco = new HashSet<ConceptoProductoBanco>();
         }
     
         public string IdParametro { get; set; }
@@ -36,12 +35,12 @@ namespace SimuladorFinanciero.Entities
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Concepto> Concepto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Producto> Producto { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sugerencia> Sugerencia { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Sugerencia> Sugerencia1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ConceptoProductoBanco> ConceptoProductoBanco { get; set; }
     }
 }

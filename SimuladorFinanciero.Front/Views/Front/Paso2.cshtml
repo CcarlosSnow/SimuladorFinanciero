@@ -16,14 +16,13 @@
             if ($('#bancos ul li label').hasClass('selected') != true) {
                 $.alert({
                     title: '¡Aviso!',
-                    content: 'Debe seleccionar por lo menos un banco',
+                    content: 'Debe seleccionar por lo menos @ViewBag.MensajeBancoEmpresaJS',
                     confirmButton: 'Aceptar',
                     confirmButtonClass: 'error'
                 });
 
                 return false
             }
-
 
             if ($('#txtMonto').val() == '') {
                 $.alert({
@@ -92,7 +91,7 @@
                         <div class="middle">
                             <a href="#bancos" class="btn-bank fancybox">
 
-                                <div class="banco">Seleccionar banco(s)</div>
+                                <div class="banco">Seleccionar @ViewBag.BancoEmpresa (s)</div>
                                 <i class="fa fa-plus-circle" aria-hidden="true"></i>
                                 <!-- selecionar active
                                 <div class="banco active">BBVA Banco Continental, Banco Financiero...</div>
@@ -103,20 +102,23 @@
                                 <span>$</span>
                                 <input id="txtMonto" name="txtMonto" type="text" maxlength="15" placeholder="Ingresar monto Ej.: 60.5" />
                             </div>
-                            <div class="btn-days">
-                                <div class="select">
-                                    <input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" />
-                                    <div class="sc">
-                                        <i class="fa fa-caret-up" aria-hidden="true"></i>
-                                        <i class="fa fa-caret-down" aria-hidden="true"></i>
+                            @if (ViewBag.MostrarPeriodo)
+                            {
+                                <div class="btn-days">
+                                    <div class="select">
+                                        <input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" />
+                                        <div class="sc">
+                                            <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                        </div>
                                     </div>
+                                    <ul>
+                                        <li data-rel="30">30 días</li>
+                                        <li data-rel="60">60 días</li>
+                                        <li data-rel="90">90 días</li>
+                                    </ul>
                                 </div>
-                                <ul>
-                                    <li data-rel="30">30 días</li>
-                                    <li data-rel="60">60 días</li>
-                                    <li data-rel="90">90 días</li>
-                                </ul>
-                            </div>
+                            }
                             <input type="hidden" id="hdTipoNombre" name="hdTipoNombre" value="@ViewBag.TipoNombre" />
                             <input type="hidden" id="hdIdProducto" name="hdIdProducto" value="@ViewBag.Producto.IdProducto" />
                             <input type="hidden" id="hdBancos" name="hdBancos" />
@@ -137,7 +139,7 @@
     <p>Puede dejar sus consultas o comentarios <a href="contacto.html">aquí</a>.</p>
 </div>
 <div id="bancos" class="hidden">
-    <h3>Seleccione uno o más bancos</h3>
+    <h3>Seleccione @ViewBag.MensajeBancoEmpresaPopUp</h3>
     <div class="all"><label><input type="checkbox" /><span>Seleccionar todo<span></label></div>
     <ul>
         @foreach (Banco i in ViewBag.ListaBancos)
