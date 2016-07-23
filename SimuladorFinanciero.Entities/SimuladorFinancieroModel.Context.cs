@@ -9,9 +9,10 @@
 
 namespace SimuladorFinanciero.Entities
 {
+    using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
-
+    
     public partial class SimuladorFinancieroEntities : DbContext
     {
         public SimuladorFinancieroEntities()

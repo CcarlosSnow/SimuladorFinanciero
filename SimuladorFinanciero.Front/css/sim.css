@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 @font-face{font-family:'bree_perubold';src:url(../fonts/breeperu_bold-webfont.woff2) format("woff2"),url(../fonts/breeperu_bold-webfont.woff) format("woff");font-weight:400;font-style:normal}
 @font-face{font-family:'bree_perubold_italic';src:url(../fonts/breeperu_boldoblique-webfont.woff2) format("woff2"),url(../fonts/breeperu_boldoblique-webfont.woff) format("woff");font-weight:400;font-style:normal}
 @font-face{font-family:'bree_peru_ltlight';src:url(../fonts/breeperu_light-webfont.woff2) format("woff2"),url(../fonts/breeperu_light-webfont.woff) format("woff");font-weight:400;font-style:normal}
@@ -64,6 +64,8 @@ header .contact i{ content:""; display:inline-block; vertical-align:middle; back
 .accordion ul li .content a{ cursor:pointer; margin:0 0 18px 0; display:block; font-family:'droid_sansregular', sans-serif; font-size:14px; line-height:16px; letter-spacing:normal; color:#606163; }
 .accordion ul li .content a span{ background:url(../images/n-radio.jpg) no-repeat; margin:-3px 5px 0 0; width:15px; height:15px; display:inline-block; vertical-align:middle; }
 .accordion ul li .content a.selected span{ background:url(../images/a-radio.jpg) no-repeat; }
+.radiobutton{ background:url(../images/n-radio.jpg) no-repeat; margin:-3px 5px 0 0; width:15px; height:15px; display:inline-block; vertical-align:middle; }
+.accordion ul li .content a.selected .radiobutton{ background:url(../images/a-radio.jpg) no-repeat; }
 .accordion ul li .content a:last-child{ margin:0; }
 .middle{ width:368px; margin:auto; }
 .middle .btn-bank{ display:block; margin:0 0 10px 0; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; -o-border-radius:4px; -ms-border-radius:4px; transition: all .2s ease-in-out; cursor:pointer; background:#00447c; font-family:"bree_peruregular", sans-serif; position:relative; font-size:15px; line-height:47px; height:47px; display:block; color:#fff; text-decoration:none; }
@@ -233,11 +235,15 @@ header .contact i{ content:""; display:inline-block; vertical-align:middle; back
 .desktop.full .row.bottom.fixed{ width:100%;  position:fixed; bottom:10px;  left:0; padding:0; }
 .txt-right{ font-size:11px; font-weight:normal; text-align:center; color: #bbb; text-shadow: 0 2px 3px #000; margin:40px 0 20px; line-height: 18px; }
 .mobile.send{ display:none; }
-#overlay-success{ display:none; z-index:10000; position:fixed; background:rgba(0,0,0,0.5); top:0; left:0; width:100%; height:100%; }
+#overlay-success, #overlay-loading{ display:none; z-index:10000; position:fixed; background:rgba(0,0,0,0.5); top:0; left:0; width:100%; height:100%; }
 #success-send{ padding:20px 0 40px; background:#fff; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.2); overflow:hidden; text-align:center; position:fixed; top:35%; left:50%; margin:0 0 0 -150px; width:300px; }
 #success-send img{ display:block; margin:0 auto 20px; }
 #success-send .close{ position:absolute; top:10px; cursor:pointer; right:10px; font-size: 18px; color: #fff; background: #00447c; width: 25px; height: 25px; border-radius: 25px; -moz-border-radius: 25px; -webkit-border-radius: 25px; -o-border-radius: 25px; -ms-border-radius: 25px; text-align: center; line-height: 25px; }
 #success-send p{ font-family: "bree_peruregular", sans-serif; font-size:24px; line-height:24px; color:#606163; }
+#loading-contacto{ padding:20px 0 40px; background:#fff; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.2); overflow:hidden; text-align:center; position:fixed; top:35%; left:50%; margin:0 0 0 -150px; width:300px; }
+#loading-contacto img{ display:block; margin:0 auto 20px; }
+#loading-contacto .close{ position:absolute; top:10px; cursor:pointer; right:10px; font-size: 18px; color: #fff; background: #00447c; width: 25px; height: 25px; border-radius: 25px; -moz-border-radius: 25px; -webkit-border-radius: 25px; -o-border-radius: 25px; -ms-border-radius: 25px; text-align: center; line-height: 25px; }
+#loading-contacto p{ font-family: "bree_peruregular", sans-serif; font-size:24px; line-height:24px; color:#606163; }
 @-webkit-keyframes jconfirm-rotate {
 from{-webkit-transform:rotate(0deg);transform:rotate(0deg)}
 to{-webkit-transform:rotate(360deg);transform:rotate(360deg)}
@@ -279,7 +285,7 @@ body.jconfirm-noscroll{overflow:hidden!important}
 .jconfirm.jconfirm-white .jconfirm-box{ width:300px; margin:auto; box-shadow:0 2px 6px rgba(0,0,0,0.2);border-radius:4px}
 .jconfirm.jconfirm-white .jconfirm-box .buttons{float:right}
 .jconfirm.jconfirm-white .jconfirm-box .buttons button{ cursor: pointer;color: #fff;background: #D52B1E;font-family: "bree_peruregular", sans-serif; position:relative; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; -ms-border-radius:4px; -o-border-radius:4px; border:none;background-image:none;font-size:14px;text-shadow:none;-webkit-transition:background .1s;transition:background .1s;color:#fff}
-.jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default{box-shadow:none;color:#333}
+.jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default{box-shadow:none;color:#fff}
 .jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default:hover{background:#ddd}
 .jconfirm.jconfirm-black .jconfirm-bg{background-color:rgba(0,0,0,0.5)}
 .jconfirm.jconfirm-black .jconfirm-box{box-shadow:0 2px 6px rgba(0,0,0,0.2);background:#444;border-radius:5px;color:#fff}
@@ -491,8 +497,11 @@ header .title, .page.a .f-content p{ display:none; }
 .hidden.resultado-tabla .table .tbody .col.f{ display:none!important; }
 .hidden.resultado-tabla .cols.mobile{ background: #fff; margin:15px 0 -15px; padding:0; width:100%; }
 .hidden.resultado-tabla .cols.mobile .row:nth-child(2n+1){ background:#ececec; }
-.hidden.resultado-tabla .cols.mobile p{ display:inline-table; padding:8px 5%; width:50%; color:#606163; }
+.hidden.resultado-tabla .cols.mobile p{ display:inline-table; padding:8px 5%; width:49%; color:#606163; }
 .hidden.resultado-tabla .cols.mobile p a{text-decoration:underline; display:block; position:relative; color:#606163; z-index:5; }
 .navi-left, .page.result .content .row .bank .table .thead, .hidden.resultado-tabla .table .thead{ display:none!important; }
 .fancybox-inner{ height:auto!important; }
+.jconfirm .jconfirm-box div.content-pane .content{ padding:0 18px 0 0; }
+.jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default{ font-size:0; color:#fff; background:none; position:absolute; top:5px; right:2px; }
+.jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default:before{ background:#00447c; width: 25px; line-height:25px; text-align:center; display:block; height: 25px; border-radius: 25px; font-family:FontAwesome; font-size:18px; content:"\f00d"; }
 }

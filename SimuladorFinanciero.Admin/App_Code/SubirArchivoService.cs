@@ -226,7 +226,7 @@ namespace SimuladorFinanciero
                                 oConceptoProductoBanco.MEMax = 0;
                             }
 
-                            oConceptoProductoBanco.Observaciones = Datos[15];
+                            oConceptoProductoBanco.Observaciones = Datos[18];
 
                             ConceptosProductosBancos.Add(oConceptoProductoBanco);
                         }

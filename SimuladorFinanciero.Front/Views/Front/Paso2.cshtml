@@ -12,6 +12,7 @@
 
             var bancosArray = [];
             var bancosFormat = '';
+            var periodo = $('#periodo');
 
             if ($('#bancos ul li label').hasClass('selected') != true) {
                 $.alert({
@@ -56,9 +57,8 @@
 
                 $("#hdBancos").val(bancosFormat);
 
-                return true;
-
-            } else {
+            }
+            else {
                 $.alert({
                     title: '¡Aviso!',
                     content: 'Debe ingresar un monto',
@@ -68,6 +68,25 @@
 
                 return false;
             }
+
+            if (periodo.length > 0) {
+                if (periodo.val() == '') {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe seleccionar un periodo',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                return true;
+            }
+
             e.preventDefault();
         });
     });
@@ -106,7 +125,7 @@
                             {
                                 <div class="btn-days">
                                     <div class="select">
-                                        <input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" />
+                                        <input id="periodo" name="periodo" disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" />
                                         <div class="sc">
                                             <i class="fa fa-caret-up" aria-hidden="true"></i>
                                             <i class="fa fa-caret-down" aria-hidden="true"></i>
@@ -119,10 +138,12 @@
                                     </ul>
                                 </div>
                             }
+                            <input type="hidden" id="hdIdTipo" name="hdIdTipo" value="@ViewBag.IdTipo" />
                             <input type="hidden" id="hdTipoNombre" name="hdTipoNombre" value="@ViewBag.TipoNombre" />
                             <input type="hidden" id="hdIdProducto" name="hdIdProducto" value="@ViewBag.Producto.IdProducto" />
                             <input type="hidden" id="hdBancos" name="hdBancos" />
-                            <input type="submit" value="Enviar" class="btn-Calcular" />
+                            <input type="hidden" id="hdPeriodo" name="hdPeriodo" value="0" />
+                            <input type="submit" value="Calcular" class="btn-Calcular" />
                             @*<a href="@Url.Action("Resultado", "Front", )" class="btn-Calcular">Calcular</a>
                                 <a href="index.html" class="back"><< Regresar</a>*@
                         </div>
@@ -140,21 +161,12 @@
 </div>
 <div id="bancos" class="hidden">
     <h3>Seleccione @ViewBag.MensajeBancoEmpresaPopUp</h3>
-    <div class="all"><label><input type="checkbox" /><span>Seleccionar todo<span></label></div>
+    <div class="all"><label><input type="checkbox" /><span>Seleccionar todo</span></label></div>
     <ul>
         @foreach (Banco i in ViewBag.ListaBancos)
         {
             <li><label><input type="checkbox" data-id="@i.IdBanco" /><span>@i.Nombre</span></label></li>
         }
-        @*<li><label><input type="checkbox" rel="2" /><span>Banco Financiero</span></label></li>
-            <li><label><input type="checkbox" rel="3" /><span>Banco GNB</span></label></li>
-            <li><label><input type="checkbox" rel="4" /><span>Banco Interamericano de Finanzas</span></label></li>
-            <li><label><input type="checkbox" rel="5" /><span>Banco Santander</span></label></li>
-            <li><label><input type="checkbox" rel="6" /><span>Banco de Comercio</span></label></li>
-            <li><label><input type="checkbox" rel="7" /><span>Banco de Crédito del Perú</span></label></li>
-            <li><label><input type="checkbox" rel="8" /><span>Citibank</span></label></li>
-            <li><label><input type="checkbox" rel="9" /><span>Interbank</span></label></li>
-            <li><label><input type="checkbox" rel="10" /><span>Scotiabank</span></label></li>*@
     </ul>
     <a class="btn-Select">Seleccionar</a>
 </div>

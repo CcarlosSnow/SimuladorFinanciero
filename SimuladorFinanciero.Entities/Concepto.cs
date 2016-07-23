@@ -9,8 +9,9 @@
 
 namespace SimuladorFinanciero.Entities
 {
+    using System;
     using System.Collections.Generic;
-
+    
     public partial class Concepto
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

@@ -83,11 +83,108 @@ namespace SimuladorFinanciero.Data
             return (Context.SaveChanges() != 0);
         }
 
-        public IList<ConceptoProductoBanco> SelectByProductoAndBancoAndTipoComision(int IdProducto, string IdBanco, string TipoComision)
+        public List<ConceptoProductoBancoDTO> SelectByProductoAndBancoAndTipoComision(int IdProducto, string IdBanco, string TipoComision, int Periodo)
         {
-            var ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
-                                           where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
-                                           select i;
+            IQueryable<ConceptoProductoBancoDTO> ConceptosProductosBancos = null;
+            switch (Periodo)
+            {
+                case 30:
+                    ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                               where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                               select new ConceptoProductoBancoDTO
+                                               {
+                                                   IdConcepto = i.IdConcepto,
+                                                   IdProducto = i.IdProducto,
+                                                   IdBanco = i.IdBanco,
+                                                   TipoComision = i.TipoComision,
+                                                   Tasa30 = i.Tasa30,
+                                                   Tasa60 = i.Tasa60,
+                                                   Tasa90 = i.Tasa90,
+                                                   Minimo = i.Minimo,
+                                                   Maximo = i.Maximo,
+                                                   METasaMax = i.METasaMax,
+                                                   METasaMin = i.METasaMin,
+                                                   MEMin = i.MEMin,
+                                                   MEMax = i.MEMax,
+                                                   Observaciones = i.Observaciones,
+                                                   Concepto = i.Concepto,
+                                                   ProductoBanco = i.ProductoBanco,
+                                                   Parametro = i.Parametro
+                                               };
+                    break;
+                case 60:
+                    ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                               where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                               select new ConceptoProductoBancoDTO
+                                               {
+                                                   IdConcepto = i.IdConcepto,
+                                                   IdProducto = i.IdProducto,
+                                                   IdBanco = i.IdBanco,
+                                                   TipoComision = i.TipoComision,
+                                                   Tasa30 = i.Tasa60,
+                                                   Tasa60 = i.Tasa60,
+                                                   Tasa90 = i.Tasa90,
+                                                   Minimo = i.Minimo,
+                                                   Maximo = i.Maximo,
+                                                   METasaMax = i.METasaMax,
+                                                   METasaMin = i.METasaMin,
+                                                   MEMin = i.MEMin,
+                                                   MEMax = i.MEMax,
+                                                   Observaciones = i.Observaciones,
+                                                   Concepto = i.Concepto,
+                                                   ProductoBanco = i.ProductoBanco,
+                                                   Parametro = i.Parametro
+                                               };
+                    break;
+                case 90:
+                    ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                               where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                               select new ConceptoProductoBancoDTO
+                                               {
+                                                   IdConcepto = i.IdConcepto,
+                                                   IdProducto = i.IdProducto,
+                                                   IdBanco = i.IdBanco,
+                                                   TipoComision = i.TipoComision,
+                                                   Tasa30 = i.Tasa90,
+                                                   Tasa60 = i.Tasa60,
+                                                   Tasa90 = i.Tasa90,
+                                                   Minimo = i.Minimo,
+                                                   Maximo = i.Maximo,
+                                                   METasaMax = i.METasaMax,
+                                                   METasaMin = i.METasaMin,
+                                                   MEMin = i.MEMin,
+                                                   MEMax = i.MEMax,
+                                                   Observaciones = i.Observaciones,
+                                                   Concepto = i.Concepto,
+                                                   ProductoBanco = i.ProductoBanco,
+                                                   Parametro = i.Parametro
+                                               };
+                    break;
+                default:
+                    ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                               where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                               select new ConceptoProductoBancoDTO
+                                               {
+                                                   IdConcepto = i.IdConcepto,
+                                                   IdProducto = i.IdProducto,
+                                                   IdBanco = i.IdBanco,
+                                                   TipoComision = i.TipoComision,
+                                                   Tasa30 = i.Tasa30,
+                                                   Tasa60 = i.Tasa60,
+                                                   Tasa90 = i.Tasa90,
+                                                   Minimo = i.Minimo,
+                                                   Maximo = i.Maximo,
+                                                   METasaMax = i.METasaMax,
+                                                   METasaMin = i.METasaMin,
+                                                   MEMin = i.MEMin,
+                                                   MEMax = i.MEMax,
+                                                   Observaciones = i.Observaciones,
+                                                   Concepto = i.Concepto,
+                                                   ProductoBanco = i.ProductoBanco,
+                                                   Parametro = i.Parametro
+                                               };
+                    break;
+            }
 
             return ConceptosProductosBancos.ToList();
         }

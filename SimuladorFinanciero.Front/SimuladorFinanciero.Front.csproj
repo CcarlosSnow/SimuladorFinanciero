@@ -234,6 +234,7 @@
     <Content Include="images\ico-home.png" />
     <Content Include="images\icons.png" />
     <Content Include="images\loading.gif" />
+    <Content Include="images\loadingContacto.gif" />
     <Content Include="images\n-check.png" />
     <Content Include="images\n-radio.jpg" />
     <Content Include="images\overlay.png" />
@@ -243,7 +244,6 @@
     <Content Include="js\modernizr-min.js" />
     <Content Include="js\selectivizr-min.js" />
     <Content Include="js\sim.js" />
-    <Content Include="resultados.html" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />

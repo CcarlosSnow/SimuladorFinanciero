@@ -9,7 +9,9 @@
 
 namespace SimuladorFinanciero.Entities
 {
-
+    using System;
+    using System.Collections.Generic;
+    
     public partial class Sugerencia
     {
         public int IdSugerencia { get; set; }

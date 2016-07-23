@@ -90,6 +90,7 @@ namespace SimuladorFinanciero.Front.Controllers
                 MensajeBancoEmpresaPopUp = "uno o más bancos";
             }
 
+            ViewBag.IdTipo = Tipo;
             ViewBag.TipoNombre = TipoNombre;
             ViewBag.Producto = Producto;
             ViewBag.ListaBancos = Bancos;
@@ -105,35 +106,95 @@ namespace SimuladorFinanciero.Front.Controllers
             NameValueCollection Form = Request.Form;
             double Monto = double.Parse(Form["txtMonto"]);
             int IdProducto = int.Parse(Form["hdIdProducto"]);
+            int IdTipo = int.Parse(Form["hdIdTipo"]);
             string TipoNombre = Form["hdTipoNombre"];
-            string Bancos = Form["hdBancos"];
-            string[] BancosArray = Bancos.Split(',');
+            string BancosString = Form["hdBancos"];
+            int Periodo = int.Parse(Form["hdPeriodo"]);
+            string[] BancosArray = BancosString.Split(',');
 
             ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
             List<ProductoBanco> ListaProductosBancos = new List<ProductoBanco>();
-            List<ConceptoProductoBanco> ListaConceptosProductosBancosUsuales = new List<ConceptoProductoBanco>();
-            List<ConceptoProductoBanco> ListaConceptosProductosBancosEventuales = new List<ConceptoProductoBanco>();
+            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosUsuales = new List<ConceptoProductoBancoDTO>();
+            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosEventuales = new List<ConceptoProductoBancoDTO>();
             ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
             foreach (string i in BancosArray)
             {
                 var ProductoBanco = oProductoBancoBL.SelectByIdProductoAndIdBanco(IdProducto, i);
                 ListaProductosBancos.Add(ProductoBanco);
 
-                var ConceptosProductosBancosUsuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0401").Concat(ListaConceptosProductosBancosUsuales);
+                var ConceptosProductosBancosUsuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0401", Periodo).Concat(ListaConceptosProductosBancosUsuales);
                 ListaConceptosProductosBancosUsuales = ConceptosProductosBancosUsuales.ToList();
 
-                var ConceptosProductosBancosEventuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0402").Concat(ListaConceptosProductosBancosEventuales);
+                var ConceptosProductosBancosEventuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0402", Periodo).Concat(ListaConceptosProductosBancosEventuales);
                 ListaConceptosProductosBancosEventuales = ConceptosProductosBancosEventuales.ToList();
             }
 
             ProductoBL oProductoBL = new ProductoBL();
-            var Producto = oProductoBL.Select(IdProducto);
             ViewBag.TipoNombre = TipoNombre;
-            ViewBag.Producto = Producto;
             ViewBag.Monto = Monto;
+            ViewBag.Periodo = Periodo;
             ViewBag.ListaProductosBancos = ListaProductosBancos;
             ViewBag.ListaConceptosProductosBancosUsuales = ListaConceptosProductosBancosUsuales;
             ViewBag.ListaConceptosProductosBancosEventuales = ListaConceptosProductosBancosEventuales;
+
+            IList<Producto> ListaMediosDePago = oProductoBL.SelectByTipo(1);
+            IList<Producto> ListaFinanciamiento = oProductoBL.SelectByTipo(2);
+            IList<Producto> ListaGarantias = oProductoBL.SelectByTipo(3);
+            ViewBag.ListaMediosDePago = ListaMediosDePago;
+            ViewBag.ListaFinanciamiento = ListaFinanciamiento;
+            ViewBag.ListaGarantias = ListaGarantias;
+
+            string BancoEmpresa = "";
+            string MensajeBancoEmpresaJS = "";
+            string MensajeBancoEmpresaPopUp = "";
+            Producto Producto = null;
+            List<Banco> Bancos = null;
+            bool MostrarPeriodo = true;
+            switch (IdTipo)
+            {
+                case 1:
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
+                    break;
+                case 2:
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
+                    break;
+                case 3:
+                    Producto = oProductoBL.Select(IdProducto);
+                    Bancos = oProductoBancoBL.SelectByIdProducto(IdProducto);
+                    break;
+                case 4:
+                    Producto = oProductoBL.SelectByTipo(4).First();
+                    Bancos = oProductoBancoBL.SelectByIdProducto(Producto.IdProducto);
+                    MostrarPeriodo = false;
+                    break;
+            }
+
+            if (Producto.Nombre.StartsWith("1.5") || IdProducto == 0)
+            {
+                BancoEmpresa = "Empresa";
+                MensajeBancoEmpresaJS = "una Empresa";
+                MensajeBancoEmpresaPopUp = "una o más Empresas";
+                MostrarPeriodo = false;
+            }
+            else
+            {
+                BancoEmpresa = "Banco";
+                MensajeBancoEmpresaJS = "un Banco";
+                MensajeBancoEmpresaPopUp = "uno o más bancos";
+            }
+
+            ViewBag.IdTipo = IdTipo;
+            ViewBag.TipoNombre = TipoNombre;
+            ViewBag.Producto = Producto;
+            ViewBag.ListaBancos = Bancos;
+            ViewBag.BancosString = BancosString;
+            ViewBag.BancoEmpresa = BancoEmpresa;
+            ViewBag.BancosArray = BancosArray;
+            ViewBag.MensajeBancoEmpresaJS = MensajeBancoEmpresaJS;
+            ViewBag.MensajeBancoEmpresaPopUp = MensajeBancoEmpresaPopUp;
+            ViewBag.MostrarPeriodo = MostrarPeriodo;
             return View();
         }
     }
