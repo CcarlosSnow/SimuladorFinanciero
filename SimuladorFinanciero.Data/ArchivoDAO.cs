@@ -34,6 +34,14 @@ namespace SimuladorFinanciero.Data
             return Archivos.SingleOrDefault();
         }
 
+        public Archivo SelectActive()
+        {
+            var Archivo = from i in Context.Archivo
+                          where i.Estado == "0501"
+                          select i;
+            return Archivo.FirstOrDefault();
+        }
+
         public IList<Archivo> SelectAll()
         {
             var Archivos = from i in Context.Archivo

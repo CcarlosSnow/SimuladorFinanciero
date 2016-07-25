@@ -6,91 +6,94 @@
     @Styles.Render("~/Front/basecss")
     <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 }
-<script>
-    $(document).ready(function () {
-        $('#frmPaso2').submit(function (e) {
+@section ScriptBottom {
+    <script>
+        $(document).ready(function () {
+            $('#hdMensajeValidacionBanco').val('Debe seleccionar por lo menos @ViewBag.MensajeBancoEmpresaJS')
+            $('#frmPaso2').submit(function (e) {
 
-            var bancosArray = [];
-            var bancosFormat = '';
-            var periodo = $('#periodo');
+                var bancosArray = [];
+                var bancosFormat = '';
+                var periodo = $('#periodo');
 
-            if ($('#bancos ul li label').hasClass('selected') != true) {
-                $.alert({
-                    title: '¡Aviso!',
-                    content: 'Debe seleccionar por lo menos @ViewBag.MensajeBancoEmpresaJS',
-                    confirmButton: 'Aceptar',
-                    confirmButtonClass: 'error'
-                });
+                if ($('#bancos ul li label').hasClass('selected') != true) {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: $('#hdMensajeValidacionBanco').val(),
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
 
-                return false
-            }
-
-            if ($('#txtMonto').val() == '') {
-                $.alert({
-                    title: '¡Aviso!',
-                    content: 'Debe ingresar un monto',
-                    confirmButton: 'Aceptar',
-                    confirmButtonClass: 'error'
-                });
-
-                return false
-            }
-
-            $.each($('#bancos ul li label'), function (i, val) {
-
-                if ($(val).hasClass('selected')) {
-                    bancosArray.push($(val).find('input').data('id'))
+                    return false
                 }
 
-            });
+                if ($('#txtMonto').val() == '') {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar un monto',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
 
-            if (bancosArray.length > 0) {
-                $.each(bancosArray, function (i, val) {
+                    return false
+                }
 
-                    if (bancosArray.length == (i + 1)) {
-                        bancosFormat += val;
-                    } else {
-                        bancosFormat += val + ',';
+                $.each($('#bancos ul li label'), function (i, val) {
+
+                    if ($(val).hasClass('selected')) {
+                        bancosArray.push($(val).find('input').data('id'))
                     }
 
                 });
 
-                $("#hdBancos").val(bancosFormat);
+                if (bancosArray.length > 0) {
+                    $.each(bancosArray, function (i, val) {
 
-            }
-            else {
-                $.alert({
-                    title: '¡Aviso!',
-                    content: 'Debe ingresar un monto',
-                    confirmButton: 'Aceptar',
-                    confirmButtonClass: 'error'
-                });
+                        if (bancosArray.length == (i + 1)) {
+                            bancosFormat += val;
+                        } else {
+                            bancosFormat += val + ',';
+                        }
 
-                return false;
-            }
+                    });
 
-            if (periodo.length > 0) {
-                if (periodo.val() == '') {
+                    $("#hdBancos").val(bancosFormat);
+
+                }
+                else {
                     $.alert({
                         title: '¡Aviso!',
-                        content: 'Debe seleccionar un periodo',
+                        content: 'Debe ingresar un monto',
                         confirmButton: 'Aceptar',
                         confirmButtonClass: 'error'
                     });
+
                     return false;
+                }
+
+                if (periodo.length > 0) {
+                    if (periodo.val() == '') {
+                        $.alert({
+                            title: '¡Aviso!',
+                            content: 'Debe seleccionar un periodo',
+                            confirmButton: 'Aceptar',
+                            confirmButtonClass: 'error'
+                        });
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
                 }
                 else {
                     return true;
                 }
-            }
-            else {
-                return true;
-            }
 
-            e.preventDefault();
+                e.preventDefault();
+            });
         });
-    });
-</script>
+    </script>
+}
 <section class="row">
     <div class="center">
         <div class="page a">
@@ -156,8 +159,10 @@
 <div id="condiciones" class="hidden">
     <h3>Consideraciones de uso</h3>
     <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero. Puede variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
+    <p>plazo utilizado para las simulaciones de financiamientos y garantías es de 90 días.</p>
     <p>Todos los datos son proporcionados por los bancos, PROMPERÚ no se responsabiliza.</p>
-    <p>Puede dejar sus consultas o comentarios <a href="contacto.html">aquí</a>.</p>
+    <p>Puede dejar sus consultas o comentarios <a href="@Url.Action("Contactp","Front")">aquí</a>.</p>
+
 </div>
 <div id="bancos" class="hidden">
     <h3>Seleccione @ViewBag.MensajeBancoEmpresaPopUp</h3>
@@ -170,3 +175,4 @@
     </ul>
     <a class="btn-Select">Seleccionar</a>
 </div>
+<input type="hidden" id="hdMensajeValidacionBanco" />

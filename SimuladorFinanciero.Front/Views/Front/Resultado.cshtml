@@ -18,6 +18,7 @@
 @section ScriptBottom{
     <script>
         $(document).ready(function () {
+            $('#hdMensajeValidacionBanco').val('Debe seleccionar por lo menos @ViewBag.MensajeBancoEmpresaJS')
             $('#frmFiltroResultado').submit(function (e) {
 
                 var bancosArray = [];
@@ -27,7 +28,7 @@
                 if ($('#bancos ul li label').hasClass('selected') != true) {
                     $.alert({
                         title: '¡Aviso!',
-                        content: 'Debe seleccionar por lo menos @ViewBag.MensajeBancoEmpresaJS',
+                        content: $('#hdMensajeValidacionBanco').val(),
                         confirmButton: 'Aceptar',
                         confirmButtonClass: 'error'
                     });
@@ -110,16 +111,15 @@
             }, 200
             );
 
-            $('#enviodinero').click(function () {
-                console.log(1);
-                $('#hdIdProducto').val('0');
-                $('#hdIdTipo').val($(this).data('tipo'));
+            //$('#enviodinero').click(function () {
+            //    $('#hdIdProducto').val('0');
+            //    $('#hdIdTipo').val($(this).data('tipo'));
 
-                $('.accordion ul li .content a').each(function () {
-                    $(this).removeClass('selected');
-                    //$(this).find("input").attr('checked', false);
-                });
-            });
+            //    $('.accordion ul li .content a').each(function () {
+            //        $(this).removeClass('selected');
+            //        //$(this).find("input").attr('checked', false);
+            //    });
+            //});
         });
     </script>
 }
@@ -131,7 +131,6 @@
         <p>El correo se envió correctamente</p>
     </div>
 </div>
-<div class="overlay"></div>
 <div class="navi-left">
     <a class="btn-Editar"><i></i> Editar</a>
     <a class="btn-Exportar" href=""><i></i> Exportar</a>
@@ -270,7 +269,7 @@
             <p class="sub">2. Selecione e ingrese los datos</p>
             <div class="middle">
                 <a href="#bancos" class="btn-bank fancybox">
-                    <div class="banco">Seleccionar banco(s)</div>
+                    <div class="banco">Seleccionar @ViewBag.BancoEmpresa (s)</div>
                     <i class="fa fa-plus-circle" aria-hidden="true"></i>
                     <!-- selecionar active
                     <div class="banco active">BBVA Banco Continental, Banco Financiero...</div>
@@ -294,7 +293,7 @@
                 </div>
                 <input type="hidden" id="hdIdTipo" name="hdIdTipo" value="@ViewBag.IdTipo" />
                 <input type="hidden" id="hdTipoNombre" name="hdTipoNombre" value="@ViewBag.TipoNombre" />
-                <input type="hidden" id="hdIdProducto" name="hdIdProducto" value="@ViewBag.Producto.IdProducto" />
+                <input type="hidden" id="hdIdProducto" name="hdIdProducto" value="@ViewBag.IdProducto" />
                 <input type="hidden" id="hdBancos" name="hdBancos" value="@ViewBag.BancosString" />
                 <input type="hidden" id="hdPeriodo" name="hdPeriodo" value="@ViewBag.Periodo" />
                 <input type="submit" class="btn-Actualizar" value="Actualizar" />
@@ -343,7 +342,7 @@
             <!-- /mobile -->
             <div class="content">
                 <div class="title">
-                    <div class="left">Banco</div>
+                    <div class="left">@ViewBag.BancoEmpresa</div>
                     <div class="right">Gasto Financiero</div>
                 </div>
                 <div class="border">
@@ -508,4 +507,4 @@
     <input type="email" class="email" placeholder="Ingresar correo" />
     <a class="btn-Enviar">Enviar</a>
 </div>
-
+<input type="hidden" id="hdMensajeValidacionBanco" />

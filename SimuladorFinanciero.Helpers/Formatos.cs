@@ -10,7 +10,9 @@ namespace SimuladorFinanciero.Helpers
 
         public const string FechaTitleFormat = "dd-MM-yyyy HH-mm-ss";
 
-        public const string NumeroFormat = "{0:0.00}";
+        public const string NumeroFormat = "0,0.00";
+
+        public const string PorcentajeFormat = "0.0000";    
 
         public static string ConvertirNumeroFormat(decimal Numero)
         {
@@ -19,7 +21,7 @@ namespace SimuladorFinanciero.Helpers
                 return "-";
             }
 
-            var s = string.Format(NumeroFormat, Numero);
+            var s = Numero.ToString(NumeroFormat);
             return s;
         }
 
@@ -31,7 +33,7 @@ namespace SimuladorFinanciero.Helpers
             }
             else
             {
-                return Math.Truncate((Numero * 1000000) / 10000).ToString();
+                return ((Numero * 1000000) / 10000).ToString(PorcentajeFormat);
             }
         }
 

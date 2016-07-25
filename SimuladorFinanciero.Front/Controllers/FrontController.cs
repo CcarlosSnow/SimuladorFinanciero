@@ -10,9 +10,10 @@ namespace SimuladorFinanciero.Front.Controllers
 {
     public class FrontController : Controller
     {
-        // GET: Front
+        ArchivoBL oArchivoBL = new ArchivoBL();
         public ActionResult Index()
         {
+            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
             ProductoBL oProductoBL = new ProductoBL();
             IList<Producto> ListaMediosDePago = oProductoBL.SelectByTipo(1);
             IList<Producto> ListaFinanciamiento = oProductoBL.SelectByTipo(2);
@@ -25,6 +26,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Contacto()
         {
+            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
             ParametroBL oParametroBL = new ParametroBL();
             var Tipos = oParametroBL.SelectByStart("06");
             ViewBag.Tipos = Tipos;
@@ -42,6 +44,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Paso2(int Tipo, int IdProducto)
         {
+            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
             ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
             ProductoBL oProductoBL = new ProductoBL();
             string TipoNombre = "";
@@ -103,6 +106,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Resultado()
         {
+            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
             NameValueCollection Form = Request.Form;
             double Monto = double.Parse(Form["txtMonto"]);
             int IdProducto = int.Parse(Form["hdIdProducto"]);
@@ -171,7 +175,7 @@ namespace SimuladorFinanciero.Front.Controllers
                     break;
             }
 
-            if (Producto.Nombre.StartsWith("1.5") || IdProducto == 0)
+            if (Producto.Nombre.StartsWith("1.5") || IdTipo == 4)
             {
                 BancoEmpresa = "Empresa";
                 MensajeBancoEmpresaJS = "una Empresa";
@@ -187,6 +191,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
             ViewBag.IdTipo = IdTipo;
             ViewBag.TipoNombre = TipoNombre;
+            ViewBag.IdProducto = IdProducto;
             ViewBag.Producto = Producto;
             ViewBag.ListaBancos = Bancos;
             ViewBag.BancosString = BancosString;

@@ -38,6 +38,18 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public Archivo SelectActive()
+        {
+            try
+            {
+                return oArchivoDAO.SelectActive();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public bool Insert(Archivo entidad)
         {
             try
