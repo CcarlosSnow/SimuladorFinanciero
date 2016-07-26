@@ -506,3 +506,7 @@ header .title, .page.a .f-content p{ display:none; }
 .jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default{ font-size:0; color:#fff; background:none; position:absolute; top:5px; right:2px; }
 .jconfirm.jconfirm-white .jconfirm-box .buttons button.btn-default:before{ background:#00447c; width: 25px; line-height:25px; text-align:center; display:block; height: 25px; border-radius: 25px; font-family:FontAwesome; font-size:18px; content:"\f00d"; }
 }
+
+.hide-be{
+display: none!important;
+}

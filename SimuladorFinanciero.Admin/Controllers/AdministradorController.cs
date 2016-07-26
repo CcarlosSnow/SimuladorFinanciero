@@ -44,8 +44,8 @@ namespace SimuladorFinanciero.Controllers
                     
                     string NombreXLS = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + Extension;
                     string NombreTXT = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt";
-                    string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreXLS);
-                    string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT);
+                    string RutaXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreXLS);
+                    string RutaTXT = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreTXT);
                     file.SaveAs(RutaXLS);
 
 
@@ -53,7 +53,7 @@ namespace SimuladorFinanciero.Controllers
                     
                     Spreadsheet oSpreadsheet = new Spreadsheet();
                     oSpreadsheet.LoadFromFile(RutaXLS);
-                    oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), NombreTXT));
+                    oSpreadsheet.Workbook.Worksheets[0].SaveAsTXT(Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreTXT));
                     
                     Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
                     int FilaError = 0;
@@ -127,7 +127,7 @@ namespace SimuladorFinanciero.Controllers
 
         public ActionResult DownloadExcel(string Nombre)
         {
-            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), Nombre));
+            byte[] fileBytes = System.IO.File.ReadAllBytes(Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), Nombre));
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, Nombre);
         }
 
@@ -153,8 +153,8 @@ namespace SimuladorFinanciero.Controllers
         {
             Enumerators.RespuestaCargaExcel RespuestaCargaExcel;
             Archivo oArchivo = oArchivoBL.Select(ArchivoId);
-            string RutaXLS = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreXLS);
-            string RutaTXT = Path.Combine(Server.MapPath(ConstantesLocal.RutaArchivosExcel), oArchivo.NombreTXT);
+            string RutaXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), oArchivo.NombreXLS);
+            string RutaTXT = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), oArchivo.NombreTXT);
             string Extension = System.IO.Path.GetExtension(oArchivo.NombreXLS);
             int FilaError = 0;
             RespuestaCargaExcel = oSubirArchivoService.CargarExcelDataBase(oArchivo.NombreXLS, oArchivo.NombreTXT, Extension, RutaXLS, RutaTXT, "CARGAR", out FilaError, ArchivoId);

@@ -1,5 +1,6 @@
 ﻿@using SimuladorFinanciero.Entities
 @using SimuladorFinanciero.Helpers
+@using SimuladorFinanciero.Core
 @using System
 @section ScriptHead{
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
@@ -120,10 +121,82 @@
             //        //$(this).find("input").attr('checked', false);
             //    });
             //});
+
+            $('#btnEnviar').click(function () {
+                $('#overlay-loading').fadeIn('fast');
+                var ParaTextBox = { "Para": $('#txtemail').val(),
+                    "Tipo": '@ViewBag.TipoNombre',
+                    "IdProducto": @ViewBag.Producto.IdProducto,
+                    "Monto": @ViewBag.Monto,
+                    "Periodo": @ViewBag.Periodo,
+                    "Bancos": '@ViewBag.BancosString', };
+                $.ajax({
+                    type: "POST",
+                    url: $('#url').data('urlenviarmail'),
+                    data: JSON.stringify(ParaTextBox),
+                    dataType: "json",
+                    contentType: 'application/json',
+                    processData: false,
+                    success: function (response) {
+                        if (response.Estado == "OK") {
+                            $('#overlay-loading').fadeOut();
+                            $('#overlay-success').fadeIn('fast');
+                        }
+                        else {
+                            $('#overlay-loading').fadeOut();
+                            $.alert({
+                                title: response.Titulo,
+                                content: response.Texto,
+                                confirmButton: 'Aceptar',
+                                confirmButtonClass: 'error'
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        $('#overlay-loading').fadeOut();
+                        $.alert({
+                            title: "Aviso!",
+                            content: error,
+                            confirmButton: 'Aceptar',
+                            confirmButtonClass: 'error'
+                        });
+                    }
+                });
+            });
+
+            if($('.result .bank').length == 1){
+                $('.result .bank .summary').addClass('show').next().slideDown();
+            }
+
+            setTimeout(function(){
+
+                var producto = $('#hdIdProducto').val();
+
+                $('.be-seleccion').each(function(){
+                    var productos = $(this).data('productos');
+                    var result = $.inArray(parseInt(producto),productos);
+                    if (result == -1) {
+                        $(this).parent().parent().addClass('hide-be');
+                        $(this).attr('checked',false);
+                        $(this).parent().removeClass('selected');
+                    } else {
+                        $(this).parent().parent().removeClass('hide-be');
+                    }
+                });
+
+            }, 200
+);
         });
     </script>
 }
 
+<div id="overlay-loading">
+    <div id="loading-contacto">
+        <img src="../images/loadingContacto.gif" border="0" />
+        <p>Espere un momento</p>
+    </div>
+</div>
 <div id="overlay-success">
     <div id="success-send">
         <i class="fa fa-times close" aria-hidden="true"></i>
@@ -133,7 +206,7 @@
 </div>
 <div class="navi-left">
     <a class="btn-Editar"><i></i> Editar</a>
-    <a class="btn-Exportar" href=""><i></i> Exportar</a>
+    <a class="btn-Exportar" href="@Url.Action("ExportExcelRespuesta", "Front", new { Tipo = ViewBag.TipoNombre, IdProducto = ViewBag.Producto.IdProducto, Monto = ViewBag.Monto, Periodo = ViewBag.Periodo, Bancos = ViewBag.BancosString })"><i></i> Exportar</a>
     <a class="btn-Enviar mobile fancybox" href="#enviar"><i></i> Enviar</a>
 </div>
 @using (Html.BeginForm("Resultado", "Front", FormMethod.Post, new { @id = "frmFiltroResultado" }))
@@ -257,11 +330,11 @@
                     <li class="d">
                         @if (ViewBag.IdTipo == 4)
                         {
-                            <a class="title show" id="enviodinero" data-tipo="4">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            <a class="title show" id="enviodinero" data-tipo="4" data-idproducto="@ViewBag.ListaEnvioDinero[0].IdProducto">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
                         }
                         else
                         {
-                            <a class="title" id="enviodinero" data-tipo="4">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                            <a class="title" id="enviodinero" data-tipo="4" data-idproducto="@ViewBag.ListaEnvioDinero[0].IdProducto">Envío de dinero <i class="fa fa-caret-right" aria-hidden="true"></i></a>
                         }
                     </li>
                 </ul>
@@ -418,7 +491,7 @@
                                         }
                                         <div id="@i.IdBanco-informacion" class="hidden resultado">
                                             <p>
-                                                (*) Consulte la fuente de información <a href="@i.WebTarifario">aqui</a> o tome contacto
+                                                (*) Consulte la fuente de información <a target="_blank" href="@i.WebTarifario">aqui</a> o tome contacto
                                                 con <a>@i.Banco.Nombre</a><br />
                                                 a través de @i.Contacto
                                             </p>
@@ -483,6 +556,7 @@
     <h3>Seleccione @ViewBag.MensajeBancoEmpresaPopUp</h3>
     <div class="all"><label><input type="checkbox" /><span>Seleccionar todo</span></label></div>
     <ul>
+        @{ ProductoBancoBL oProductoBancoBL = new ProductoBancoBL(); }
         @foreach (Banco i in ViewBag.ListaBancos)
         {
             bool Foco = false;
@@ -490,13 +564,13 @@
             {
                 if (bco == i.IdBanco)
                 {
-                    <li><label class="selected"><input type="checkbox" data-id="@i.IdBanco" /><span>@i.Nombre</span></label></li>
+                    <li><label class="selected"><input class="be-seleccion" type="checkbox" data-id="@i.IdBanco" data-productos="@oProductoBancoBL.SelectIdProductoByBanco(i.IdBanco)" /><span>@i.Nombre</span></label></li>
                     Foco = true;
                 }
             }
             if (!Foco)
             {
-                <li><label><input type="checkbox" data-id="@i.IdBanco" /><span>@i.Nombre</span></label></li>
+                <li><label><input type="checkbox" class="be-seleccion" data-id="@i.IdBanco" data-productos="@oProductoBancoBL.SelectIdProductoByBanco(i.IdBanco)" /><span>@i.Nombre</span></label></li>
             }
         }
     </ul>
@@ -504,7 +578,9 @@
 </div>
 <div id="enviar" class="hidden">
     <h3>Envío por correo</h3>
-    <input type="email" class="email" placeholder="Ingresar correo" />
-    <a class="btn-Enviar">Enviar</a>
+    <input id="txtemail" type="email" class="email" placeholder="Ingresar correo" />
+    <input id="btnEnviar" type="button" class=" btn-Enviar" value="Enviar" />
+    @*<a class="btn-Enviar">Enviar</a>*@
 </div>
 <input type="hidden" id="hdMensajeValidacionBanco" />
+<input type="hidden" id="url" data-urlenviarmail="@Url.Action("EnviarEmail","Front")" />

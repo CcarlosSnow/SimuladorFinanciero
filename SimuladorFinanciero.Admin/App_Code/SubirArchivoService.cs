@@ -7,6 +7,7 @@ using System.Data.OleDb;
 using System.Data;
 using SimuladorFinanciero.Entities;
 using System.IO;
+using SimuladorFinanciero.Helpers;
 
 namespace SimuladorFinanciero
 {
@@ -20,11 +21,11 @@ namespace SimuladorFinanciero
                 string excelConnectionString = string.Empty;
                 if (Extension == ".xls")
                 {
-                    excelConnectionString = ConstantesLocal.ConnectionExcelXLS(RutaXLS);
+                    excelConnectionString = ConstantesHelpers.ConnectionExcelXLS(RutaXLS);
                 }
                 else if (Extension == ".xlsx")
                 {
-                    excelConnectionString = ConstantesLocal.ConnectionExcelXLSX(RutaXLS);
+                    excelConnectionString = ConstantesHelpers.ConnectionExcelXLSX(RutaXLS);
                 }
 
                 OleDbConnection excelConnection = new OleDbConnection(excelConnectionString);

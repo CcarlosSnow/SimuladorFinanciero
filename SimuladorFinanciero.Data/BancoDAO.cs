@@ -45,6 +45,7 @@ namespace SimuladorFinanciero.Data
         public IList<Banco> SelectAll()
         {
             var Bancos = from i in Context.Banco
+                         where i.Estado == "0101"
                          select i;
             return Bancos.ToList();
         }

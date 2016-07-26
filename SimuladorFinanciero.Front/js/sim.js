@@ -57,8 +57,19 @@ $(document).ready(function () {
                 var allContent = $('.accordion .content').hide();
                 var allTop = $('.accordion ul li > a.title');
                 $('.accordion ul li > a.title').unbind('click').bind('click', function () {
-                    $('#hdIdProducto').val('0');
+                    $('#hdIdProducto').val($(this).data('idproducto'));
                     $('#hdIdTipo').val($(this).data('tipo'));
+                    if ($(this).data('idproducto') != '') {
+                        $('.be-seleccion').each(function () {
+                            var productos = $(this).data('productos');
+                            var result = $.inArray($(this).data('idproducto'), productos);
+                            if (result == -1) {
+                                $(this).parent().parent().addClass('hide-be');
+                            } else {
+                                $(this).parent().parent().removeClass('hide-be');
+                            }
+                        });
+                    }
                     $('.accordion ul li .content a').each(function () {
                         $(this).removeClass('selected');
                         //$(this).find("input").attr('checked', false);
@@ -112,27 +123,51 @@ $(document).ready(function () {
         $(this).addClass('focus');
     });
     //Radio
-    //$('.accordion ul li .content a').on('click', function () {
-    //    $(this).addClass('selected')
-    //    $(this).siblings().removeClass('selected')
-    //});
-
     $('.accordion ul li .content a').on('click', function () {
+
         $('.accordion ul li .content a').each(function () {
             $(this).removeClass('selected');
             $(this).find("input").attr('checked', false);
         });
+
         $(this).addClass('selected');
         $(this).find("input").attr('checked', true);
 
         $('#hdIdProducto').val($(this).find("input").val());
         $('#hdIdTipo').val($(this).find("input").data('tipo'));
+
+        var producto = $(this).find("input").val();
+        $('#bancos ul label').removeClass('selected');
+
+        $('.be-seleccion').each(function () {
+            var productos = $(this).data('productos');
+            var result = $.inArray(parseInt(producto), productos);
+            console.log(result);
+            if (result == -1) {
+                $(this).parent().parent().addClass('hide-be');
+            } else {
+                $(this).parent().parent().removeClass('hide-be');
+            }
+        });
     });
 
     $('.accordion ul li a.title').on('click', function () {
-        $('#hdIdProducto').val('0');
+        $('#hdIdProducto').val($(this).data('idproducto'));
         $('#hdIdTipo').val($(this).data('tipo'));
+        if ($(this).data('idproducto') != '') {
+            $('.be-seleccion').each(function () {
+                var productos = $(this).data('productos');
+                var result = $.inArray(parseInt($(this).data('idproducto')), productos);
+                if (result == -1) {
+                    $(this).parent().parent().addClass('hide-be');
+                } else {
+                    $(this).parent().parent().removeClass('hide-be');
+                }
+            });
+        }
     });
+
+
 
     //Dias
     $('.btn-days .select').on('click', function () {
@@ -175,14 +210,18 @@ $(document).ready(function () {
 
     //Checkbox
     $('#bancos .all label').on('change', function () {
+
         $(this).addClass('selected');
-        $('#bancos ul li label').toggleClass('selected');
-        if ($('#bancos ul li label').hasClass('selected')) {
-            $('#bancos ul li label:not(.selected)').addClass('selected');
+        $('#bancos ul li:not(.hide-be) label').toggleClass('selected');
+
+        if ($('#bancos ul li:not(.hide-be) label').hasClass('selected')) {
+            $('#bancos ul li:not(.hide-be) label:not(.selected)').addClass('selected');
         } else {
             $(this).removeClass('selected');
         }
+
     });
+
     $('#bancos ul li label').on('change', function () {
         $(this).toggleClass('selected');
         $('#bancos .all label').removeClass('selected');
@@ -320,8 +359,8 @@ $(document).ready(function () {
                 confirmButton: 'Aceptar',
                 confirmButtonClass: 'error'
             });
-        } else {
-            $('#overlay-success').fadeIn('fast');
+            //} else {
+
         }
     });
     $('#success-send .close').click(function () {

@@ -131,6 +131,19 @@ namespace SimuladorFinanciero.Core
             }
         }
 
+        public string SelectIdProductoByBanco(string IdBanco)
+        {
+            try
+            {
+                return oProductoBancoDAO.SelectIdProductoByBanco(IdBanco);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public void Dispose()
         {
             var item = (ProductoBancoDAO)oProductoBancoDAO;

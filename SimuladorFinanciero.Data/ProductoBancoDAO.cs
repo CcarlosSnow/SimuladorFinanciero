@@ -66,5 +66,40 @@ namespace SimuladorFinanciero.Data
 
             return ProductoBanco.SingleOrDefault();
         }
+
+        public string SelectIdProductoByBanco(string IdBanco)
+        {
+            var ProductosBancos = (from i in Context.ProductoBanco
+                                   where i.IdBanco == IdBanco
+                                   select i).ToList();
+            int Conteo = ProductosBancos.Count;
+            int Contador = 0;
+            string Resultado = "";
+            if (Conteo == 1)
+            {
+                Resultado = "[" + ProductosBancos[0].IdProducto + "]";
+            }
+            else
+            {
+                foreach (ProductoBanco i in ProductosBancos)
+                {
+                    Contador++;
+                    if (Contador == 1)
+                    {
+                        Resultado = "[" + i.IdProducto + ",";
+                    }
+                    else if (Contador < Conteo)
+                    {
+                        Resultado = Resultado + i.IdProducto + ",";
+                    }
+                    else if (Contador == Conteo)
+                    {
+                        Resultado = Resultado + i.IdProducto + "]";
+                    }
+                    
+                }
+            }
+            return Resultado;
+        }
     }
 }
