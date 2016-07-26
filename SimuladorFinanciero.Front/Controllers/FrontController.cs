@@ -23,6 +23,7 @@ namespace SimuladorFinanciero.Front.Controllers
             IList<Producto> ListaMediosDePago = oProductoBL.SelectByTipo(1);
             IList<Producto> ListaFinanciamiento = oProductoBL.SelectByTipo(2);
             IList<Producto> ListaGarantias = oProductoBL.SelectByTipo(3);
+            IList<Producto> ListaEnvioDinero = oProductoBL.SelectByTipo(4);
             ViewBag.ListaMediosDePago = ListaMediosDePago;
             ViewBag.ListaFinanciamiento = ListaFinanciamiento;
             ViewBag.ListaGarantias = ListaGarantias;
@@ -47,7 +48,7 @@ namespace SimuladorFinanciero.Front.Controllers
             return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Los datos fueron registrados correctamente." });
         }
 
-        public ActionResult Paso2(int Tipo, int IdProducto)
+        public ActionResult Paso2(int Tipo, int IdProducto, string Numero)
         {
             ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
             ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
@@ -245,7 +246,7 @@ namespace SimuladorFinanciero.Front.Controllers
             Response.ContentEncoding = Encoding.Unicode;
             Response.BinaryWrite(Encoding.Unicode.GetPreamble());
             //Response.Charset = ;
-            string ResponseBody = "<!DOCTYPE html><html><head><meta http-equiv='content - type' content='text / html; charset = utf - 8'/></head><body>" +
+            string ResponseBody = "<html><head><meta http-equiv='content - type' content='text / html; charset = utf - 8'/></head><body>" +
                                   "<table cellspacing='0' border='0'>" +
                                   "<tr>" +
                                   "<td style='border: 1px SOLID #000000;' colspan=7 height='38' align='center' valign='top' bgcolor='#CC0000'>" +
