@@ -57,14 +57,17 @@ $(document).ready(function () {
                 var allContent = $('.accordion .content').hide();
                 var allTop = $('.accordion ul li > a.title');
                 $('.accordion ul li > a.title').unbind('click').bind('click', function () {
-                    $('#hdIdProducto').val($(this).data('idproducto'));
+                    var producto = $(this).data('idproducto');
+                    $('#hdIdProducto').val(producto);
                     $('#hdIdTipo').val($(this).data('tipo'));
-                    if ($(this).data('idproducto') != '') {
+                    if (typeof producto != 'undefined') {
                         $('.be-seleccion').each(function () {
                             var productos = $(this).data('productos');
-                            var result = $.inArray($(this).data('idproducto'), productos);
+                            var result = $.inArray(parseInt(producto), productos);
                             if (result == -1) {
                                 $(this).parent().parent().addClass('hide-be');
+                                $(this).attr('checked', false);
+                                $(this).parent().removeClass('selected');
                             } else {
                                 $(this).parent().parent().removeClass('hide-be');
                             }
