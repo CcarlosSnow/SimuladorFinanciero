@@ -18,7 +18,7 @@ namespace SimuladorFinanciero.Front.Controllers
         ArchivoBL oArchivoBL = new ArchivoBL();
         public ActionResult Index()
         {
-            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             ProductoBL oProductoBL = new ProductoBL();
             IList<Producto> ListaMediosDePago = oProductoBL.SelectByTipo(1);
             IList<Producto> ListaFinanciamiento = oProductoBL.SelectByTipo(2);
@@ -32,7 +32,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Contacto()
         {
-            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             ParametroBL oParametroBL = new ParametroBL();
             var Tipos = oParametroBL.SelectByStart("06");
             ViewBag.Tipos = Tipos;
@@ -50,7 +50,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Paso2(int Tipo, int IdProducto, string Numero)
         {
-            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
             ProductoBL oProductoBL = new ProductoBL();
             string TipoNombre = "";
@@ -87,15 +87,15 @@ namespace SimuladorFinanciero.Front.Controllers
 
             if (Producto.Nombre.StartsWith("1.5") || IdProducto == 0)
             {
-                BancoEmpresa = "Empresa";
-                MensajeBancoEmpresaJS = "una Empresa";
-                MensajeBancoEmpresaPopUp = "una o más Empresas";
+                BancoEmpresa = "empresa";
+                MensajeBancoEmpresaJS = "una empresa";
+                MensajeBancoEmpresaPopUp = "una o más empresas";
                 MostrarPeriodo = false;
             }
             else
             {
-                BancoEmpresa = "Banco";
-                MensajeBancoEmpresaJS = "un Banco";
+                BancoEmpresa = "banco";
+                MensajeBancoEmpresaJS = "un banco";
                 MensajeBancoEmpresaPopUp = "uno o más bancos";
             }
 
@@ -112,7 +112,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Resultado()
         {
-            ViewBag.UltimaFechaPublicacion = oArchivoBL.SelectActive().Fecha.ToLongDateString();
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             NameValueCollection Form = Request.Form;
             double Monto = double.Parse(Form["txtMonto"]);
             int IdProducto = int.Parse(Form["hdIdProducto"]);
@@ -158,6 +158,7 @@ namespace SimuladorFinanciero.Front.Controllers
             ViewBag.ListaEnvioDinero = ListaEnvioDinero;
 
             string BancoEmpresa = "";
+            string BancoEmpresaTabla = "";
             string MensajeBancoEmpresaJS = "";
             string MensajeBancoEmpresaPopUp = "";
             Producto Producto = null;
@@ -191,6 +192,7 @@ namespace SimuladorFinanciero.Front.Controllers
                 BancoEmpresa = "empresa";
                 MensajeBancoEmpresaJS = "una empresa";
                 MensajeBancoEmpresaPopUp = "una o más empresas";
+                BancoEmpresaTabla = "Empresa";
                 MostrarPeriodo = false;
             }
             else
@@ -198,6 +200,7 @@ namespace SimuladorFinanciero.Front.Controllers
                 BancoEmpresa = "banco";
                 MensajeBancoEmpresaJS = "un banco";
                 MensajeBancoEmpresaPopUp = "uno o más bancos";
+                BancoEmpresaTabla = "Banco";
             }
 
             ViewBag.IdTipo = IdTipo;
@@ -207,6 +210,7 @@ namespace SimuladorFinanciero.Front.Controllers
             ViewBag.ListaBancos = Bancos;
             ViewBag.BancosString = BancosString;
             ViewBag.BancoEmpresa = BancoEmpresa;
+            ViewBag.BancoEmpresaTabla = BancoEmpresaTabla;
             ViewBag.BancosArray = BancosArray;
             ViewBag.MensajeBancoEmpresaJS = MensajeBancoEmpresaJS;
             ViewBag.MensajeBancoEmpresaPopUp = MensajeBancoEmpresaPopUp;
@@ -216,27 +220,6 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult ExportExcelRespuesta(string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
         {
-            string[] BancosArray = Bancos.Split(',');
-
-            ProductoBL oProductoBL = new ProductoBL();
-            Producto oProducto = oProductoBL.Select(IdProducto);
-            ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
-            List<ProductoBanco> ListaProductosBancos = new List<ProductoBanco>();
-            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosUsuales = new List<ConceptoProductoBancoDTO>();
-            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosEventuales = new List<ConceptoProductoBancoDTO>();
-            ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
-            foreach (string i in BancosArray)
-            {
-                var ProductoBanco = oProductoBancoBL.SelectByIdProductoAndIdBanco(IdProducto, i);
-                ListaProductosBancos.Add(ProductoBanco);
-
-                var ConceptosProductosBancosUsuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0401", Periodo).Concat(ListaConceptosProductosBancosUsuales);
-                ListaConceptosProductosBancosUsuales = ConceptosProductosBancosUsuales.ToList();
-
-                var ConceptosProductosBancosEventuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0402", Periodo).Concat(ListaConceptosProductosBancosEventuales);
-                ListaConceptosProductosBancosEventuales = ConceptosProductosBancosEventuales.ToList();
-            }
-
             Response.Clear();
             Response.ClearContent();
             Response.ClearHeaders();
@@ -245,151 +228,11 @@ namespace SimuladorFinanciero.Front.Controllers
             Response.ContentType = "application/ms-excel";
             Response.ContentEncoding = Encoding.Unicode;
             Response.BinaryWrite(Encoding.Unicode.GetPreamble());
-            //Response.Charset = ;
-            string ResponseBody = "<html><head><meta http-equiv='content - type' content='text / html; charset = utf - 8'/></head><body>" +
-                                  "<table cellspacing='0' border='0'>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='38' align='center' valign='top' bgcolor='#CC0000'>" +
-                                  "<b style='color: white; '>" +
-                                  "<font face='Helvetica' size=5>Simulador Financiero</font>" +
-                                  "</b>" +
-                                  "</td>" +
-                                  "</tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='center' valign=top bgcolor='#FFFFFF'><font face='Helvetica' size=2>Resultados - " + DateTime.Now.ToLongDateString() + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Producto: " + Tipo + "-" + oProducto.Nombre.Substring(4) + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#DEDEDE'><font face='Helvetica' size=2>Monto: $" + Monto.ToString() + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Periodo: " + Periodo.ToString() + " días </font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=2 align='center' valign=middle><b><font face='Helvetica' size=2>Banco</font></b></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=4 align='center' valign=middle><b><font face='Helvetica' size=2>Gasto Financiero</font></b></td>" +
-                                  "</tr>";
-            int ConteoRowSpanUsuales = 0;
-            decimal GastoTotalUsual = 0;
-            int RowSpanUsuales = 0;
+            
+            ResultadoService oResultadoService = new ResultadoService();
 
-            int ConteoRowSpanEventuales = 0;
-            decimal GastoTotalEventual = 0;
-            int RowSpanEventuales = 0;
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos);
 
-            foreach (var i in ListaProductosBancos)
-            {
-                ConteoRowSpanUsuales = 0;
-                ConteoRowSpanEventuales = 0;
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=2 align='center' valign=middle bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>" + i.Banco.Nombre + "</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=4 align='center' valign=middle bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>$ " + Formatos.ConvertirNumeroFormat(GastoTotalUsual) + "</font></td>" +
-                               "</tr>" +
-                               "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Concepto</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Observaciones</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Tasa %</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Mínimo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Máximo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Gastos $</font></td>" +
-                               "</tr>";
-                RowSpanUsuales = 0;
-                foreach (var cpbu in ListaConceptosProductosBancosUsuales)
-                {
-                    if (i.Banco.IdBanco == cpbu.IdBanco)
-                    {
-                        RowSpanUsuales = RowSpanUsuales + 1;
-                    }
-                }
-
-                foreach (var cpbu in ListaConceptosProductosBancosUsuales)
-                {
-                    if (i.Banco.IdBanco == cpbu.IdBanco)
-                    {
-                        if (ConteoRowSpanUsuales == 0)
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanUsuales.ToString() + " height='226' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos usuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-
-                        }
-                        else
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        ConteoRowSpanUsuales++;
-                    }
-                }
-                RowSpanEventuales = 0;
-                foreach (var cpbe in ListaConceptosProductosBancosEventuales)
-                {
-                    if (i.Banco.IdBanco == cpbe.IdBanco)
-                    {
-                        RowSpanEventuales = RowSpanEventuales + 1;
-                    }
-                }
-
-                foreach (var cpbe in ListaConceptosProductosBancosEventuales)
-                {
-                    if (i.Banco.IdBanco == cpbe.IdBanco)
-                    {
-                        if (ConteoRowSpanEventuales == 0)
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanEventuales.ToString() + " height='226' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos eventuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        else
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        ConteoRowSpanEventuales++;
-                    }
-                }
-
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000;' height='59' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #000000;' colspan=6 align='center' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2 color='#000000'>Datos de contacto: (*) Consulte la fuente de información aqui o tome contacto con " + i.Banco.Nombre + " a través de " + i.Contacto + "</font></td>" +
-                               "</tr>";
-            }
-            ResponseBody = ResponseBody + "</table>" +
-                               "</body>" +
-                               "</html>";
-
-            //StringWriter sw = new StringWriter();
-            //HtmlTextWriter htw = new HtmlTextWriter(sw);
-            //gv.RenderControl(htw);
-            //Response.Output.Write(sw.ToString());
             Response.Write(ResponseBody);
             Response.Flush();
             Response.End();
@@ -400,176 +243,8 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult EnviarEmail(string Para, string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
         {
-            string[] BancosArray = Bancos.Split(',');
-
-            ProductoBL oProductoBL = new ProductoBL();
-            Producto oProducto = oProductoBL.Select(IdProducto);
-            ProductoBancoBL oProductoBancoBL = new ProductoBancoBL();
-            List<ProductoBanco> ListaProductosBancos = new List<ProductoBanco>();
-            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosUsuales = new List<ConceptoProductoBancoDTO>();
-            List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosEventuales = new List<ConceptoProductoBancoDTO>();
-            ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
-            foreach (string i in BancosArray)
-            {
-                var ProductoBanco = oProductoBancoBL.SelectByIdProductoAndIdBanco(IdProducto, i);
-                ListaProductosBancos.Add(ProductoBanco);
-
-                var ConceptosProductosBancosUsuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0401", Periodo).Concat(ListaConceptosProductosBancosUsuales);
-                ListaConceptosProductosBancosUsuales = ConceptosProductosBancosUsuales.ToList();
-
-                var ConceptosProductosBancosEventuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0402", Periodo).Concat(ListaConceptosProductosBancosEventuales);
-                ListaConceptosProductosBancosEventuales = ConceptosProductosBancosEventuales.ToList();
-            }
-
-            //Response.Clear();
-            //Response.ClearContent();
-            //Response.ClearHeaders();
-            //Response.Buffer = true;
-            //Response.AddHeader("content-disposition", "attachment; filename=Resultados " + DateTime.Now.ToString(Formatos.FechaTitleFormat) + ".xls");
-            //Response.ContentType = "application/ms-excel";
-            //Response.ContentEncoding = Encoding.Unicode;
-            //Response.BinaryWrite(Encoding.Unicode.GetPreamble());
-            //Response.Charset = ;
-            string ResponseBody = "<!DOCTYPE html><html><head><meta http-equiv='content - type' content='text / html; charset = utf - 8'/></head><body>" +
-                                  "<table cellspacing='0' border='0'>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='38' align='center' valign='top' bgcolor='#CC0000'>" +
-                                  "<b style='color: white; '>" +
-                                  "<font face='Helvetica' size=5>Simulador Financiero</font>" +
-                                  "</b>" +
-                                  "</td>" +
-                                  "</tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='center' valign=top bgcolor='#FFFFFF'><font face='Helvetica' size=2>Resultados - " + DateTime.Now.ToLongDateString() + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Producto: " + Tipo + "-" + oProducto.Nombre.Substring(4) + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#DEDEDE'><font face='Helvetica' size=2>Monto: $" + Monto.ToString() + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Periodo: " + Periodo.ToString() + " días </font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=2 align='center' valign=middle><b><font face='Helvetica' size=2>Banco</font></b></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=4 align='center' valign=middle><b><font face='Helvetica' size=2>Gasto Financiero</font></b></td>" +
-                                  "</tr>";
-            int ConteoRowSpanUsuales = 0;
-            decimal GastoTotalUsual = 0;
-            int RowSpanUsuales = 0;
-
-            int ConteoRowSpanEventuales = 0;
-            decimal GastoTotalEventual = 0;
-            int RowSpanEventuales = 0;
-
-            foreach (var i in ListaProductosBancos)
-            {
-                ConteoRowSpanUsuales = 0;
-                ConteoRowSpanEventuales = 0;
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=2 align='center' valign=middle bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>" + i.Banco.Nombre + "</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=4 align='center' valign=middle bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>$ " + Formatos.ConvertirNumeroFormat(GastoTotalUsual) + "</font></td>" +
-                               "</tr>" +
-                               "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Concepto</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Observaciones</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Tasa %</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Mínimo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Máximo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Gastos $</font></td>" +
-                               "</tr>";
-                RowSpanUsuales = 0;
-                foreach (var cpbu in ListaConceptosProductosBancosUsuales)
-                {
-                    if (i.Banco.IdBanco == cpbu.IdBanco)
-                    {
-                        RowSpanUsuales = RowSpanUsuales + 1;
-                    }
-                }
-
-                foreach (var cpbu in ListaConceptosProductosBancosUsuales)
-                {
-                    if (i.Banco.IdBanco == cpbu.IdBanco)
-                    {
-                        if (ConteoRowSpanUsuales == 0)
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanUsuales.ToString() + " height='226' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos usuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-
-                        }
-                        else
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        ConteoRowSpanUsuales++;
-                    }
-                }
-                RowSpanEventuales = 0;
-                foreach (var cpbe in ListaConceptosProductosBancosEventuales)
-                {
-                    if (i.Banco.IdBanco == cpbe.IdBanco)
-                    {
-                        RowSpanEventuales = RowSpanEventuales + 1;
-                    }
-                }
-
-                foreach (var cpbe in ListaConceptosProductosBancosEventuales)
-                {
-                    if (i.Banco.IdBanco == cpbe.IdBanco)
-                    {
-                        if (ConteoRowSpanEventuales == 0)
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanEventuales.ToString() + " height='226' align='center' valign=middle bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos eventuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        else
-                        {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign=middle bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
-                        }
-                        ConteoRowSpanEventuales++;
-                    }
-                }
-
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000;' height='59' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #000000;' colspan=6 align='center' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2 color='#000000'>Datos de contacto: (*) Consulte la fuente de información aqui o tome contacto con " + i.Banco.Nombre + " a través de " + i.Contacto + "</font></td>" +
-                               "</tr>";
-            }
-            ResponseBody = ResponseBody + "</table>" +
-                               "</body>" +
-                               "</html>";
-
+            ResultadoService oResultadoService = new ResultadoService();
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos);
 
             string NombreXLS = "Resultado " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xls";
             string RutaArchivoXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreXLS);
@@ -584,11 +259,7 @@ namespace SimuladorFinanciero.Front.Controllers
             msg.IsBodyHtml = true;
             msg.Attachments.Add(new Attachment(RutaArchivoXLS));
 
-            //System.Net.Mail.Attachment attachment;
-            //attachment = new System.Net.Mail.Attachment(???);
-            //msg.Attachments.Add(attachment);
-
-            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            SmtpClient client = new SmtpClient(ConstantesHelpers.SMTP(), int.Parse(ConstantesHelpers.SMTP()));
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(ConstantesHelpers.EmailEnvioCorreo(), ConstantesHelpers.PassEnvioCorreo());

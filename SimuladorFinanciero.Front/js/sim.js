@@ -291,13 +291,13 @@ $(document).ready(function () {
                 confirmButton: 'Aceptar',
                 confirmButtonClass: 'error'
             });
-            //} else if (response.length == 0) {
-            //    $.alert({
-            //        title: '¡Aviso!',
-            //        content: 'Debe validar si no es un robot',
-            //        confirmButton: 'Aceptar',
-            //        confirmButtonClass: 'error'
-            //    });
+        } else if (response.length == 0) {
+            $.alert({
+                title: '¡Aviso!',
+                content: 'Debe validar si no es un robot',
+                confirmButton: 'Aceptar',
+                confirmButtonClass: 'error'
+            });
         } else {
             var sugerencia = {
                 'IdSugerencia': 1,
@@ -345,27 +345,27 @@ $(document).ready(function () {
             }, 4000);
         }
     });
-    $('#enviar .btn-Enviar').click(function (e) {
-        var eFormat = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
-        e.preventDefault();
-        if ($('#enviar .email').val() === "") {
-            $.alert({
-                title: '¡Aviso!',
-                content: 'Debe ingresar su email',
-                confirmButton: 'Aceptar',
-                confirmButtonClass: 'error'
-            });
-        } else if (!eFormat.test($('#enviar .email').val().trim())) {
-            $.alert({
-                title: '¡Aviso!',
-                content: 'Debe ingresar un formato de email valido',
-                confirmButton: 'Aceptar',
-                confirmButtonClass: 'error'
-            });
-            //} else {
+    //$('#enviar .btn-Enviar').click(function (e) {
+    //    var eFormat = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+    //    e.preventDefault();
+    //    if ($('#enviar .email').val() === "") {
+    //        $.alert({
+    //            title: '¡Aviso!',
+    //            content: 'Debe ingresar su email',
+    //            confirmButton: 'Aceptar',
+    //            confirmButtonClass: 'error'
+    //        });
+    //    } else if (!eFormat.test($('#enviar .email').val().trim())) {
+    //        $.alert({
+    //            title: '¡Aviso!',
+    //            content: 'Debe ingresar un formato de email valido',
+    //            confirmButton: 'Aceptar',
+    //            confirmButtonClass: 'error'
+    //        });
+    //        //} else {
 
-        }
-    });
+    //    }
+    //});
     $('#success-send .close').click(function () {
         $('#overlay-success').fadeOut('fast');
         location.reload();

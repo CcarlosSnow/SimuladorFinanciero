@@ -13,7 +13,7 @@
 }
 
 @section Titulo{
-    <p class="title">Simulador financiero</p>
+    <p class="title">Simulador Financiero</p>
 }
 
 @section ScriptBottom{
@@ -123,6 +123,27 @@
             //});
 
             $('#btnEnviar').click(function () {
+
+                var eFormat = /[\w-\.]{2,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+
+                if ($('#enviar .email').val() === "") {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar su email',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                    return false;
+                } else if (!eFormat.test($('#enviar .email').val().trim())) {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar un formato de email valido',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                    return false;
+                }
+
                 $('#overlay-loading').fadeIn('fast');
                 var ParaTextBox = { "Para": $('#txtemail').val(),
                     "Tipo": '@ViewBag.TipoNombre',
@@ -349,7 +370,7 @@
                     <i class="fa fa-check active" aria-hidden="true"></i>
                     -->
                 </a>
-                <div class="btn-money"><span>$</span><input id="txtMonto" name="txtMonto" type="text" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@ViewBag.Monto" /></div>
+                <div class="btn-money"><span>$</span><input id="txtMonto" name="txtMonto" type="text" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@Formatos.ConvertirNumeroFormat(Convert.ToDecimal(ViewBag.Monto))" /></div>
                 <div class="btn-days">
                     <div class="select">
                         <input disabled type="text" placeholder="Seleccione un período (30, 60 ó 90 días)" value="@ViewBag.Periodo días" />
@@ -379,9 +400,16 @@
     <div class="center">
         <div class="page result">
             <p class="txt-a">Resultados</p>
-            <h1>@ViewBag.TipoNombre - @ViewBag.Producto.Nombre.Substring(4)</h1>
+            @if (ViewBag.IdTipo == 4)
+            {
+                <h1>@ViewBag.Producto.Nombre.Substring(4)</h1>
+            }
+            else
+            {
+                <h1>@ViewBag.TipoNombre - @ViewBag.Producto.Nombre.Substring(4)</h1>
+            }
             <p class="txt-b">
-                $ @ViewBag.Monto @if (ViewBag.Periodo > 0)
+                $ @Formatos.ConvertirNumeroFormat(Convert.ToDecimal(ViewBag.Monto)) @if (ViewBag.Periodo > 0)
                 {<span> - @ViewBag.Periodo días</span>}
                 <a href="#edit-result" class="btn-EditarResultados fancybox"></a>
             </p>
@@ -391,7 +419,7 @@
             <div id="edit-result" class="hidden">
                 <div class="middle">
                     <h3>Editar</h3>
-                    <div class="btn-money"><span>$</span><input type="text" id="txtMonto" name="txtMonto" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@ViewBag.Monto" /></div>
+                    <div class="btn-money"><span>$</span><input type="text" id="txtMonto" name="txtMonto" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@Formatos.ConvertirNumeroFormat(Convert.ToDecimal(ViewBag.Monto))" /></div>
                     <div class="btn-days">
                         <div class="select">
                             @if (ViewBag.Periodo > 0)
@@ -415,8 +443,8 @@
             <!-- /mobile -->
             <div class="content">
                 <div class="title">
-                    <div class="left">@ViewBag.BancoEmpresa</div>
-                    <div class="right">Gasto Financiero</div>
+                    <div class="left">@ViewBag.BancoEmpresaTabla</div>
+                    <div class="right">Costo Financiero</div>
                 </div>
                 <div class="border">
                     <div class="row">
@@ -579,7 +607,7 @@
 <div id="enviar" class="hidden">
     <h3>Envío por correo</h3>
     <input id="txtemail" type="email" class="email" placeholder="Ingresar correo" />
-    <input id="btnEnviar" type="button" class=" btn-Enviar" value="Enviar" />
+    <button id="btnEnviar" type="button" class="btn-Enviar">Enviar</button>
     @*<a class="btn-Enviar">Enviar</a>*@
 </div>
 <input type="hidden" id="hdMensajeValidacionBanco" />

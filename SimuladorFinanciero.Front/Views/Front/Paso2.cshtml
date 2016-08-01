@@ -98,8 +98,8 @@
     <div class="center">
         <div class="page a">
             <h1>Simulador Financiero</h1>
-            <p class="m">Infórmate sobre los costos financieros referenciales de las principales operaciones de comercio exterior.</p>
-            <a href="#condiciones" class="link fancybox">Ver condiciones de uso</a>
+            <p class="m">Costos financieros de las principales operaciones de comercio exterior.</p>
+            <a href="#condiciones" class="link fancybox">Ver consideraciones de uso</a>
             <div class="steps">
                 <div class="num">1</div>
                 <div class="line"><div class="load"></div></div>
@@ -109,7 +109,14 @@
             {
                 <div class="box-transition">
                     <div id="setp-2">
-                        <h2>@ViewBag.TipoNombre - @ViewBag.Producto.Nombre.Substring(4)</h2>
+                        @if (ViewBag.IdTipo == 4)
+                        {
+                            <h2>@ViewBag.Producto.Nombre.Substring(4)</h2>
+                        }
+                        else
+                        {
+                            <h2>@ViewBag.TipoNombre - @ViewBag.Producto.Nombre.Substring(4)</h2>
+                        }
                         <div class="middle">
                             <a href="#bancos" class="btn-bank fancybox">
 
@@ -159,8 +166,7 @@
 <div id="condiciones" class="hidden">
     <h3>Consideraciones de uso</h3>
     <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero. Puede variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
-    <p>plazo utilizado para las simulaciones de financiamientos y garantías es de 90 días.</p>
-    <p>Todos los datos son proporcionados por los bancos, PROMPERÚ no se responsabiliza.</p>
+    <p>Para la elaboración del Simulador Financiero se utiliza la información de los tarifarios generales de cada banco y empresa, por ende Promperú no es responsable por ellos.</p>
     <p>Puede dejar sus consultas o comentarios <a href="@Url.Action("Contacto","Front")">aquí</a>.</p>
 
 </div>

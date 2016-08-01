@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Globalization;
+using System.Web.Configuration;
+using System.Configuration;
 
 namespace SimuladorFinanciero.Helpers
 {
@@ -14,6 +17,14 @@ namespace SimuladorFinanciero.Helpers
 
         public const string PorcentajeFormat = "0.0000";    
 
+        public static string ConvertirFechaFormatPiePagina(DateTime Fecha)
+        {
+            GlobalizationSection oGlobalizationSection = (GlobalizationSection)ConfigurationManager.GetSection("system.web/globalization");
+            DateTimeFormatInfo oDateTimeFormatInfo = new CultureInfo(oGlobalizationSection.Culture).DateTimeFormat;
+            string Mes = oDateTimeFormatInfo.GetMonthName(Fecha.Month);
+            return Mes + " de " + Fecha.Year;
+        }
+
         public static string ConvertirNumeroFormat(decimal Numero)
         {
             if (Numero == 0)
@@ -21,7 +32,7 @@ namespace SimuladorFinanciero.Helpers
                 return "-";
             }
 
-            var s = Numero.ToString(NumeroFormat);
+            var s = Numero.ToString("N");
             return s;
         }
 
@@ -33,7 +44,7 @@ namespace SimuladorFinanciero.Helpers
             }
             else
             {
-                return ((Numero * 1000000) / 10000).ToString(PorcentajeFormat);
+                return ((Numero * 1000000) / 10000).ToString().TrimEnd('0').TrimEnd('.');
             }
         }
 

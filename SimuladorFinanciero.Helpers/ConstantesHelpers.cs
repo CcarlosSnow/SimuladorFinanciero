@@ -39,5 +39,15 @@ namespace SimuladorFinanciero.Helpers
         {
             return ConfigurationManager.AppSettings["PassEnvioCorreo"];
         }
+
+        public static string SMTP()
+        {
+            return ConfigurationManager.AppSettings["SMTP"];
+        }
+
+        public static string PuertoSMTP()
+        {
+            return ConfigurationManager.AppSettings["PuertoSMTP"];
+        }
     }
 }
