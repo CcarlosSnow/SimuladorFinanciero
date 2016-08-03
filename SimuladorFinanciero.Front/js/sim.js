@@ -60,6 +60,11 @@ $(document).ready(function () {
                     var producto = $(this).data('idproducto');
                     $('#hdIdProducto').val(producto);
                     $('#hdIdTipo').val($(this).data('tipo'));
+                    if ($(this).data('tipo') == "4") {
+                        $('.periodo').addClass('hide-be');
+                        $('#hdPeriodo').val('0');
+                        $('.select').children().val('0 días');
+                    }
                     if (typeof producto != 'undefined') {
                         $('.be-seleccion').each(function () {
                             var productos = $(this).data('productos');
@@ -139,13 +144,24 @@ $(document).ready(function () {
         $('#hdIdProducto').val($(this).find("input").val());
         $('#hdIdTipo').val($(this).find("input").data('tipo'));
 
+        var producNoPeriodo = [1.1, 1.2, 1.3, 1.5, 4.1];
+        var show = $.inArray($(this).find("input").data('idnom'), producNoPeriodo);
+        if (show == -1) {
+            $('.periodo').removeClass('hide-be');
+            $('#hdPeriodo').val('30');
+            $('.select').children().val('30 días');
+        } else {
+            $('.periodo').addClass('hide-be');
+            $('#hdPeriodo').val('0');
+            $('.select').children().val('0 días');
+        }
+
         var producto = $(this).find("input").val();
         $('#bancos ul label').removeClass('selected');
 
         $('.be-seleccion').each(function () {
             var productos = $(this).data('productos');
             var result = $.inArray(parseInt(producto), productos);
-            console.log(result);
             if (result == -1) {
                 $(this).parent().parent().addClass('hide-be');
             } else {
@@ -179,7 +195,6 @@ $(document).ready(function () {
     $('.btn-days ul li').on('click', function () {
         var opLid = $(this).html();
         $('.btn-days .select input').addClass('focus').val(opLid);
-        console.log($(this).data('rel'));
         $('#hdPeriodo').val($(this).data('rel'));
         $('.btn-days ul').slideToggle('fast');
     });

@@ -99,6 +99,11 @@ namespace SimuladorFinanciero.Front.Controllers
                 MensajeBancoEmpresaPopUp = "uno o más bancos";
             }
 
+            if (Producto.Nombre.StartsWith("1.1") || Producto.Nombre.StartsWith("1.2") || Producto.Nombre.StartsWith("1.3"))
+            {
+                MostrarPeriodo = false;
+            }
+
             ViewBag.IdTipo = Tipo;
             ViewBag.TipoNombre = TipoNombre;
             ViewBag.Producto = Producto;
@@ -203,6 +208,11 @@ namespace SimuladorFinanciero.Front.Controllers
                 BancoEmpresaTabla = "Banco";
             }
 
+            if (Producto.Nombre.StartsWith("1.1") || Producto.Nombre.StartsWith("1.2") || Producto.Nombre.StartsWith("1.3"))
+            {
+                MostrarPeriodo = false;
+            }
+
             ViewBag.IdTipo = IdTipo;
             ViewBag.TipoNombre = TipoNombre;
             ViewBag.IdProducto = IdProducto;
@@ -228,7 +238,7 @@ namespace SimuladorFinanciero.Front.Controllers
             Response.ContentType = "application/ms-excel";
             Response.ContentEncoding = Encoding.Unicode;
             Response.BinaryWrite(Encoding.Unicode.GetPreamble());
-            
+
             ResultadoService oResultadoService = new ResultadoService();
 
             string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos);

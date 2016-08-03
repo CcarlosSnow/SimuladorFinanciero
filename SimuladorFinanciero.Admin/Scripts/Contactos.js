@@ -16,9 +16,6 @@
             Estado = "0701";
         }
 
-        console.log($(this).data('idsugerencia'));
-        console.log(Estado);
-
         $.ajax({
             type: "GET",
             url: $("#url").data("urlcambiarestado") + "?IdSugerencia=" + $(this).data('idsugerencia') + "&Estado=" + Estado,
