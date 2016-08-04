@@ -15,6 +15,24 @@ $(document).ready(function () {
         }
     }).trigger('resize');
 
+    function bancoEmpresa(value) {
+        var texto = "Seleccionar banco (s)";
+        var textSeleccion = "Seleccione uno o más bancos";
+        if (value == '1.5' || value == '4' || value == '4.1') {
+            texto = "Seleccionar empresa (s)";
+            textSeleccion = "Seleccione una o más empresas";
+            $('#hdMensajeValidacionBanco').val('Debe seleccionar por lo menos una empresa');
+        }
+        else {
+            texto = "Seleccionar banco (s)";
+            textSeleccion = "Seleccione uno o más bancos";
+            $('#hdMensajeValidacionBanco').val('Debe seleccionar por lo menos un banco');
+        }
+        $(".banco").html(texto);
+        $("#bancos").find("h3").text(textSeleccion);
+    }
+
+
     function resizeend() {
         if (new Date() - rtime < delta) {
             setTimeout(resizeend, delta);
@@ -60,12 +78,17 @@ $(document).ready(function () {
                     var producto = $(this).data('idproducto');
                     $('#hdIdProducto').val(producto);
                     $('#hdIdTipo').val($(this).data('tipo'));
+
                     if ($(this).data('tipo') == "4") {
                         $('.periodo').addClass('hide-be');
                         $('#hdPeriodo').val('0');
                         $('.select').children().val('0 días');
                     }
+
                     if (typeof producto != 'undefined') {
+
+                        bancoEmpresa($(this).data('tipo'));
+
                         $('.be-seleccion').each(function () {
                             var productos = $(this).data('productos');
                             var result = $.inArray(parseInt(producto), productos);
@@ -140,6 +163,8 @@ $(document).ready(function () {
 
         $(this).addClass('selected');
         $(this).find("input").attr('checked', true);
+
+        bancoEmpresa($(this).find("input").data("idnom"));
 
         $('#hdIdProducto').val($(this).find("input").val());
         $('#hdIdTipo').val($(this).find("input").data('tipo'));
@@ -325,39 +350,37 @@ $(document).ready(function () {
             };
             var dataObject = JSON.stringify(sugerencia);
             $('#overlay-loading').fadeIn('fast');
-            setTimeout(function () {
-
-                $.ajax({
-                    type: "POST",
-                    url: $('#url').data('urlguardar'),
-                    contentType: 'application/json',
-                    data: dataObject,
-                    success: function (response) {
-                        if (response.Estado == "OK") {
-                            $('#overlay-loading').fadeOut();
-                            $('#overlay-success').fadeIn('fast');
-                        }
-                        else {
-                            $('#overlay-loading').fadeOut();
-                            $.alert({
-                                title: response.Titulo,
-                                content: response,
-                                confirmButton: 'Aceptar',
-                                confirmButtonClass: 'error'
-                            });
-                        }
-                    },
-                    error: function (error) {
+            $.ajax({
+                type: "POST",
+                url: $('#url').data('urlguardar'),
+                contentType: 'application/json',
+                data: dataObject,
+                success: function (response) {
+                    if (response.Estado == "OK") {
+                        $('#overlay-loading').fadeOut();
+                        $('#overlay-success').fadeIn('fast');
+                    }
+                    else {
                         $('#overlay-loading').fadeOut();
                         $.alert({
-                            title: "Aviso!",
-                            content: error,
+                            title: response.Titulo,
+                            content: response,
                             confirmButton: 'Aceptar',
                             confirmButtonClass: 'error'
                         });
                     }
-                });
-            }, 4000);
+                },
+                error: function (error) {
+                    $('#overlay-loading').fadeOut();
+                    $.alert({
+                        title: "Aviso!",
+                        content: error,
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                }
+            });
+
         }
     });
     //$('#enviar .btn-Enviar').click(function (e) {
@@ -381,10 +404,7 @@ $(document).ready(function () {
 
     //    }
     //});
-    $('#success-send .close').click(function () {
-        $('#overlay-success').fadeOut('fast');
-        location.reload();
-    });
+   
     //Mobile AL
     $('.detalleFN').click(function () {
         $.dialog($(this).attr('data-content'));

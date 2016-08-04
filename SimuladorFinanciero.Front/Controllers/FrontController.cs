@@ -241,7 +241,7 @@ namespace SimuladorFinanciero.Front.Controllers
 
             ResultadoService oResultadoService = new ResultadoService();
 
-            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos);
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, 0);
 
             Response.Write(ResponseBody);
             Response.Flush();
@@ -254,7 +254,7 @@ namespace SimuladorFinanciero.Front.Controllers
         public ActionResult EnviarEmail(string Para, string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
         {
             ResultadoService oResultadoService = new ResultadoService();
-            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos);
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, 1);
 
             string NombreXLS = "Resultado " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xls";
             string RutaArchivoXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreXLS);

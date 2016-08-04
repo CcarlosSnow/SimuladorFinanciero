@@ -29,6 +29,12 @@
                 'theme': 'light'
             });
         };
+        $(document).ready(function () {
+            $('#success-send .close').click(function () {
+                $('#overlay-success').fadeOut('fast');
+                location.href = '@Url.Action("Index", "Front")';
+            });
+        });
     </script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 }

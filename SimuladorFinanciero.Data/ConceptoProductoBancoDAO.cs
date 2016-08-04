@@ -86,6 +86,33 @@ namespace SimuladorFinanciero.Data
         public List<ConceptoProductoBancoDTO> SelectByProductoAndBancoAndTipoComision(int IdProducto, string IdBanco, string TipoComision, int Periodo)
         {
             IQueryable<ConceptoProductoBancoDTO> ConceptosProductosBancos = null;
+            ProductoDAO oProductoDAO = new ProductoDAO();
+            Producto oProducto = oProductoDAO.Select(IdProducto);
+            if (oProducto.Nombre.Substring(0,3) == "1.5" || oProducto.Nombre.Substring(0, 3) == "4.1")
+            {
+                ConceptosProductosBancos = from i in Context.ConceptoProductoBanco
+                                           where i.IdBanco == IdBanco && i.IdProducto == IdProducto && i.TipoComision == TipoComision
+                                           select new ConceptoProductoBancoDTO
+                                           {
+                                               IdConcepto = i.IdConcepto,
+                                               IdProducto = i.IdProducto,
+                                               IdBanco = i.IdBanco,
+                                               TipoComision = i.TipoComision,
+                                               Tasa30 = i.METasaMax,
+                                               Tasa60 = i.Tasa60,
+                                               Tasa90 = i.Tasa90,
+                                               Minimo = i.MEMin,
+                                               Maximo = i.MEMax,
+                                               METasaMax = i.METasaMax,
+                                               METasaMin = i.METasaMin,
+                                               MEMin = i.MEMin,
+                                               MEMax = i.MEMax,
+                                               Observaciones = i.Observaciones,
+                                               Concepto = i.Concepto,
+                                               ProductoBanco = i.ProductoBanco,
+                                               Parametro = i.Parametro
+                                           };
+            }
             switch (Periodo)
             {
                 case 30:

@@ -391,7 +391,7 @@
             </div>
         </div>
     </div>
-    }
+}
 <section class="row">
     <div class="center">
         <div class="page result">
@@ -413,28 +413,36 @@
             <!--<a href="#enviar" class="mobile send fancybox">Enviar por correo</a>-->
             <a href="#enviar" class="mobile link fancybox">Enviar por correo</a>
             <div id="edit-result" class="hidden">
-                <div class="middle">
-                    <h3>Editar</h3>
-                    <div class="btn-money"><span>$</span><input type="text" id="txtMonto" name="txtMonto" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@Formatos.ConvertirNumeroFormat(Convert.ToDecimal(ViewBag.Monto))" /></div>
-                    <div class="btn-days periodo @(ViewBag.MostrarPeriodo == true ? "" : "hide-be")">
-                        <div class="select">
-                            @if (ViewBag.Periodo > 0)
-                            {
-                                <span>@ViewBag.Periodo días</span>
-                            }
-                            <div class="sc">
-                                <i class="fa fa-caret-up" aria-hidden="true"></i>
-                                <i class="fa fa-caret-down" aria-hidden="true"></i>
+                @using (Html.BeginForm("Resultado", "Front", FormMethod.Post, new { @id = "frmFiltroResultado" }))
+                {
+                    <div class="middle">
+                        <h3>Editar</h3>
+                        <div class="btn-money"><span>$</span><input type="text" id="txtMonto" name="txtMonto" maxlength="10" placeholder="Ingresar monto Ej.: 60.5" value="@Formatos.ConvertirNumeroFormat(Convert.ToDecimal(ViewBag.Monto))" /></div>
+                        <div class="btn-days periodo @(ViewBag.MostrarPeriodo == true ? "" : "hide-be")">
+                            <div class="select">
+                                @if (ViewBag.Periodo > 0)
+                                {
+                                    <span>@ViewBag.Periodo días</span>
+                                }
+                                <div class="sc">
+                                    <i class="fa fa-caret-up" aria-hidden="true"></i>
+                                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                                </div>
                             </div>
+                            <ul>
+                                <li data-rel="30">30 días</li>
+                                <li data-rel="60">60 días</li>
+                                <li data-rel="90">90 días</li>
+                            </ul>
                         </div>
-                        <ul>
-                            <li data-rel="30">30 días</li>
-                            <li data-rel="60">60 días</li>
-                            <li data-rel="90">90 días</li>
-                        </ul>
+                        <input type="hidden" id="hdIdTipo" name="hdIdTipo" value="@ViewBag.IdTipo" />
+                        <input type="hidden" id="hdTipoNombre" name="hdTipoNombre" value="@ViewBag.TipoNombre" />
+                        <input type="hidden" id="hdIdProducto" name="hdIdProducto" value="@ViewBag.IdProducto" />
+                        <input type="hidden" id="hdBancos" name="hdBancos" value="@ViewBag.BancosString" />
+                        <input type="hidden" id="hdPeriodo" name="hdPeriodo" value="@ViewBag.Periodo" />
+                        <button type="submit" class="btn-Actualizar">Actualizar</button>
                     </div>
-                    <a href="@Url.Action("Resultado","Front")" class="btn-Actualizar">Actualizar</a>
-                </div>
+                }
             </div>
             <!-- /mobile -->
             <div class="content">
@@ -503,14 +511,14 @@
                                         <a href="#@i.IdBanco-informacion" class="fancybox"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ver información de contacto</a>
                                         @{ var Conteo = 0; }
                                         @foreach (ConceptoProductoBancoDTO cpbu in ViewBag.ListaConceptosProductosBancosEventuales)
-                                        {
-                                            if (i.Banco.IdBanco == cpbu.IdBanco)
-                                            {
-                                                Conteo = Conteo + 1;
-                                            }
-                                        }
+                {
+                    if (i.Banco.IdBanco == cpbu.IdBanco)
+                    {
+                        Conteo = Conteo + 1;
+                    }
+                }
                                         @if (Conteo > 0)
-                                        {
+                {
                                             <a href="#@i.IdBanco-costos" class="fancybox"><i class="fa fa-plus-circle" aria-hidden="true"></i> Ver costos eventuales</a>
                                         }
                                         <div id="@i.IdBanco-informacion" class="hidden resultado">
@@ -533,10 +541,10 @@
                                                     <div class="col f">Gastos $</div>
                                                 </div>
                                                 @foreach (ConceptoProductoBancoDTO cpbe in ViewBag.ListaConceptosProductosBancosEventuales)
-                                                {
-                                                    decimal GastoTotalEventual = 0;
-                                                    if (i.Banco.IdBanco == cpbe.IdBanco)
-                                                    {
+                {
+                    decimal GastoTotalEventual = 0;
+                    if (i.Banco.IdBanco == cpbe.IdBanco)
+                    {
                                                         <div class="tbody">
                                                             <div class="col a">
                                                                 <span>@cpbe.Concepto.Nombre</span>
@@ -582,12 +590,12 @@
     <ul>
         @{ ProductoBancoBL oProductoBancoBL = new ProductoBancoBL(); }
         @foreach (Banco i in ViewBag.ListaBancos)
-        {
-            bool Foco = false;
-            foreach (string bco in ViewBag.BancosArray)
             {
-                if (bco == i.IdBanco)
+                bool Foco = false;
+                foreach (string bco in ViewBag.BancosArray)
                 {
+                    if (bco == i.IdBanco)
+                    {
                     <li><label class="selected"><input class="be-seleccion" type="checkbox" data-id="@i.IdBanco" data-productos="@oProductoBancoBL.SelectIdProductoByBanco(i.IdBanco)" /><span>@i.Nombre</span></label></li>
                     Foco = true;
                 }
