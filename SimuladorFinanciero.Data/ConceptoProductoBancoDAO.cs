@@ -112,6 +112,7 @@ namespace SimuladorFinanciero.Data
                                                ProductoBanco = i.ProductoBanco,
                                                Parametro = i.Parametro
                                            };
+                return ConceptosProductosBancos.ToList();
             }
             switch (Periodo)
             {
