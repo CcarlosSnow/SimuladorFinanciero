@@ -4,6 +4,7 @@ using System.Linq;
 using SimuladorFinanciero.Core;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Helpers;
+using ClosedXML.Excel;
 
 namespace SimuladorFinanciero
 {
@@ -35,6 +36,12 @@ namespace SimuladorFinanciero
                 var ConceptosProductosBancosEventuales = oConceptoProductoBancoBL.SelectByProductoAndBancoAndTipoComision(IdProducto, i, "0402", Periodo).Concat(ListaConceptosProductosBancosEventuales);
                 ListaConceptosProductosBancosEventuales = ConceptosProductosBancosEventuales.ToList();
             }
+
+            string NombreExcel = "Resultado " + DateTime.Now.ToString("dd-MM-yyyy hh-mm-ss");
+
+            var WorkBook = new XLWorkbook();
+            var WorkSheet = WorkBook.Worksheets.Add(NombreExcel);
+
 
             if (Periodo == 0)
             {
