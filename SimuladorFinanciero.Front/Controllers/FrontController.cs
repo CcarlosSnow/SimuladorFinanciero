@@ -228,37 +228,29 @@ namespace SimuladorFinanciero.Front.Controllers
             return View();
         }
 
-        public ActionResult ExportExcelRespuesta(string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
+        public FileResult ExportExcelRespuesta(string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
         {
-            Response.Clear();
-            Response.ClearContent();
-            Response.ClearHeaders();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=Resultados " + DateTime.Now.ToString(Formatos.FechaTitleFormat) + ".xls");
-            Response.ContentType = "application/ms-excel";
-            Response.ContentEncoding = Encoding.Unicode;
-            Response.BinaryWrite(Encoding.Unicode.GetPreamble());
+            string NombreXLS = "Resultado " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xlsx";
+            string RutaArchivoXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreXLS);
 
             ResultadoService oResultadoService = new ResultadoService();
 
-            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, 0);
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, RutaArchivoXLS);
 
-            Response.Write(ResponseBody);
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("Resultado");
+            byte[] fileBytes = System.IO.File.ReadAllBytes(RutaArchivoXLS);
+            return File(fileBytes, "application/ms-excel", NombreXLS);
         }
 
 
         public ActionResult EnviarEmail(string Para, string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos)
         {
             ResultadoService oResultadoService = new ResultadoService();
-            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, 1);
 
-            string NombreXLS = "Resultado " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xls";
+
+            string NombreXLS = "Resultado " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xlsx";
             string RutaArchivoXLS = Path.Combine(Server.MapPath(ConstantesHelpers.RutaArchivosExcel), NombreXLS);
-            System.IO.File.WriteAllText(RutaArchivoXLS, ResponseBody);
+
+            string ResponseBody = oResultadoService.GenerarExcelBody(Tipo, IdProducto, Monto, Periodo, Bancos, RutaArchivoXLS);
 
             MailMessage msg = new MailMessage();
 

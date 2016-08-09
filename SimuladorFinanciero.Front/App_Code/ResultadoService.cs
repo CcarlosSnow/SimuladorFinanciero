@@ -5,12 +5,14 @@ using SimuladorFinanciero.Core;
 using SimuladorFinanciero.Entities;
 using SimuladorFinanciero.Helpers;
 using ClosedXML.Excel;
+using System.IO;
+using System.Web;
 
 namespace SimuladorFinanciero
 {
     public class ResultadoService
     {
-        public string GenerarExcelBody(string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos, int Fuente)
+        public string GenerarExcelBody(string Tipo, int IdProducto, decimal Monto, int Periodo, string Bancos, string RutaGuardarExcel)
         {
             ArchivoBL oArchivoBL = new ArchivoBL();
             string UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
@@ -24,7 +26,6 @@ namespace SimuladorFinanciero
             List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosUsuales = new List<ConceptoProductoBancoDTO>();
             List<ConceptoProductoBancoDTO> ListaConceptosProductosBancosEventuales = new List<ConceptoProductoBancoDTO>();
             ConceptoProductoBancoBL oConceptoProductoBancoBL = new ConceptoProductoBancoBL();
-            string FilaPeriodo = "";
             foreach (string i in BancosArray)
             {
                 var ProductoBanco = oProductoBancoBL.SelectByIdProductoAndIdBanco(IdProducto, i);
@@ -41,48 +42,59 @@ namespace SimuladorFinanciero
 
             var WorkBook = new XLWorkbook();
             var WorkSheet = WorkBook.Worksheets.Add(NombreExcel);
-
-
-            if (Periodo == 0)
+            WorkSheet.Style.Font.SetFontName("Helvetica");
+            WorkSheet.Style.Font.SetFontSize(10);
+            WorkSheet.Style.Font.SetFontColor(XLColor.Black);
+            WorkSheet.Style.Fill.SetBackgroundColor(XLColor.White);
+            WorkSheet.Column(1).Width = 15.57;
+            WorkSheet.Column(2).Width = 45;
+            WorkSheet.Column(3).Width = 45;
+            WorkSheet.Column(4).Width = 8.86;
+            WorkSheet.Column(5).Width = 10.71;
+            WorkSheet.Column(6).Width = 11.43;
+            WorkSheet.Column(7).Width = 10.71;
+            WorkSheet.Row(1).Height = 28.5;
+            WorkSheet.Row(2).Height = 21;
+            WorkSheet.Row(3).Height = 21;
+            WorkSheet.Row(4).Height = 21;
+            WorkSheet.Row(5).Height = 21;
+            int FilaActual = 1;
+            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Simulador Financiero";
+            FilaActual = FilaActual + 1;
+            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Tarifario actualizado a " + UltimaFechaPublicacion;
+            FilaActual = FilaActual + 1;
+            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Producto: " + Tipo + " - " + oProducto.Nombre.Substring(4);
+            FilaActual = FilaActual + 1;
+            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Monto: $" + Formatos.ConvertirNumeroFormat(Monto);
+            if (Periodo != 0)
             {
-                FilaPeriodo = "";
+                FilaActual = FilaActual + 1;
+                WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Periodo: " + Periodo.ToString() + " días";
+                var RangeCabecera = WorkSheet.Range("A1:G" + FilaActual.ToString());
+                RangeCabecera.Row(1).Merge().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.RedPigment).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Font.SetFontSize(18).Font.SetFontColor(XLColor.White).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(2).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(3).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(4).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(5).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
             }
             else
             {
-                FilaPeriodo = "<tr>" +
-                            "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Periodo: " + Periodo.ToString() + " días </font></td>" +
-                            "</tr>";
+                var RangeCabecera = WorkSheet.Range("A1:G" + FilaActual.ToString());
+                RangeCabecera.Row(1).Merge().Style.Font.SetBold().Fill.SetBackgroundColor(XLColor.RedPigment).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Font.SetFontSize(18).Font.SetFontColor(XLColor.White).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(2).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(3).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                RangeCabecera.Row(4).Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
             }
-            string ResponseBody = "";
+            FilaActual = FilaActual + 1;
+            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "";
+            WorkSheet.Cell("A" + FilaActual.ToString()).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+            WorkSheet.Cell("B" + FilaActual.ToString()).Value = "Banco";
+            var RangeBancoCabecera = WorkSheet.Range("B" + FilaActual.ToString() + ":C" + FilaActual.ToString());
+            RangeBancoCabecera.Merge().Style.Font.SetBold().Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+            WorkSheet.Cell("D" + FilaActual.ToString()).Value = "Gasto Financiero";
+            var RangeGastoFinancieroCabecera = WorkSheet.Range("D" + FilaActual.ToString() + ":G" + FilaActual.ToString());
+            RangeGastoFinancieroCabecera.Merge().Style.Font.SetBold().Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
 
-            if (Fuente == 0)
-            {
-                ResponseBody = "<!DOCTYPE html>";
-            }
-
-            ResponseBody = ResponseBody + "<html><head><meta http-equiv='content - type' content='text / html; charset = utf - 8'/></head><body>" +
-                                  "<table cellspacing='0' border='0'>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='38' align='center' valign='top' bgcolor='#CC0000'>" +
-                                  "<b style='color: white; '>" +
-                                  "<font face='Helvetica' size=5>Simulador Financiero</font>" +
-                                  "</b>" +
-                                  "</td>" +
-                                  "</tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='center' valign=top bgcolor='#FFFFFF'><font face='Helvetica' size=2>Tarifario actualizado a " + UltimaFechaPublicacion + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2>Producto: " + Tipo + "-" + oProducto.Nombre.Substring(4) + "</font></td>" +
-                                  "</tr>" +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' colspan=7 height='27' align='left' valign=top bgcolor='#DEDEDE'><font face='Helvetica' size=2>Monto: $" + Formatos.ConvertirNumeroFormat(Monto) + "</font></td>" +
-                                  "</tr>" +
-                                  FilaPeriodo +
-                                  "<tr>" +
-                                  "<td style='border: 1px SOLID #000000;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=2 align='center' valign='top'><b><font face='Helvetica' size=2>Banco</font></b></td>" +
-                                  "<td style='border: 1px SOLID #000000; border-bottom: 1px SOLID #ffffff;' colspan=4 align='center' valign='top'><b><font face='Helvetica' size=2>Gasto Financiero</font></b></td>" +
-                                  "</tr>";
             int ConteoRowSpanUsuales = 0;
             decimal GastoTotalUsual = 0;
             int RowSpanUsuales = 0;
@@ -97,6 +109,8 @@ namespace SimuladorFinanciero
                 ConteoRowSpanEventuales = 0;
                 RowSpanUsuales = 0;
                 RowSpanEventuales = 0;
+                GastoTotalUsual = 0;
+                GastoTotalEventual = 0;
                 foreach (var cpbu in ListaConceptosProductosBancosUsuales)
                 {
                     if (i.Banco.IdBanco == cpbu.IdBanco)
@@ -105,50 +119,75 @@ namespace SimuladorFinanciero
                         Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsual);
                     }
                 }
+                FilaActual = FilaActual + 1;
+                WorkSheet.Row(FilaActual).Height = 21;
+                WorkSheet.Cell("A" + FilaActual.ToString()).Value = "";
+                WorkSheet.Cell("A" + FilaActual.ToString()).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("B" + FilaActual.ToString()).Value = i.Banco.Nombre;
 
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=2 align='center' valign='top' bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>" + i.Banco.Nombre + "</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' colspan=4 align='center' valign='top' bgcolor='#165778'><font face='Helvetica' size=2 color='#FFFFFF'>$ " + Formatos.ConvertirNumeroFormat(GastoTotalUsual) + "</font></td>" +
-                               "</tr>" +
-                               "<tr>" +
-                               "<td style='border: 1px SOLID #000000; border-right: 1px SOLID #ffffff;' height='28' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Concepto</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Observaciones</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Tasa %</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Mínimo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Máximo $</font></td>" +
-                               "<td style='border: 1px SOLID #ffffff;' align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Gastos $</font></td>" +
-                               "</tr>";
-                //RowSpanUsuales = 0;
+                var RangeBanco = WorkSheet.Range("B" + FilaActual.ToString() + ":C" + FilaActual.ToString());
+                RangeBanco.Merge().Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.AirForceBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("D" + FilaActual.ToString()).Value = "$ " + Formatos.ConvertirNumeroFormat(GastoTotalUsual);
+                var RangeGastoFinanciero = WorkSheet.Range("D" + FilaActual.ToString() + ":G" + FilaActual.ToString());
+                RangeGastoFinanciero.Merge().Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.AirForceBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+
+                FilaActual = FilaActual + 1;
+                WorkSheet.Row(FilaActual).Height = 21;
+                WorkSheet.Cell("A" + FilaActual.ToString()).Value = "";
+                WorkSheet.Cell("A" + FilaActual.ToString()).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("B" + FilaActual.ToString()).Value = "Concepto";
+                WorkSheet.Cell("B" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("C" + FilaActual.ToString()).Value = "Observaciones";
+                WorkSheet.Cell("C" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("D" + FilaActual.ToString()).Value = "Tasa %";
+                WorkSheet.Cell("D" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("E" + FilaActual.ToString()).Value = "Mínimo $";
+                WorkSheet.Cell("E" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("F" + FilaActual.ToString()).Value = "Máximo $";
+                WorkSheet.Cell("F" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("G" + FilaActual.ToString()).Value = "Gastos $";
+                WorkSheet.Cell("G" + FilaActual.ToString()).Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
 
                 foreach (var cpbu in ListaConceptosProductosBancosUsuales)
                 {
-
                     if (i.Banco.IdBanco == cpbu.IdBanco)
                     {
                         if (ConteoRowSpanUsuales == 0)
                         {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanUsuales.ToString() + " align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos usuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsual) + "</font></td>" +
-                                       "</tr>";
+                            GastoTotalUsual = 0;
+                            FilaActual = FilaActual + 1;
+                            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Costos Usuales";
+                            var RangeCostosUsuales = WorkSheet.Range("A" + FilaActual.ToString() + ":A" + (FilaActual + RowSpanUsuales - 1).ToString());
+                            RangeCostosUsuales.Merge().Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbu.Concepto.Nombre;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbu.Observaciones;
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbu.Minimo);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbu.Maximo);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Value = Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsual);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
                         }
                         else
                         {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbu.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbu.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbu.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsual) + "</font></td>" +
-                                       "</tr>";
+                            GastoTotalUsual = 0;
+                            FilaActual = FilaActual + 1;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbu.Concepto.Nombre;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbu.Observaciones;
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbu.Minimo);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbu.Maximo);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Value = Formatos.CalcularGasto(cpbu.Tasa30, Monto, cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsual);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
                         }
                         ConteoRowSpanUsuales++;
                     }
@@ -168,41 +207,57 @@ namespace SimuladorFinanciero
                     {
                         if (ConteoRowSpanEventuales == 0)
                         {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #ffffff;' rowspan=" + RowSpanEventuales.ToString() + " align='center' valign='top' bgcolor='#217BAA'><font face='Helvetica' size=2 color='#FFFFFF'>Costos eventuales</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
+                            GastoTotalEventual = 0;
+                            FilaActual = FilaActual + 1;
+                            WorkSheet.Cell("A" + FilaActual.ToString()).Value = "Costos Eventuales";
+                            var RangeCostosEventuales = WorkSheet.Range("A" + FilaActual.ToString() + ":A" + (FilaActual + RowSpanEventuales - 1).ToString());
+                            RangeCostosEventuales.Merge().Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbe.Concepto.Nombre;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbe.Observaciones;
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Minimo);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Maximo);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Value = Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            
                         }
                         else
                         {
-                            ResponseBody = ResponseBody + "<tr>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Concepto.Nombre + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='left' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + cpbe.Observaciones + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbe.Minimo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.ConvertirNumeroFormat(cpbe.Maximo) + "</font></td>" +
-                                       "<td style='border: 1px SOLID #000000;' align='center' valign='top' bgcolor='#F1F1F1' sdval='30' sdnum='1033;'><font face='Helvetica' size=2>" + Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual) + "</font></td>" +
-                                       "</tr>";
+                            GastoTotalEventual = 0;
+                            FilaActual = FilaActual + 1;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbe.Concepto.Nombre;
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbe.Observaciones;
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30);
+                            WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Minimo);
+                            WorkSheet.Cell("E" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Maximo);
+                            WorkSheet.Cell("F" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Value = Formatos.CalcularGasto(cpbe.Tasa30, Monto, cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual);
+                            WorkSheet.Cell("G" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            
                         }
                         ConteoRowSpanEventuales++;
                     }
                 }
+                FilaActual = FilaActual + 1;
+                WorkSheet.Row(FilaActual).Height = 44.25;
+                WorkSheet.Cell("A" + FilaActual.ToString()).Value = "";
+                WorkSheet.Cell("A" + FilaActual.ToString()).Style.Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                WorkSheet.Cell("B" + FilaActual.ToString()).Value = "Datos de contacto: (*) Consulte la fuente de información aqui o tome contacto con " + i.Banco.Nombre + " a través de " + i.Contacto;
+                var RangeFooterBanco = WorkSheet.Range("B" + FilaActual.ToString() + ":G" + FilaActual.ToString());
+                RangeFooterBanco.Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
 
-                ResponseBody = ResponseBody + "<tr>" +
-                               "<td style='border: 1px SOLID #000000;' height='59' align='left' valign=top><font face='Helvetica' size=2><br></font></td>" +
-                               "<td style='border: 1px SOLID #000000;' colspan=6 align='center' valign=top bgcolor='#F1F1F1'><font face='Helvetica' size=2 color='#000000'>Datos de contacto: (*) Consulte la fuente de información aqui o tome contacto con " + i.Banco.Nombre + " a través de " + i.Contacto + "</font></td>" +
-                               "</tr>";
             }
-            ResponseBody = ResponseBody + "</table>" +
-                               "</body>" +
-                               "</html>";
-
-            return ResponseBody;
+            WorkBook.SaveAs(RutaGuardarExcel);
+            return "OK";
         }
     }
 }

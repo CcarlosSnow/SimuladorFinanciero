@@ -45,11 +45,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ClosedXML">
-      <HintPath>C:\Users\CcarlosSnow\Downloads\ClosedXML_v0.76.0.0\ClosedXML.dll</HintPath>
+      <HintPath>C:\Users\61265\Downloads\ClosedXML_v0.76.0.0\ClosedXML.dll</HintPath>
     </Reference>
     <Reference Include="DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\CcarlosSnow\Downloads\DocumentFormat.OpenXml.dll</HintPath>
+      <HintPath>C:\Users\61265\Downloads\ClosedXML_v0.76.0.0\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
