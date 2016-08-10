@@ -220,6 +220,8 @@ $(document).ready(function () {
     $('.btn-days ul li').on('click', function () {
         var opLid = $(this).html();
         $('.btn-days .select input').addClass('focus').val(opLid);
+        $('.btn-days .select span').html(opLid);
+        $('input#hdPeriodo').val($(this).data('rel'));
         $('#hdPeriodo').val($(this).data('rel'));
         $('.btn-days ul').slideToggle('fast');
     });
