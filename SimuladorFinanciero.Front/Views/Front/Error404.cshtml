@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutError.cshtml";
+}
+@section ScriptHead{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    @Scripts.Render("~/Front/basejs")
+    @Styles.Render("~/Front/basecss")
+    <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+}
+<section class="row">
+    <div class="center">
+        <div class="page a">
+            <h1>404</h1>
+            <p class="m">
+                <span>Página no encontrada</span>
+                Lo sentimos, la página que buscas no existe o esta<br /> deshabilitada
+            </p>
+            <a href="@Url.Action("Index","Front")" class="btn-Actualizar">Ir a la página principal</a>
+        </div>
+    </div>
+</section>

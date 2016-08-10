@@ -294,8 +294,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Error\Error404.html" />
-    <Content Include="Error\Error500.html" />
+    <None Include="Views\Front\Error404.cshtml" />
+    <None Include="Views\Front\Error500.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -312,6 +312,7 @@
     <Content Include="Views\Front\Contacto.cshtml" />
     <Content Include="Views\Front\Paso2.cshtml" />
     <Content Include="Views\Front\Resultado.cshtml" />
+    <Content Include="Views\Shared\_LayoutError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

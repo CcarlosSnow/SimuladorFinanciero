@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutError.cshtml";
+}
+@section ScriptHead{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+    @Scripts.Render("~/Front/basejs")
+    @Styles.Render("~/Front/basecss")
+    <link href="http://fontawesome.io/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+}
+<section class="row">
+    <div class="center">
+        <div class="page a">
+            <h1>500</h1>
+            <p class="m">
+                <span>Error en el sistema</span>
+                se produjo un error y su solicitud no pudo completarse.<br /> Inténtelo de nuevo.
+            </p>
+            <a href="@Url.Action("Index","Front")" class="btn-Actualizar">Intentar de nuevo</a>
+        </div>
+    </div>
+</section>

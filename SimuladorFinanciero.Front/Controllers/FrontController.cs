@@ -278,5 +278,15 @@ namespace SimuladorFinanciero.Front.Controllers
             }
             //return Json(new Respuesta { Estado = "OK", Titulo = "Aviso!", Texto = "Email enviado correctamente" });
         }
+
+        public ActionResult Error404()
+        {
+            return View();
+        }
+
+        public ActionResult Error500()
+        {
+            return View();
+        }
     }
 }
