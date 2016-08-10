@@ -162,6 +162,12 @@
                         if (response.Estado == "OK") {
                             $('#overlay-loading').fadeOut();
                             $('#overlay-success').fadeIn('fast');
+                            setTimeout(
+                            function () {
+                                $('#overlay-success').fadeOut();
+                                $.fancybox.close();
+                            }, 2000
+                            );
                         }
                         else {
                             $('#overlay-loading').fadeOut();
@@ -205,7 +211,6 @@
                         $(this).parent().parent().removeClass('hide-be');
                     }
                 });
-
             }, 200
 );
         });

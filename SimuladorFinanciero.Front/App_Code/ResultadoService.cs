@@ -254,7 +254,6 @@ namespace SimuladorFinanciero
                 WorkSheet.Cell("B" + FilaActual.ToString()).Value = "Datos de contacto: (*) Consulte la fuente de información aqui o tome contacto con " + i.Banco.Nombre + " a través de " + i.Contacto;
                 var RangeFooterBanco = WorkSheet.Range("B" + FilaActual.ToString() + ":G" + FilaActual.ToString());
                 RangeFooterBanco.Merge().Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
-
             }
             WorkBook.SaveAs(RutaGuardarExcel);
             return "OK";

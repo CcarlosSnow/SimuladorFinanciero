@@ -261,7 +261,7 @@ namespace SimuladorFinanciero.Front.Controllers
             msg.IsBodyHtml = true;
             msg.Attachments.Add(new Attachment(RutaArchivoXLS));
 
-            SmtpClient client = new SmtpClient(ConstantesHelpers.SMTP(), int.Parse(ConstantesHelpers.SMTP()));
+            SmtpClient client = new SmtpClient(ConstantesHelpers.SMTP(), int.Parse(ConstantesHelpers.PuertoSMTP()));
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(ConstantesHelpers.EmailEnvioCorreo(), ConstantesHelpers.PassEnvioCorreo());
