@@ -5,13 +5,13 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="a758c48bc47c470f835d60868fcb7eaf" Name="Diagram1">
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Archivo" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="3" PointY="8.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="3" PointY="11.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.Sugerencia" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Archivo" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Banco" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Concepto" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Parametro" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Producto" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ProductoBanco" Width="1.5" PointX="5.25" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.Sugerencia" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Archivo_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Banco_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Banco" ManuallyRouted="false" />
@@ -20,7 +20,7 @@
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_Sugerencia_Parametro1" ManuallyRouted="false" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ProductoBanco_Producto" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProductoBanco" Width="1.5" PointX="7.5" PointY="7.375" />
+        <EntityTypeShape EntityType="SimuladorFinancieroModel.ConceptoProductoBanco" Width="1.5" PointX="7.5" PointY="7.625" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProducto_Concepto" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProductoBanco_Parametro" />
         <AssociationConnector Association="SimuladorFinancieroModel.FK_ConceptoProductoBanco_ProductoBanco" />

@@ -281,6 +281,7 @@
     <Content Include="images\desktop.ini" />
     <Content Include="js\.DS_Store" />
     <Content Include="js\desktop.ini" />
+    <None Include="Properties\PublishProfiles\Archivos.pubxml" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -334,10 +335,6 @@
     <ProjectReference Include="..\SimuladorFinanciero.Entities\SimuladorFinanciero.Entities.csproj">
       <Project>{7318f495-2abf-457b-a243-a65b557004b3}</Project>
       <Name>SimuladorFinanciero.Entities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SimuladorFinanciero.Helpers.Razor\SimuladorFinanciero.Helpers.Razor.csproj">
-      <Project>{2cd78c42-2e95-4670-82cf-dc8f5d5d0f00}</Project>
-      <Name>SimuladorFinanciero.Helpers.Razor</Name>
     </ProjectReference>
     <ProjectReference Include="..\SimuladorFinanciero.Helpers\SimuladorFinanciero.Helpers.csproj">
       <Project>{71c005af-1e70-4951-9fbe-433411eba228}</Project>
