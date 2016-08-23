@@ -48,7 +48,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Bytescout.Spreadsheet">
-      <HintPath>C:\Users\CcarlosSnow\Desktop\Bytescout.Spreadsheet.dll</HintPath>
+      <HintPath>..\Dll_Externa\Bytescout.Spreadsheet.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.Extended, Version=6.0.0.0, Culture=neutral, PublicKeyToken=05b7e29bdd433584, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.Extended.6.1.0.168\lib\net45\EntityFramework.Extended.dll</HintPath>

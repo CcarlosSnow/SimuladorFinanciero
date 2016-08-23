@@ -10,9 +10,53 @@ using SimuladorFinanciero.Helpers;
 using System.Net.Mail;
 using System.Net;
 using System.IO;
+using System.Net.Http;
+using System.Web.Helpers;
+using System.Web;
 
 namespace SimuladorFinanciero.Front.Controllers
 {
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
+    public class AjaxValidateAntiForgeryTokenAttribute : FilterAttribute, IAuthorizationFilter
+    {
+        public void OnAuthorization(AuthorizationContext filterContext)
+        {
+            try
+            {
+                if (filterContext.HttpContext.Request.IsAjaxRequest()) // if it is ajax request.
+                {
+                    this.ValidateRequestHeader(filterContext.HttpContext.Request); // run the validation.
+                }
+                else
+                {
+                    AntiForgery.Validate();
+                }
+            }
+            catch (HttpAntiForgeryException e)
+            {
+                throw new HttpAntiForgeryException("Anti forgery token not found");
+            }
+        }
+
+        private void ValidateRequestHeader(HttpRequestBase request)
+        {
+            string cookieToken = string.Empty;
+            string formToken = string.Empty;
+            string tokenValue = request.Headers["RequestVerificationToken"]; // read the header key and validate the tokens.
+            if (!string.IsNullOrEmpty(tokenValue))
+            {
+                string[] tokens = tokenValue.Split(':');
+                if (tokens.Length == 2)
+                {
+                    cookieToken = tokens[0].Trim();
+                    formToken = tokens[1].Trim();
+                }
+            }
+
+            AntiForgery.Validate(cookieToken, formToken); // this validates the request token.
+        }
+    }
+
     public class FrontController : Controller
     {
         ArchivoBL oArchivoBL = new ArchivoBL();
@@ -39,6 +83,7 @@ namespace SimuladorFinanciero.Front.Controllers
             return View();
         }
 
+        [AjaxValidateAntiForgeryToken]
         public JsonResult GuardarContacto(Sugerencia model)
         {
             SugerenciaBL oSugerenciaBL = new SugerenciaBL();
@@ -281,11 +326,13 @@ namespace SimuladorFinanciero.Front.Controllers
 
         public ActionResult Error404()
         {
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             return View();
         }
 
         public ActionResult Error500()
         {
+            ViewBag.UltimaFechaPublicacion = Formatos.ConvertirFechaFormatPiePagina(oArchivoBL.SelectActive().Fecha);
             return View();
         }
     }

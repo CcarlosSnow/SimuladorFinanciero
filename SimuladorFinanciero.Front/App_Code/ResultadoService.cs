@@ -213,9 +213,9 @@ namespace SimuladorFinanciero
                             var RangeCostosEventuales = WorkSheet.Range("A" + FilaActual.ToString() + ":A" + (FilaActual + RowSpanEventuales - 1).ToString());
                             RangeCostosEventuales.Merge().Style.Font.SetFontColor(XLColor.White).Fill.SetBackgroundColor(XLColor.SteelBlue).Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
                             WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbe.Concepto.Nombre;
-                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
                             WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbe.Observaciones;
-                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
                             WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30);
                             WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
                             WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Minimo);
@@ -231,9 +231,9 @@ namespace SimuladorFinanciero
                             GastoTotalEventual = 0;
                             FilaActual = FilaActual + 1;
                             WorkSheet.Cell("B" + FilaActual.ToString()).Value = cpbe.Concepto.Nombre;
-                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("B" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
                             WorkSheet.Cell("C" + FilaActual.ToString()).Value = cpbe.Observaciones;
-                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
+                            WorkSheet.Cell("C" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Left).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black).Alignment.SetWrapText();
                             WorkSheet.Cell("D" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30);
                             WorkSheet.Cell("D" + FilaActual.ToString()).Style.Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Top).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
                             WorkSheet.Cell("E" + FilaActual.ToString()).Value = Formatos.ConvertirNumeroFormat(cpbe.Minimo);

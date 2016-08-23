@@ -494,13 +494,39 @@
                                                                 <div class="row"><p>Máximo $</p><p>@Formatos.ConvertirNumeroFormat(cpbu.Maximo)</p></div>
                                                                 <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbu.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualMobile)</p></div>
                                                             </div>
-                                                            <div id="#detalle-@cpbu.IdConcepto" class="hidden mod-ban">
+                                                            <div id="detalle-@cpbu.IdConcepto" class="hidden mod-ban">
                                                                 @cpbu.Observaciones
+                                                                @if (cpbu.IdBanco == "Moneygram")
+                                                                {
+                                                                    <a href="https://www.moneygram.com/wps/portal/moneygramonline/home/estimator?LC=es-ES" target="_blank">"Ver calculadora de comisiones aquí"</a>
+                                                                }
+                                                                else if (cpbu.IdBanco == "WesternUnion")
+                                                                {
+                                                                    <a href="http://westernunionperu.pe/index.php/calculo-remesas/" target="_blank">"Ver calculadora de comisiones aquí"</a>
+                                                                }
+                                                                else if (cpbu.IdBanco == "Xoom")
+                                                                {
+                                                                    <a href="https://www.xoom.com/money-transfer-fees" target="_blank">"Ver calculadora aquí"</a>
+                                                                }
                                                             </div>
                                                         </div>
                                                         <!-- /mobile -->
                                                     </div>
-                                                    <div class="col b">@cpbu.Observaciones</div>
+                                                    <div class="col b">
+                                                        @cpbu.Observaciones
+                                                        @if (cpbu.IdBanco == "Moneygram")
+                                                        {
+                                                            <a href="https://www.moneygram.com/wps/portal/moneygramonline/home/estimator?LC=es-ES" target="_blank">"Ver calculadora de comisiones aquí"</a>
+                                                        }
+                                                        else if (cpbu.IdBanco == "WesternUnion")
+                                                        {
+                                                            <a href="http://westernunionperu.pe/index.php/calculo-remesas/" target="_blank">"Ver calculadora de comisiones aquí"</a>
+                                                        }
+                                                        else if (cpbu.IdBanco == "Xoom")
+                                                        {
+                                                            <a href="https://www.xoom.com/money-transfer-fees" target="_blank">"Ver calculadora aquí"</a>
+                                                        }
+                                                    </div>
                                                     <div class="col c">@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30)</div>
                                                     <div class="col d">@Formatos.ConvertirNumeroFormat(cpbu.Minimo)</div>
                                                     <div class="col e">@Formatos.ConvertirNumeroFormat(cpbu.Maximo)</div>

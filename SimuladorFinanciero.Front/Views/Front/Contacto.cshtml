@@ -12,7 +12,6 @@
         var verifyCallback = function (response) {
             // aqui llena un elemento hiden o input o algo y cuando haces tu jquery jalas
             // ese elemento para validacion, si esta lleno pasa sino entonces No pasa xk nunca le dio click
-            console.log(response);
             var r = new XMLHttpRequest();
             r.open("POST", "https://www.google.com/recaptcha/api/siteverify", true);
             r.onreadystatechange = function () {
@@ -34,7 +33,111 @@
                 $('#overlay-success').fadeOut('fast');
                 location.href = '@Url.Action("Index", "Front")';
             });
+
+            //Formularios
+            $('.f-content .btn-Enviar').click(function (e) {
+                e.preventDefault();
+                var eFormat = /[\w-\.]{2,}@@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+                var response = grecaptcha.getResponse();
+                if ($('.f-content .nombres-apellidos').val() === "") {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar su nombre y apellido',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else if (!eFormat.test($('.f-content .email').val().trim())) {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar un formato de email valido',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else if ($('.f-content .email').val() === "") {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar su email',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else if ($('.f-content .asunto').val() === "") {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe seleccionar  un asunto',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else if ($('.f-content .mensaje').val() === "") {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar su mensaje',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else if (response.length == 0) {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe validar si no es un robot',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+                } else {
+                    var sugerencia = {
+                        'IdSugerencia': 1,
+                        'Descripcion': $('#Descripcion').val(),
+                        'Fecha': Date.now,
+                        'Tipo': $('.btn-asunto .select input').data('value'),
+                        'Nombre': $('#Nombre').val(),
+                        'Correo': $('#Correo').val(),
+                        'Estado': ''
+                    };
+                    var dataObject = JSON.stringify(sugerencia);
+                    $('#overlay-loading').fadeIn('fast');
+                    $.ajax({
+                        type: "POST",
+                        url: $('#url').data('urlguardar'),
+                        contentType: 'application/json',
+                        data: dataObject,
+                        headers: {
+                            'RequestVerificationToken': '@TokenHeaderValue()'
+                        },
+                        success: function (response) {
+                            if (response.Estado == "OK") {
+                                $('#overlay-loading').fadeOut();
+                                $('#overlay-success').fadeIn('fast');
+                            }
+                            else {
+                                $('#overlay-loading').fadeOut();
+                                $.alert({
+                                    title: response.Titulo,
+                                    content: response,
+                                    confirmButton: 'Aceptar',
+                                    confirmButtonClass: 'error'
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            $('#overlay-loading').fadeOut();
+                            $.alert({
+                                title: "Aviso!",
+                                content: error,
+                                confirmButton: 'Aceptar',
+                                confirmButtonClass: 'error'
+                            });
+                        }
+                    });
+
+                }
+            });
         });
+        @functions{
+            public string TokenHeaderValue()
+            {
+                string cookieToken, formToken;
+                AntiForgery.GetTokens(null, out cookieToken, out formToken);
+                return cookieToken + ":" + formToken;
+            }
+        }
     </script>
     <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
 }
