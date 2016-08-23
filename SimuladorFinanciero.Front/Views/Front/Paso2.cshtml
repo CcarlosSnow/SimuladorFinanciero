@@ -36,7 +36,16 @@
                     });
 
                     return false
-                }
+                } else if (parseInt($('#txtMonto').val()) == 0) {
+                    $.alert({
+                        title: '¡Aviso!',
+                        content: 'Debe ingresar un monto mayor a 0',
+                        confirmButton: 'Aceptar',
+                        confirmButtonClass: 'error'
+                    });
+
+                    return false
+                }
 
                 $.each($('#bancos ul li label'), function (i, val) {
 
