@@ -392,7 +392,6 @@
                 <input type="hidden" id="hdBancos" name="hdBancos" value="@ViewBag.BancosString" />
                 <input type="hidden" id="hdPeriodo" name="hdPeriodo" value="@ViewBag.Periodo" />
                 <input type="submit" class="btn-Actualizar" value="Actualizar" />
-                @*<a href="@Url.Action("Resultado","Front")" class="btn-Actualizar">Actualizar</a>*@
             </div>
         </div>
     </div>
@@ -415,7 +414,6 @@
                 <a href="#edit-result" class="btn-EditarResultados fancybox"></a>
             </p>
             <!-- mobile -->
-            <!--<a href="#enviar" class="mobile send fancybox">Enviar por correo</a>-->
             <a href="#enviar" class="mobile link fancybox">Enviar por correo</a>
             <div id="edit-result" class="hidden">
                 @using (Html.BeginForm("Resultado", "Front", FormMethod.Post, new { @id = "frmFiltroResultado" }))
@@ -643,7 +641,6 @@
     <h3>Envío por correo</h3>
     <input id="txtemail" type="email" class="email" placeholder="Ingresar correo" />
     <button id="btnEnviar" type="button" class="btn-Enviar">Enviar</button>
-    @*<a class="btn-Enviar">Enviar</a>*@
 </div>
 <input type="hidden" id="hdMensajeValidacionBanco" />
 <input type="hidden" id="url" data-urlenviarmail="@Url.Action("EnviarEmail","Front")" />

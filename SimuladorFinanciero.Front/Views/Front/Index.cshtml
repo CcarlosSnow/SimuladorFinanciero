@@ -10,7 +10,7 @@
     <div class="center">
         <div class="page a">
             <h1>Simulador Financiero</h1>
-            <p class="m">Costos financieros de las principales operaciones de comercio exterior.</p>
+            <p class="m">Costos financieros de las principales operaciones de comercio exterior</p>
             <a href="#condiciones" class="link fancybox">Ver consideraciones de uso</a>
             <div class="steps">
                 <div class="num active">1</div>
@@ -29,11 +29,7 @@
                                     {
                                         <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 1, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
-                                    @*<a class="item"><span></span>Pagos y comercio electrónico</a>
-                                        <a class="item"><span></span>Transferencias recibidas</a>
-                                        <a class="item"><span></span>Cobranza Simple de Exportación</a>
-                                        <a class="item"><span></span>Cobranza Documentaria de Exportación</a>
-                                        <a class="item"><span></span>Carta de Crédito de Exportación</a>*@
+                                   
                                 </div>
                             </li>
                             <li class="b">
@@ -43,10 +39,6 @@
                                     {
                                         <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 2, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
-                                    @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
-                                        <a class="item"><span></span>Financiamiento Post Embarque</a>
-                                        <a class="item"><span></span>Factoring Internacional de Exportación</a>
-                                        <a class="item"><span></span>Compra de documentos - Forfaiting</a>*@
                                 </div>
                             </li>
                             <li class="c">
@@ -56,9 +48,6 @@
                                     {
                                         <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 3, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
                                     }
-                                    @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
-                                        <a class="item"><span></span> Stand By Recibidas</a>
-                                        <a class="item"><span></span> Stand By Emitidas</a>*@
                                 </div>
                             </li>
                             <li class="d">
@@ -76,7 +65,6 @@
     <p>La información presentada es referencial. Esta ha sido obtenida de los tarifarios de las entidades bancarias para los principales productos de comercio exterior, así como las empresas administradoras de medios de pago electrónico y envío de dinero; por ello PROMPERU no se responsabiliza por la misma.</p>
     <p>Los resultados pueden variar de acuerdo a la evaluación que las entidades realicen a las empresas al momento de solicitar un producto.</p>
     <p>Puede dejar sus consultas o comentarios <a href="@Url.Action("Contacto","Front")">aquí</a>.</p>
-    
 </div>
 <div id="medios-de-pago" class="hidden acc">
     <h3>Medios de pago</h3>
@@ -85,11 +73,6 @@
         {
             <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 1, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
-        @*<a class="item"><span></span>Pagos y comercio electrónico</a>
-            <a class="item"><span></span>Transferencias recibidas</a>
-            <a class="item"><span></span>Cobranza Simple de Exportación</a>
-            <a class="item"><span></span>Cobranza Documentaria de Exportación</a>
-            <a class="item"><span></span>Carta de Crédito de Exportación</a>*@
     </div>
 </div>
 <div id="financiamiento" class="hidden acc">
@@ -99,10 +82,6 @@
         {
             <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 2, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
-        @*<a class="item"><span></span>Financiamiento Pre Embarque</a>
-            <a class="item"><span></span>Financiamiento Post Embarque</a>
-            <a class="item"><span></span>Factoring Internacional de Exportación</a>
-            <a class="item"><span></span>Compra de documentos - Forfaiting</a>*@
     </div>
 </div>
 <div id="garantias" class="hidden acc">
@@ -112,8 +91,5 @@
         {
             <a class="item" href="@Url.Action("Paso2","Front", new { Tipo = 3, IdProducto = i.IdProducto })"><span></span>@i.Nombre.Substring(4)</a>
         }
-        @*<a href="cartas-fianza.html" class="item"><span></span> Cartas Fianza</a>
-            <a class="item"><span></span> Stand By Recibidas</a>
-            <a class="item"><span></span> Stand By Emitidas</a>*@
     </div>
 </div>
