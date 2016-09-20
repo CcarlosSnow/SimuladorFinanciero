@@ -91,7 +91,7 @@ namespace SimuladorFinanciero
             WorkSheet.Cell("B" + FilaActual.ToString()).Value = "Banco";
             var RangeBancoCabecera = WorkSheet.Range("B" + FilaActual.ToString() + ":C" + FilaActual.ToString());
             RangeBancoCabecera.Merge().Style.Font.SetBold().Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
-            WorkSheet.Cell("D" + FilaActual.ToString()).Value = "Gasto Financiero";
+            WorkSheet.Cell("D" + FilaActual.ToString()).Value = "Costo Financiero";
             var RangeGastoFinancieroCabecera = WorkSheet.Range("D" + FilaActual.ToString() + ":G" + FilaActual.ToString());
             RangeGastoFinancieroCabecera.Merge().Style.Font.SetBold().Alignment.SetHorizontal(XLAlignmentHorizontalValues.Center).Alignment.SetVertical(XLAlignmentVerticalValues.Center).Border.SetOutsideBorder(XLBorderStyleValues.Medium).Border.SetOutsideBorderColor(XLColor.Black);
 

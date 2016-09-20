@@ -474,7 +474,7 @@
                                             <div class="col c">Tasa %</div>
                                             <div class="col d">Minimo $</div>
                                             <div class="col e">Máximo $</div>
-                                            <div class="col f">Gastos $</div>
+                                            <div class="col f">Costo $</div>
                                         </div>
                                         @foreach (ConceptoProductoBancoDTO cpbu in ViewBag.ListaConceptosProductosBancosUsuales)
                                         {
@@ -490,7 +490,7 @@
                                                                 <div class="row"><p>Tasa</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbu.Tasa30)</p></div>
                                                                 <div class="row"><p>Minimo $</p><p>@Formatos.ConvertirNumeroFormat(cpbu.Minimo)</p></div>
                                                                 <div class="row"><p>Máximo $</p><p>@Formatos.ConvertirNumeroFormat(cpbu.Maximo)</p></div>
-                                                                <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbu.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualMobile)</p></div>
+                                                                <div class="row"><p>Costo $</p><p>@Formatos.CalcularGasto(cpbu.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbu.Minimo, cpbu.Maximo, ref GastoTotalUsualMobile)</p></div>
                                                             </div>
                                                             <div id="detalle-@cpbu.IdConcepto" class="hidden mod-ban">
                                                                 @cpbu.Observaciones
@@ -567,7 +567,7 @@
                                                     <div class="col c">Tasa %</div>
                                                     <div class="col d">Minimo $</div>
                                                     <div class="col e">Máximo $</div>
-                                                    <div class="col f">Gastos $</div>
+                                                    <div class="col f">Costp $</div>
                                                 </div>
                                                 @foreach (ConceptoProductoBancoDTO cpbe in ViewBag.ListaConceptosProductosBancosEventuales)
                 {
@@ -584,7 +584,7 @@
                                                                         <div class="row"><p>Tasa</p><p>@Formatos.ConvertirNumeroFormatTasa(cpbe.Tasa30)</p></div>
                                                                         <div class="row"><p>Minimo $</p><p>@Formatos.ConvertirNumeroFormat(cpbe.Minimo)</p></div>
                                                                         <div class="row"><p>Máximo $</p><p>@Formatos.ConvertirNumeroFormat(cpbe.Maximo)</p></div>
-                                                                        <div class="row"><p>Gastos $</p><p>@Formatos.CalcularGasto(cpbe.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</p></div>
+                                                                        <div class="row"><p>Costo $</p><p>@Formatos.CalcularGasto(cpbe.Tasa30, Convert.ToDecimal(ViewBag.Monto), cpbe.Minimo, cpbe.Maximo, ref GastoTotalEventual)</p></div>
                                                                     </div>
                                                                     <div id="detalle-@cpbe.IdConcepto" class="hidden mod-ban">
                                                                         @cpbe.Observaciones
