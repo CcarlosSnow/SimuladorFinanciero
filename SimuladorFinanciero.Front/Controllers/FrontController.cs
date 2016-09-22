@@ -308,9 +308,9 @@ namespace SimuladorFinanciero.Front.Controllers
 
             SmtpClient client = new SmtpClient(ConstantesHelpers.SMTP(), int.Parse(ConstantesHelpers.PuertoSMTP()));
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
+            client.UseDefaultCredentials = ConstantesHelpers.UseDefaultCredentials();
             client.Credentials = new NetworkCredential(ConstantesHelpers.EmailEnvioCorreo(), ConstantesHelpers.PassEnvioCorreo());
-            client.EnableSsl = true;
+            client.EnableSsl = ConstantesHelpers.EnableSSL();
 
             try
             {

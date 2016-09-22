@@ -49,5 +49,15 @@ namespace SimuladorFinanciero.Helpers
         {
             return ConfigurationManager.AppSettings["PuertoSMTP"];
         }
+
+        public static bool EnableSSL()
+        {
+            return bool.Parse(ConfigurationManager.AppSettings["EnableSSL"]);
+        }
+
+        public static bool UseDefaultCredentials()
+        {
+            return bool.Parse(ConfigurationManager.AppSettings["UseDefaultCredentials"]);
+        }
     }
 }
